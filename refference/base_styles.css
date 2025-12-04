@@ -1,0 +1,1381 @@
+/**
+ * ========================================
+ *  1. GLOBAL VARIABLES & BASE STYLES
+ * ========================================
+ */
+
+:root {
+  --pml-primary: #cb2187;
+  --pml-primary-soft: #e8b5d3;
+  --pml-dark: #111111;
+  --pml-light: #ffffff;
+  --pml-gray: #666666;
+  --pml-border: #d5d5d5;
+  --pml-shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --pml-radius-lg: 12px;
+  --pml-radius-card: 14px;
+}
+
+/* Base Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background-color: #ffffff;
+  color: var(--pml-dark);
+}
+
+/**
+ * ========================================
+ * 2. HEADER / NAVBAR SHELL
+ * ========================================
+ */
+
+.pml-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: var(--pml-shadow-soft);
+}
+
+.pml-navbar {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+/* Logo sizing similar to reference */
+.pml-logo img {
+  max-height: 50px;
+  height: auto;
+}
+
+/* Main Nav Links */
+.pml-main-nav {
+  gap: 0.25rem;
+}
+
+.pml-nav-link {
+  font-weight: 500;
+  color: var(--pml-dark);
+  padding: 1.4rem 1.1rem !important;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.pml-nav-link:hover,
+.pml-nav-link:focus {
+  color: var(--pml-primary);
+  background-color: transparent;
+}
+
+.pml-nav-link:focus-visible {
+  outline: 2px solid var(--pml-primary-soft);
+  outline-offset: 2px;
+}
+
+/* Chevron icon */
+.dropdown-chevron {
+  font-size: 0.8rem;
+  transition: transform 0.25s ease;
+}
+
+.pml-dropdown.show>.pml-nav-link .dropdown-chevron,
+.pml-dropdown:hover>.pml-nav-link .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 991px) {
+  .dropdown:hover>.dropdown-menu {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/**
+ * ========================================
+ * 3. MEGA MENU BASE
+ * ========================================
+ */
+
+.pml-mega-menu {
+  border: none;
+  border-radius: 0 0 var(--pml-radius-lg) var(--pml-radius-lg);
+  padding: 24px 0px;
+  margin-top: 0;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  /* max-width: 1500px; */
+  width: 100vw !important;
+  min-height: 280px;
+  max-height: 600px;
+  overflow-y: auto;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed !important;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (min-width: 991px) and (max-width: 1280px) {
+  .pml-mega-menu {
+    top: 70px;
+  }
+}
+
+/* active state controlled by JS */
+.pml-nav-link:focus>.pml-mega-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.pml-nav-link:hover>.pml-mega-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (min-width: 1280px) {
+  .pml-mega-inner {
+    width: 100%;
+  }
+}
+
+.pml-mega-inner {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  max-width: 1280px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+/* Shared Columns */
+.pml-mega-col {
+  /* padding-left: 36px; */
+  /* padding-right: 16px; */
+}
+
+.pml-mega-col-left {
+  border-right: 1px solid var(--pml-border);
+}
+
+.pml-mega-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: #595858;
+}
+
+/* Vertical link stacks */
+.pml-mega-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pml-mega-links-2col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.75rem;
+  row-gap: 0.15rem;
+}
+
+/* Generic dropdown item styling */
+.pml-mega-menu .dropdown-item {
+  padding: 0.2rem 0;
+  color: var(--pml-primary);
+  font-size: 0.92rem;
+  white-space: normal;
+}
+
+.pml-mega-menu .dropdown-item:hover,
+.pml-mega-menu .dropdown-item:focus {
+  color: rgba(199, 53, 141, 0.8);
+  background-color: transparent;
+}
+
+/* Accent “Discover more / Explore more” links */
+.pml-link-accent {
+  font-weight: 600;
+}
+
+/* LATEST OFFERS & HOLIDAY STYLES */
+.pml-mega-latest {
+  justify-content: space-between;
+}
+
+.pml-mega-latest .pml-mega-col-left {
+  flex: 0 0 32%;
+}
+
+.pml-mega-latest .pml-mega-col-middle {
+  flex: 0 0 30%;
+  padding-left: 36px;
+}
+
+.pml-mega-latest .pml-mega-col-right {
+  flex: 0 0 38%;
+}
+
+/* DESTINATIONS GRID (4 COL) */
+.pml-mega-destinations {
+  justify-content: flex-start;
+}
+
+.pml-mega-col-wide {
+  flex: 1 1 auto;
+  border-right: none;
+  padding-right: 0;
+}
+
+.pml-dest-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 2.5rem;
+}
+
+.pml-dest-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-right: 1px solid var(--pml-border);
+}
+
+.pml-dest-col:last-child {
+  border-right: none;
+}
+
+/* SUPPORT MENU */
+.pml-mega-support {
+  justify-content: space-between;
+}
+
+.pml-mega-support .pml-mega-col-left,
+.pml-mega-support .pml-mega-col-middle {
+  flex: 0 0 32%;
+}
+
+.pml-mega-support .pml-mega-col-middle {
+  padding-left: 36px;
+}
+
+.pml-mega-support .pml-mega-col-right {
+  flex: 0 0 36%;
+  border-right: none;
+}
+
+/**
+ * ========================================
+ * 4. RIGHT IMAGE CARD
+ * ========================================
+ */
+
+.pml-card-link {
+  text-decoration: none;
+  display: block;
+  max-width: 420px;
+  width: 100%;
+}
+
+.pml-card {
+  border-radius: var(--pml-radius-card);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.pml-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.pml-card-img {
+  width: 100%;
+  height: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.35s ease;
+}
+
+.pml-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35));
+}
+
+.pml-card-body {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 18px 18px 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.pml-card-text {
+  margin: 0;
+  max-width: 75%;
+  font-size: 0.95rem;
+}
+
+.pml-card-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+/* image hover zoom */
+.pml-card-link:hover .pml-card-img {
+  transform: scale(1.06);
+}
+
+/**
+ * ========================================
+ * 5. PHONE / CTA AREA & TOGGLER
+ * ========================================
+ */
+
+.pml-phone-block {
+  white-space: nowrap;
+}
+
+.pml-phone-link {
+  color: var(--pml-primary);
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.pml-phone-link svg {
+  display: block;
+}
+
+.pml-phone-link:hover {
+  color: var(--pml-primary);
+  text-decoration: underline;
+}
+
+/* TOGGLER (MOBILE) */
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.pml-toggler-icon {
+  font-size: 1.4rem;
+  color: var(--pml-primary);
+  transition: transform 0.25s ease;
+}
+
+/**
+ * ========================================
+ * 6. RESPONSIVE BEHAVIOUR (Media Queries)
+ * ========================================
+ */
+
+/* Collapse transition speed adjustments */
+.collapsing {
+  /* Shorten the transition time from the default 0.35s to 0.15s */
+  transition: height 0.08s ease !important;
+}
+
+.collapse:not(.show) {
+  /* Optionally, ensure no transition on the fully collapsed state if needed */
+  transition: none !important;
+}
+
+/* Tablet & below */
+@media (max-width: 991.98px) {
+  .pml-logo img {
+    max-height: 25px;
+  }
+
+  .pml-mega-menu {
+    width: 90vw !important;
+  }
+
+  .pml-navbar {
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .pml-nav-link {
+    justify-content: center;
+    padding: 0.7rem 1rem !important;
+    margin: 0 auto;
+  }
+
+  /* collapse panel styling */
+  #pmlNavbarNav {
+    margin-top: 0.75rem;
+    padding: 0.9rem 0.9rem 1.15rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* mega menu becomes simple block stacked under each link */
+  .pml-mega-menu {
+    position: static !important;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0.75rem 0 0.2rem;
+    margin-top: 0;
+    max-height: none;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    flex-direction: column;
+  }
+
+  .pml-dropdown.show>.pml-mega-menu {
+    display: block;
+  }
+
+  .pml-mega-col,
+  .pml-mega-col-left,
+  .pml-mega-col-middle,
+  .pml-mega-col-right,
+  .pml-mega-col-wide {
+    border-right: none;
+    padding: 0.25rem 0 0.5rem;
+    text-align: center;
+  }
+
+  .pml-dropdown.show>.pml-mega-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .pml-mega-support .pml-mega-col-middle {
+    padding-left: 0px;
+  }
+
+  .pml-mega-latest .pml-mega-col-middle {
+    padding-left: 0px;
+  }
+
+  @media (max-width: 992px) {
+    .pml-dest-col {
+      border-right: none;
+      /* or var(--pml-border) */
+      /* space from border */
+    }
+  }
+
+  .pml-mega-heading {
+    padding-top: 0.3rem;
+  }
+
+  .pml-mega-latest,
+  .pml-mega-destinations,
+  .pml-mega-support {
+    flex-direction: column;
+  }
+
+  .pml-dest-grid {
+    grid-template-columns: 1fr;
+    column-gap: 1.5rem;
+    row-gap: 0.5rem;
+  }
+
+  .pml-mega-links-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .pml-card-link {
+    margin-top: 0.75rem;
+  }
+
+  .pml-phone-block {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .pml-phone-link {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Medium / desktop widths */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .pml-nav-link {
+    padding: 1.2rem 0.8rem !important;
+    font-size: 0.92rem;
+  }
+
+  .pml-mega-menu {
+    width: 1100px;
+  }
+
+  .pml-dest-grid {
+    column-gap: 1.8rem;
+  }
+
+  .pml-mega-latest .pml-mega-col-right,
+  .pml-mega-support .pml-mega-col-right {
+    flex: 0 0 34%;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+  .pml-mega-menu {
+    width: 1200px;
+  }
+}
+
+/**
+ * ========================================
+ * 7. HERO SECTION
+ * ========================================
+ */
+
+.hero {
+  position: relative;
+  min-height: 475px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero p {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 474px;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 474px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/**
+ * ========================================
+ * 8. NEWSLETTER SECTION
+ * ========================================
+ */
+
+.newsletter-section {
+  position: relative;
+  background: #cb2187;
+  padding: 70px 20px;
+  overflow: hidden;
+}
+
+.newsletter-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.newsletter-text {
+  flex: 1;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.newsletter-section h2 {
+  font-size: 40px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.newsletter-section p {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 25px;
+  line-height: 1.8;
+  opacity: 0.95;
+}
+
+.signup-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signup-btn:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-image img {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1280px) {
+  .newsletter-image img {
+    max-width: 45%;
+    top: 110px;
+  }
+}
+
+/* Responsive Newsletter */
+@media (max-width: 968px) {
+  .newsletter-section {
+    padding: 40px 12px;
+  }
+
+  .newsletter-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .newsletter-text {
+    align-items: center;
+  }
+
+  .signup-btn {
+    margin: 0 auto;
+  }
+
+  .newsletter-image {
+    margin-top: 30px;
+  }
+
+  .newsletter-image img {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .newsletter-section h2 {
+    font-size: 28px;
+  }
+
+  .newsletter-section p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-section h2 {
+    font-size: 18px;
+  }
+
+  .signup-btn {
+    width: 70%;
+    padding: 8px 12px;
+  }
+}
+
+/**
+ * ========================================
+ * 9. FEATURE CARDS / SUPPORT SECTION
+ * ========================================
+ */
+
+.support-section {
+  background-color: #ededed;
+}
+
+.trust-box-container {
+  display: flex;
+  flex-wrap: nowrap;
+  /* Prevent wrapping to keep all in one row */
+  gap: 2%;
+  justify-content: center;
+}
+
+.grd {
+  width: fit-content;
+}
+
+/* Box Styling for Bottom Row */
+.trust-box {
+  width: auto;
+  /*203px*/
+  min-width: 120px;
+  /* Minimum width for mobile */
+  height: 100%;
+  background-color: #595858;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  /* Allow boxes to grow/shrink equally */
+}
+
+.trust-box .icon-container {
+  color: #595858;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  margin-top: 0.75rem;
+  /* Add space between h5 and icon for desktop */
+}
+
+.trust-box .icon-container svg {
+  width: 80px;
+  height: 80px;
+}
+
+.trust-box h5 {
+  color: #e8e5e5;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+/* Mobile adjustments (Support Section) */
+@media (max-width: 991.98px) {
+  .support-section {
+    padding-left: 20px;
+    /* Add horizontal padding for mobile */
+    padding-right: 20px;
+  }
+
+  .grd {
+    width: fit-content;
+    padding: 0 !important;
+  }
+
+  .support-section .container {
+    padding-top: 0.75rem !important;
+    /* py-2 equivalent */
+    padding-bottom: 0.75rem !important;
+  }
+
+  .trust-box-container {
+    gap: 8px;
+    /* Smaller gap for mobile */
+    margin: 0 -5px;
+    /* Negative margin to utilize space better */
+  }
+
+  .trust-box-container.row {
+    --bs-gutter-y: 0.5rem;
+    /* Reduce vertical spacing between rows */
+  }
+
+  .trust-box {
+    min-width: 90px;
+    /* Adjusted minimum width */
+    max-width: 100px;
+    /* Maximum width to prevent overflow */
+    padding: 0.75rem 0.5rem;
+    /* Increased vertical padding for more height */
+    min-height: 70px;
+    /* Ensure minimum height */
+    flex: 1;
+    /* Allow equal distribution */
+  }
+
+  .trust-box .icon-container {
+    font-size: 1.8rem;
+    /* Smaller icons */
+    margin-bottom: 0.4rem;
+    margin-top: 0;
+  }
+
+  .trust-box .icon-container svg {
+    width: 50px;
+    /* Smaller SVG size */
+    height: 50px;
+  }
+
+  .trust-box h5 {
+    font-size: 0.8rem;
+    /* Smaller text */
+    line-height: 1.1;
+  }
+}
+
+/* Extra small screens (Support Section) */
+@media (max-width: 576px) {
+  .support-section {
+    padding-left: 15px;
+    /* Ensure padding on very small screens */
+    padding-right: 15px;
+  }
+
+  .trust-box-container {
+    gap: 10px;
+    margin: 0 auto;
+    padding: 0 10px;
+    /* Better space utilization */
+  }
+
+  .trust-box {
+    min-width: 60px;
+    max-width: 65px;
+    /* Prevent overflow on small screens */
+    padding: 0.5rem 0.3rem 0.4rem;
+    /* Increased padding for more height */
+    min-height: 70px;
+    /* Ensure minimum height for very small screens */
+    flex: 1;
+    /* Equal distribution */
+  }
+
+  .trust-box .icon-container {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0;
+  }
+
+  .trust-box .icon-container svg {
+    width: 28px;
+    /* Smaller for very small screens */
+    height: 28px;
+  }
+
+  .trust-box h5 {
+    font-size: 9px;
+    line-height: 1.1;
+    font-weight: 600;
+    /* Slightly bolder for readability */
+  }
+
+  .trust-box-container .col-2 {
+    margin-right: 0 !important;
+    padding: 0 3px !important;
+    /* Small padding for spacing */
+    flex: 1;
+    /* Equal width distribution */
+  }
+}
+
+/**
+ * ========================================
+ * 10. FOOTER STYLES
+ * ========================================
+ */
+
+.site-footer {
+  background-color: #6b6b6b;
+  color: #ffffff;
+  padding: 30px 0px 10px;
+  border-radius: 15px 15px 0 0;
+}
+
+.base-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.footer-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.atol-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.badge-icon {
+  font-size: 20px;
+}
+
+/* Main Content Grid */
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.footer-section h3 {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #df8abd;
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.footer-section h4 {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #df8abd;
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.footer-section p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.address {
+  margin: 15px 0;
+}
+
+.enquiry-link,
+.phone-link {
+  display: block;
+  color: #ffffff;
+  text-decoration: underline;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.phone-link {
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.footer-send-enquiry-btn {
+  display: flex;
+  gap: 10px;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.social-links a:hover {
+  background-color: #df8abd;
+  color: #ffffff;
+}
+
+/* Lists */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #df8abd;
+}
+
+/* Footer Newsletter Section */
+.footer-newsletter-section {
+  background: transparent;
+  margin-bottom: 30px;
+}
+
+.footer-newsletter-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-newsletter-text h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #df8abd;
+}
+
+.footer-newsletter-text p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.footer-newsletter-form {
+  display: flex;
+  gap: 15px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.footer-newsletter-form input {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  background-color: #9f9f9f;
+  color: #ffffff;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.footer-newsletter-form input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #cb2187;
+}
+
+.footer-newsletter-form input::placeholder {
+  color: #eaeaea;
+}
+
+.footer-newsletter-form button {
+  padding: 12px 30px;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #cb2187 0%, #cb2187 45%, #ecaed3 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background-color 0.3s;
+}
+
+.footer-newsletter-form button:hover {
+  background: linear-gradient(110deg, #ecaed3 0%, #cb2187 45%, #cb2187 100%);
+}
+
+/* Travel Aware Section */
+.travel-aware-section {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.travel-aware-logo {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.travel-aware-content h4 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.travel-aware-content p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.travel-aware-content a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.travel-aware-content a:hover {
+  color: #e91e63;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  /* border-top: 1px solid #8a8a8a; */
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 13px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #e91e63;
+}
+
+@media (max-width: 1300px) {
+  .base-container {
+    padding: 0 15px;
+  }
+}
+
+/* Footer Responsive Design */
+@media (max-width: 992px) {
+
+  .footer-newsletter-content {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .footer-newsletter-form input {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .footer-newsletter-form button {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .footer-newsletter-form {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-newsletter-form {
+    flex-direction: column;
+  }
+
+  .travel-aware-section {
+    flex-direction: column;
+  }
+
+  .travel-aware-logo {
+    width: 100px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-send-enquiry-btn {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .footer-section .footer-accordion {
+    /* Set text color to white for the button text */
+    --bs-accordion-btn-color: #ffffff;
+    /* Ensure there's no visible border or background */
+    --bs-accordion-bg: transparent;
+    --bs-accordion-border-width: 0;
+    --bs-accordion-active-bg: transparent;
+    --bs-accordion-btn-focus-box-shadow: none;
+    margin-bottom: 0px;
+  }
+
+  /* Target the accordion item to remove background/border */
+  .footer-section .footer-accordion .accordion-item {
+    background-color: transparent;
+    border: none;
+  }
+
+  /* Style the accordion button to mimic the original <h3> */
+  .footer-section .footer-accordion .accordion-button {
+    /* H3 styles from the file: font-size: 14px; font-weight: bold; letter-spacing: 1px; border-bottom: 2px solid #DF8ABD; padding-bottom: 8px; */
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #ffffff !important;
+    padding: 8px;
+    background-color: #c0c0c041;
+
+    /* Ensure the button takes full width for border-bottom to work */
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Style the list wrapper inside the accordion body */
+  .footer-section .footer-accordion .accordion-body ul {
+    margin-top: 15px !important;
+    /* Add space after the header/button */
+  }
+
+  /* Ensure the caret/toggle icon is visible (white against a dark background) */
+  .footer-section .footer-accordion .accordion-button::after {
+    filter: invert(1);
+    /* Makes the icon white */
+    margin-left: auto;
+  }
+
+      .footer-newsletter-form {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width:940px){
+    .footer-send-enquiry-btn {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+
+}
+
+@media (max-width: 480px) {
+  .footer-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: start;
+  }
+
+  .footer-newsletter-content {
+    text-align: center;
+  }
+
+
+
+  .footer-newsletter-form input,
+  .footer-newsletter-form button {
+    width: 100%;
+  }
+}
+
+/**
+ * ========================================
+ * 11. ENQUIRY FORM / MODAL STYLES
+ * ========================================
+ */
+
+/* Custom modal backdrop overlay */
+#enquiryModal .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 999998 !important;
+}
+
+/* Ensure modal appears above the backdrop */
+#enquiryModal {
+  z-index: 999999 !important;
+}
+
+#enquiryModal .modal-dialog {
+  z-index: 999999 !important;
+}
+
+/* Create custom backdrop when Bootstrap backdrop is disabled */
+#enquiryModal.show::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999998;
+  pointer-events: auto;
+}
+
+/* Ensure modal content is clickable above the backdrop */
+#enquiryModal .modal-content {
+  position: relative;
+  z-index: 999999;
+}
+
+/* Force-hide debug/deal info elements per requirement */
+#dealDataSection,
+#enquirySourceBadge {
+  display: none !important;
+  visibility: hidden !important;
+}
