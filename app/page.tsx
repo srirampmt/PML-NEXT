@@ -11,6 +11,13 @@ import WeekEscapes from "@/components/WeekEscapes";
 import DealCollections from "@/components/DealCollection";
 import DestinationCarousel from "@/components/DestinationCarousel";
 import Partners from "@/components/parners";
+import Broucher from "@/components/Broucher";
+import WhybookwithPml from "@/components/WhybookwithPml";
+import Signup from "@/components/Signup";
+import Trustsection from "@/components/Trustsection";
+import Destination from "@/components/Destination";
+import OfferByType from "@/components/OfferByType";
+import OfferPageActiveDesktop from "@/components/OfferPageActiveDesktop1442";
 
 export default function Home() {
   const [showMore, setShowMore] = useState(false);
@@ -24,8 +31,14 @@ export default function Home() {
         <DealCollections />
         <DestinationCarousel />
         <Partners />
-        
         <Perfectholiday />
+        <Broucher />
+        <WhybookwithPml />
+        <Signup />
+        <Trustsection />
+        {/* <Destination /> */}
+        {/* <OfferByType /> */}
+        {/* <OfferPageActiveDesktop /> */}
       </main>
     </div>
   );

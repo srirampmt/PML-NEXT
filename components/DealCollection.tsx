@@ -13,18 +13,18 @@ import { CircleChevronRight } from "lucide-react";
 // Deal Card Component
 export const DealCard = ({ deal }) => {
   return (
-    <div className="flex-[0_0_auto] w-72 md:w-80">
+    <div className="flex-[0_0_auto] w-[360px] h-[436px] font-['Montserrat']">
       <div className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 ease-in-out flex flex-col h-full border border-[#f0f0f0] hover:shadow-xl hover:border-[#e0e0e0]">
         {/* Image Container */}
         <div className="relative w-full overflow-hidden bg-[#f5f5f5] h-[225px]">
           <img
             src={deal.image}
             alt={deal.title}
-            className="absolute top-0 left-0 w-full h-[225px] object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
           />
 
           {/* Location Badge */}
-          <span className="absolute top-0 left-0 bg-white text-[#CB2187] px-3.5 py-1.5 rounded-sm text-[11px] font-bold uppercase tracking-[0.5px] max-w-[70%] leading-[1.2] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+          <span className="absolute top-0 left-0 bg-white text-[#CB2187] px-3.5 py-1.5 rounded-sm text-[11px] font-bold uppercase max-w-[70%] leading-[1.2] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
             {deal.badge}
           </span>
 
@@ -61,19 +61,19 @@ export const DealCard = ({ deal }) => {
 
         {/* Content */}
         <div className="p-[15px] flex-grow flex flex-col justify-start items-start text-left bg-white">
-          <div className="text-xs font-semibold text-[#4c4c4c] leading-[1.4]">
+          <div className="text-[14px] font-semibold text-[#4c4c4c] leading-[1.4]">
             {deal.location}
           </div>
 
-          <div className="flex items-center justify-start mb-1 mt-1">
-            <span className="text-[#CB2187] text-lg">★★★★★</span>
+          <div className="flex items-center justify-start mb-2 mt-1">
+            <span className="text-pml-primary text-[14px]">★★★★★</span>
           </div>
 
-          <h5 className="text-base font-semibold text-[#CB2187] leading-[27px] flex items-center justify-start">
+          <h5 className="text-[16px] font-semibold text-pml-primary flex items-center justify-start mb-3">
             {deal.title}
           </h5>
 
-          <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[9px] py-[9px] rounded-md text-xs text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-start leading-[1.3]">
+          <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[9px] py-[9px] rounded-[10px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[1.3] w-full text-center">
             {deal.extras}
           </div>
 
@@ -129,7 +129,7 @@ export default function DealCollections() {
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
-      extras: "Free Room Upgrade + Blue Lagoon Cruise",
+      extras: "Lorem ipsum dolor sit amet consectetur. Ut at cursus vitae aliquam urna non etiam purus...",
       price: "£1,999",
     },
     {
@@ -139,7 +139,7 @@ export default function DealCollections() {
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
-      extras: "Free Room Upgrade + Blue Lagoon Cruise",
+      extras: "Lorem ipsum dolor sit amet consectetur. Ut at cursus vitae aliquam urna non etiam purus...",
       price: "£1,999",
     },
     {
@@ -149,7 +149,7 @@ export default function DealCollections() {
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
-      extras: "Free Room Upgrade + Blue Lagoon Cruise",
+      extras: "Lorem ipsum dolor sit amet consectetur. Ut at cursus vitae aliquam urna non etiam purus...",
       price: "£1,999",
     },
     {
@@ -159,14 +159,14 @@ export default function DealCollections() {
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
-      extras: "Free Room Upgrade + Blue Lagoon Cruise",
+      extras: "Lorem ipsum dolor sit amet consectetur. Ut at cursus vitae aliquam urna non etiam purus...",
       price: "£1,999",
     },
     // Repeat remaining deals…
   ];
 
   return (
-    <section className="bg-white max-w-7xl mx-auto px-4 md:px-6 lg:px-2 py-10 md:py-[60px]">
+    <section className="bg-white max-w-7xl mx-auto px-4 md:px-6 lg:px-2 py-10 md:py-[30px]">
       {/* Header */}
       <div className="flex justify-between mb-3 md:mb-5">
         <h2 className="lg:text-5xl text-4xl font-semibold text-[#4c4c4c] leading-[1.2]">

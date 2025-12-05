@@ -1,50 +1,39 @@
 "use client";
-
 import React from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { ArrowRight, CircleChevronRight } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { CircleChevronRight } from "lucide-react";
 import { DealCard } from "./DealCollection";
 
-/* ============================================================
-   HEADER SECTION
-============================================================ */
-
+/* HEADER SECTION */
 const HeaderSection = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-5 md:mb-2">
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#4c4c4c] leading-tight">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-5 md:mb-6">
+      <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight">
         Unmissable stylish <br /> escapes this week
       </h2>
+      <div className="flex justify-between items-end">
+        <p className="text-[#4c4c4c] font-['Montserrat'] mt-2 max-w-xl text-[12px] md:text-[16px] lg:text-[16px] font-normal">
+          Step into this weeks collection of stylish escapes where beach bliss
+          meets a sensible service and added luxuries come together to elevate
+          your getaway to new heights.
+        </p>
 
-      <p className="text-[#6b6b6b] mt-2 max-w-3xl">
-        Step into this weeks collection of stylish escapes where beach bliss
-        meets a sensible service and added luxuries come together to elevate
-        your getaway to new heights.
-      </p>
-
-      <a
-        href="#"
-        className="text-xs hidden md:block text-right text-[#a01a6e] underline mt-3 hover:text-[#CB2187]"
-      >
-        view all PlanMyLuxe exclusives
-      </a>
+        <a
+          href="#"
+          className="font-['Montserrat'] text-xs hidden 
+          md:block text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-4"
+        >
+          view all PlanMyLuxe exclusives
+        </a>
+      </div>
     </div>
   );
 };
 
-/* ============================================================
-   FEATURED LARGE CARD
-============================================================ */
-
+/* FEATURED LARGE CARD */
 const FeaturedCard = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-10">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-10 font-['Montserrat']">
       <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-[#ececec]">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* LEFT: IMAGE */}
@@ -55,7 +44,7 @@ const FeaturedCard = () => {
               className="absolute inset-0 w-full h-full object-cover"
             />
 
-            <span className="absolute top-0 left-0 bg-white text-[#CB2187] px-10 py-1.5 rounded-sm text-[11px] font-bold uppercase tracking-[0.5px] max-w-[70%] leading-[1.2] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+            <span className="absolute top-0 left-0  bg-white text-pml-primary px-10 py-1.5 rounded-sm text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
               Top Deal of the Day
             </span>
 
@@ -92,20 +81,20 @@ const FeaturedCard = () => {
 
           {/* RIGHT: DETAILS */}
           <div className="p-6 lg:p-8 flex flex-col">
-            <div className="text-xs font-bold text-[#4c4c4c]">CYPRUS</div>
+            <div className="text-xs font-semibold text-[#4c4c4c] text-[12px]">CYPRUS</div>
 
-            <div className="text-[#CB2187] text-lg mt-1">★★★★★</div>
+            <div className="text-pml-primary text-lg mt-1">★★★★★</div>
 
-            <h3 className="text-xl font-semibold text-[#4c4c4c] leading-snug mt-2">
+            <h3 className="text-[16px] font-semibold text-[#4c4c4c] leading-snug mt-2">
               Luxury All-Inclusive Holiday Including Room Upgrade and FREE Blue
               Lagoon Cruise Excursion
             </h3>
 
-            <p className="text-[#CB2187] font-semibold mt-2">
+            <p className="text-pml-primary text-[14px] font-semibold mt-2">
               King Evelthon Resort & Spa Hotel
             </p>
 
-            <p className="text-[#535353] text-sm my-3 leading-relaxed">
+            <p className="text-[#4c4c4c] text-[12px] font-normal my-3 leading-relaxed">
               Enjoy a luxurious all-inclusive experience at this 5-star
               beachfront resort featuring 9 pools, water sports, and exceptional
               dining. Your stay includes a complimentary room upgrade and a
@@ -115,9 +104,9 @@ const FeaturedCard = () => {
             {/* Price Button */}
             <a
               href="#"
-              className="mt-auto self-end bg-[#CB2187] text-white text-xs font-semibold px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
+              className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
             >
-              7 nights from £1,099pp per person
+              7 nights from <strong className="text-[14px]">£1,099pp</strong> per person
               <CircleChevronRight className="inline" />
             </a>
           </div>
@@ -127,11 +116,7 @@ const FeaturedCard = () => {
   );
 };
 
-
-/* ============================================================
-   SHADCN CAROUSEL FOR SMALL DEALS
-============================================================ */
-
+/* SHADCN CAROUSEL FOR SMALL DEALS */
 const TrendingCarousel = () => {
    const deals = [
      {
@@ -192,10 +177,7 @@ const TrendingCarousel = () => {
   );
 };
 
-/* ============================================================
-   TOP 20 BANNER
-============================================================ */
-
+/* TOP 20 BANNER*/
 const Top20Banner = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-10">
@@ -241,10 +223,7 @@ const Top20Banner = () => {
   );
 };
 
-/* ============================================================
-   MAIN COMPONENT (ALL IN ONE FILE)
-============================================================ */
-
+/* MAIN COMPONENT (ALL IN ONE FILE) */
 export default function WeekEscapes() {
   return (
     <section className="w-full">

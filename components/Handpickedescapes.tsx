@@ -156,14 +156,7 @@ export function Handpickedescapes() {
             </CarouselContent>
           </Carousel>
         </div>
-      </div>
-
-      {/* Bottom Border/Separator */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
-        <div className="w-full max-w-[1280px] mx-auto">
-          <div className="border-b border-[#e0e0e0]"></div>
-        </div>
-      </div>
+      </div>      
     </section>
   );
 }
