@@ -15,28 +15,30 @@ import Broucher from "@/components/Broucher";
 import WhybookwithPml from "@/components/WhybookwithPml";
 import Signup from "@/components/Signup";
 import Trustsection from "@/components/Trustsection";
+import Largecard from "@/components/Largecard";
+import TrendingCarousel from "@/components/TrendingCarousel";
+import Worldofplanmyluxe from "@/components/Worldofplanmyluxe";
+import Tailortripcard from "@/components/Tailortripcard";
+import Experience from "@/components/destinationdetail/Experience";
+import Trendingbanner from "@/components/holidaystyleshome/trendingbanner";
+import HolidayTypes from "@/components/holidaystyleshome/HolidayTypes";
 
-
-export default function Home() {
+export default function destinations() {
   const [showMore, setShowMore] = useState(false);
   return (
     <div className="min-h-screen bg-white">
       <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
         <Banner />
         <Features />
-        <Handpickedescapes />
-        <WeekEscapes />
-        <DealCollections />
-        <DestinationCarousel />
-        <Partners />
+        <Experience />
+        <HolidayTypes />
+        <Trendingbanner />  
         <Perfectholiday />
+        <Tailortripcard />
         <Broucher />
         <WhybookwithPml />
         <Signup />
         <Trustsection />
-        {/* <Destination /> */}
-        {/* <OfferByType /> */}
-        {/* <OfferPageActiveDesktop /> */}
       </main>
     </div>
   );

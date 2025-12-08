@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function Broucher() {
   return (
-    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#fdf4f2] font-['Montserrat']">
+    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[50px] sm:py-[60px] md:py-[70px] lg:py-[90px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-[24px] sm:gap-[30px] md:gap-[40px] lg:gap-[60px] xl:gap-[80px]">
@@ -23,7 +23,7 @@ export function Broucher() {
             {/* Content */}
             <div className="flex-1 text-center md:text-left">
               {/* Heading */}
-              <h2 className="font-['Montserrat'] text-[#C8105B] text-[18px] sm:text-[20px] md:text-[22px] lg:text-[26px] xl:text-[28px] font-medium leading-[1.25] sm:leading-[1.3] md:leading-[1.35] tracking-[-0.01em] mb-[12px] sm:mb-[14px] md:mb-[16px] lg:mb-[20px] xl:mb-[24px]">
+              <h2 className="font-['Montserrat'] text-pml-primary text-[18px] sm:text-[20px] md:text-[22px] lg:text-[26px] xl:text-[28px] font-medium leading-[1.25] sm:leading-[1.3] md:leading-[1.35] tracking-[-0.01em] mb-[12px] sm:mb-[14px] md:mb-[16px] lg:mb-[20px] xl:mb-[24px]">
                 Discover Luxury Holidays & Free Extras – All in One<br className="hidden lg:block" /> Download
               </h2>
 
@@ -33,8 +33,8 @@ export function Broucher() {
               </p>
 
               {/* Download Button */}
-              <button className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] sm:py-[12px] md:py-[14px] lg:py-[16px] border-[2px] border-[#C8105B] rounded-[10px] bg-transparent hover:bg-[#C8105B] group transition-all duration-300">
-                <span className="font-['Montserrat'] text-[#C8105B] text-[12px] sm:text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300">
+              <button className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] sm:py-[12px] md:py-[14px] lg:py-[16px] border-[2px] border-pml-primary rounded-[10px] bg-transparent hover:bg-pml-primary group transition-all duration-300">
+                <span className="font-['Montserrat'] text-pml-primary text-[12px] sm:text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300">
                   Download Now
                 </span>
                 <svg 
