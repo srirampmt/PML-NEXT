@@ -1,12 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-// import { AuthProvider } from "@/lib/auth";
 import { MainNav } from "@/components/layout/main-nav";
-const inter = Inter({ subsets: ["latin"] });
 import { Montserrat } from 'next/font/google'
 import Footer from "@/components/layout/Footer";
 
+const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['300','400','500','600','700'],

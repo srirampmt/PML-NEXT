@@ -129,7 +129,7 @@ export default function Tailortripcard() {
   ];
 
   return (
-    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative overflow-hidden">
+    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative overflow-hidden mt-10">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 rounded-[16px]">
         <img
@@ -157,8 +157,8 @@ export default function Tailortripcard() {
               <div className="h-[2px] w-16 md:w-80 bg-white/60"></div>
             </div>
             <p className="text-white text-[12px] md:text-[16px] lg:text-[16px] leading-relaxed max-w-4xl mx-auto drop-shadow-md hidden md:block">
-              We're firm believers that planning a holiday should feel exciting, not overwhelming. We're here to make it
-              personal, thoughtful and completely stress-free. We'll get to know you properly, design a trip that's perfect for you,
+              We&apos;re firm believers that planning a holiday should feel exciting, not overwhelming. We&apos;re here to make it
+              personal, thoughtful and completely stress-free. We&apos;ll get to know you properly, design a trip that&apos;s perfect for you,
               and support you every step of the way.
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function Tailortripcard() {
           {/* CTA Button */}
           <div className="text-center">
             <button className="bg-[#666666] hover:bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-              Let's Start Planning
+              Let&apos;s Start Planning
             </button>
           </div>
         </div>

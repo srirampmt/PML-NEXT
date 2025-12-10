@@ -192,7 +192,7 @@ export function MainNav() {
                         <div className="hidden xl:flex xl:flex-[0_0_38%] items-center justify-end">
                           <ImageCard
                             href="/categories"
-                            imageSrc="https://images.unsplash.com/photo-1714836404653-db13d5781e8e?q=80&w=1600&auto=format&fit=crop"
+                            imageSrc="/assets/images/menu-image-1.jpg"
                             text="Exclusive Including Free Added Extras"
                             alt="Exclusive offers destination"
                           />
@@ -243,7 +243,7 @@ export function MainNav() {
                         <div className="hidden xl:flex xl:flex-[0_0_38%] items-center justify-end">
                           <ImageCard
                             href="/categories"
-                            imageSrc="https://images.unsplash.com/photo-1714836404653-db13d5781e8e?q=80&w=1600&auto=format&fit=crop"
+                            imageSrc="/assets/images/menu-image-2.jpg"
                             text="Exclusive Including Free Added Extras"
                             alt="Exclusive offers destination"
                           />

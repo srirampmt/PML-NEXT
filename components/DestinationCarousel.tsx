@@ -17,49 +17,49 @@ const destinations = [
     id: 1,
     location: "Paris, France",
     image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80",
+      "/assets/images/pic-1.png",
     description: "The city of lights and timeless romance.",
   },
   {
     id: 2,
     location: "Kyoto, Japan",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-2.png",
     description: "Ancient temples and serene bamboo forests.",
   },
   {
     id: 3,
     location: "Patagonia",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-3.png",
     description: "Rugged mountains and breathtaking natural wonders.",
   },
   {
     id: 4,
     location: "Serengeti, Tanzania",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-4.png",
     description: "Experience the magnificent Great Migration.",
   },
   {
     id: 5,
     location: "New York, USA",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-5.png",
     description: "The vibrant heart of culture and commerce.",
   },
   {
     id: 6,
     location: "Santorini, Greece",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-2.png",
     description: "Iconic white villas overlooking the Aegean Sea.",
   },
   {
     id: 7,
     location: "Santorini, Greece",
     image:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800&q=80",
+      "/assets/images/pic-3.png",
     description: "Iconic white villas overlooking the Aegean Sea.",
   },
 ];
@@ -76,7 +76,7 @@ const filterTabs = [
 
 // ------------------ COMPONENTS ------------------ //
 
-const DestinationCard = ({ destination }) => {
+const DestinationCard = ({ destination }: { destination: any }) => {
   return (
     <div className="w-[210px] snap-start">
       <a
@@ -112,7 +112,7 @@ const DestinationCard = ({ destination }) => {
   );
 };
 
-const FilterTab = ({ label, active, onClick }) => (
+const FilterTab = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
   <button
     onClick={onClick}
     className={`shrink-0 border rounded-[25px] text-xs md:text-sm px-4 py-1.5 md:px-6 md:py-2.5 transition bg-white ${
@@ -127,7 +127,7 @@ const FilterTab = ({ label, active, onClick }) => (
 
 // ------------------ MAIN ------------------ //
 
-export default function DestinationCarousel() {
+export default function DestinationCarousel({title, description}: {title?: string; description?: string }) {
   const [activeFilter, setActiveFilter] = useState("Popular");
 
   return (
@@ -141,14 +141,12 @@ export default function DestinationCarousel() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 relative z-10">
           {/* HEADER */}
           <div className="text-left md:mb-10">
-            <h2 className="text-4xl sm:text-5xl lg:text-[48px] font-semibold text-white mb-6 leading-tight">
-              Escape to these <br className="hidden sm:inline" /> destinations
+            <h2 className="text-4xl sm:text-5xl lg:text-[48px] font-semibold text-white mb-6 leading-tight max-w-2xl">
+              {title}
             </h2>
 
-            <p className="text-white max-w-3xl">
-              We focus on stunning destinations that deliver exceptional style
-              at prices you will love. Explore our curated collection and enjoy
-              luxury escapes designed to fit every budget.
+            <p className="text-white max-w-2xl">
+              {description}
             </p>
 
             {/* FILTER TABS */}

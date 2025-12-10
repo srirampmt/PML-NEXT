@@ -33,7 +33,7 @@ const goodForItems: GoodForItem[] = [
 export default function GoodFor() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-4 md:py-10 lg:py-20">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 ">
         <div className="w-full max-w-[1280px] mx-auto bg-[#FBE3F1] rounded-2xl p-6 ">
           {/* Title */}
           <h2 className="text-[#1a1a1a] text-[16px] md:text-[24px] lg:text-[24px] font-semibold mb-2 md:mb-4">

@@ -1,31 +1,22 @@
 "use client";
-import { MainNav } from "@/components/layout/main-nav";
-
-import { useState } from "react";
-
 import { Perfectholiday } from "@/components/Perfectholiday";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features";
-import Handpickedescapes from "@/components/Handpickedescapes";
-import WeekEscapes from "@/components/WeekEscapes";
-import DealCollections from "@/components/DealCollection";
 import DestinationCarousel from "@/components/DestinationCarousel";
-import Partners from "@/components/parners";
 import Broucher from "@/components/Broucher";
 import WhybookwithPml from "@/components/WhybookwithPml";
 import Signup from "@/components/Signup";
 import Trustsection from "@/components/Trustsection";
 import Largecard from "@/components/Largecard";
-import TrendingCarousel from "@/components/TrendingCarousel";
 import Worldofplanmyluxe from "@/components/Worldofplanmyluxe";
 import Tailortripcard from "@/components/Tailortripcard";
+import DealCollections from "@/components/destinationhome/DealCollection";
 
-export default function destinations() {
-  const [showMore, setShowMore] = useState(false);
+export default function Destinations() {
   return (
     <div className="min-h-screen bg-white">
       <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
-        <Banner />
+        <Banner title="Where your next escape begins" description="Find the perfect place to relax unwind and enjoy luxury for less"/>
         <Features />
         <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
           <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[20px] md:py-[50px] lg:py-[50px]">
@@ -51,11 +42,11 @@ export default function destinations() {
           </div>
         </section>
         <Largecard />
-        <TrendingCarousel />
-        <DestinationCarousel />
+        <DealCollections title="Top deals waiting in every destination"/>
+        <DestinationCarousel title="Destinations designed for your escape" description="We focus on stunning destinations that deliver exceptional style at prices you will love. Explore our curated collection and enjoy luxury escapes designed to fit every budget."/>
         <Worldofplanmyluxe />
         <Tailortripcard />
-        <Perfectholiday />
+        <Perfectholiday title="Find your perfect holiday style"/>
         <Broucher />
         <WhybookwithPml />
         <Signup />

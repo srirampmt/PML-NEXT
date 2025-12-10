@@ -39,7 +39,7 @@ const FeaturedCard = () => {
           {/* LEFT: IMAGE */}
           <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80"
+              src="/assets/images/hotel-3.jpg"
               alt="Featured Escape"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -122,7 +122,7 @@ const TrendingCarousel = () => {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -132,7 +132,7 @@ const TrendingCarousel = () => {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -142,7 +142,7 @@ const TrendingCarousel = () => {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -152,7 +152,7 @@ const TrendingCarousel = () => {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -241,7 +241,7 @@ const TrendingCarousel = () => {
                           {deal.price}
                         </span>{" "}
                         per person
-                        <CircleChevronRight className="inline ml-1" size={20}/>
+                        <CircleChevronRight className="inline ml-1 text-pml-primary" size={20}/>
                       </a>
                     </div>
                   </div>
@@ -257,7 +257,7 @@ const TrendingCarousel = () => {
 /* TOP 20 BANNER*/
 const Top20Banner = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-10">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-10 font-['Montserrat']">
       <div className="rounded-2xl overflow-hidden shadow-xl relative">
         <img
           src="https://planmylux.s3.eu-west-2.amazonaws.com/static/images/toptrending20.jpg"
@@ -281,7 +281,7 @@ const Top20Banner = () => {
             />
           </svg>
           <div className="flex flex-col justify-center items-start">
-            <div className="text-white text-md font-semibold tracking-widest">
+            <div className="text-white text-[14px] font-medium tracking-widest">
               DISCOVER EXCLUSIVES
             </div>
             <div className="text-white text-lg md:text-2xl font-bold mt-1">

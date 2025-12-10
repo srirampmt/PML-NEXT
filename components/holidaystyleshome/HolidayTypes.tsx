@@ -56,21 +56,12 @@ export default function HolidayTypes() {
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {holidayTypes.map((holiday, index) => (
-              <Link
-                key={index}
-                href={`/holidays/${holiday.slug}`}
-                className="group block"
-              >
+              <Link key={index} href={`/holidays/${holiday.slug}`} className="group block" >
                 <div className="space-y-4">
                   {/* Image Container */}
                   <div className="relative overflow-hidden rounded-[16px] w-full aspect-[405/340]">
                     {/* Image */}
-                    <img
-                      src={holiday.image}
-                      alt={holiday.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-
+                    <img src={holiday.image} alt={holiday.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                   </div>

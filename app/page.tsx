@@ -1,8 +1,4 @@
 "use client";
-import { MainNav } from "@/components/layout/main-nav";
-
-import { useState } from "react";
-
 import { Perfectholiday } from "@/components/Perfectholiday";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features";
@@ -16,20 +12,18 @@ import WhybookwithPml from "@/components/WhybookwithPml";
 import Signup from "@/components/Signup";
 import Trustsection from "@/components/Trustsection";
 
-
 export default function Home() {
-  const [showMore, setShowMore] = useState(false);
   return (
     <div className="min-h-screen bg-white">
       <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
-        <Banner />
+        <Banner title="LUXURY FOR LESS" description="Unforgettable designer holidays crafted for every budget"/>
         <Features />
         <Handpickedescapes />
         <WeekEscapes />
-        <DealCollections />
-        <DestinationCarousel />
+        <DealCollections title="Explore our deal collections"/>
+        <DestinationCarousel title="Destinations designed for your escape" description="We focus on stunning destinations that deliver exceptional style at prices you will love. Explore our curated collection and enjoy luxury escapes designed to fit every budget."/>
         <Partners />
-        <Perfectholiday />
+        <Perfectholiday title="Find your perfect holiday style"/>
         <Broucher />
         <WhybookwithPml />
         <Signup />

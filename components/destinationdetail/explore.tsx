@@ -28,7 +28,7 @@ const exploreItems: ExploreItem[] = [
   },
   {
     tagline: "After dark",
-    title: "Nightlife and entertainment in Mallorca",
+    title: "Nightlife and entertainment for every mood",
     description: "Mallorca offers a vibrant mix of nightlife and entertainment with something to match every mood from relaxed seaside evenings to lively nights out in the islands most energetic resorts. Palma Marina sets the scene with stylish bars rooftop terraces and lounges where you can enjoy warm Balearic evenings with coastal views and a welcoming atmosphere. In the livelier areas such as Magaluf and Palmanova nightclubs live music venues and beachfront bars create an upbeat holiday energy that continues well into the night. For a more laid back experience many coastal towns offer sunset spots quiet cocktail terraces and waterfront restaurants where evenings unfold at a slower Mediterranean pace. Families will find gentle entertainment options including promenade shows open air events and charming night markets. With its diverse mix of venues and atmospheres Mallorca ensures that every traveller can enjoy evenings that feel personal enjoyable and perfectly suited to the holiday style they love.",
     image: "/assets/images/explore-4.png"
   }
@@ -76,7 +76,7 @@ export default function Explore() {
                     </p>
 
                     {/* Title */}
-                    <h2 className="text-[#5A5A5A] text-[28px] md:text-[36px] lg:text-[40px] font-semibold leading-tight">
+                    <h2 className="text-[#5A5A5A] text-[28px] md:text-[48px] lg:text-[48px] font-semibold max-w-[625px]">
                       {item.title}
                     </h2>
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 export function Broucher() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[50px] sm:py-[60px] md:py-[70px] lg:py-[90px]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[30px] sm:py-[30px] md:py-[40px] lg:py-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-[24px] sm:gap-[30px] md:gap-[40px] lg:gap-[60px] xl:gap-[80px]">
             {/* Brochure Image */}
@@ -26,10 +26,9 @@ export function Broucher() {
               <h2 className="font-['Montserrat'] text-pml-primary text-[18px] sm:text-[20px] md:text-[22px] lg:text-[26px] xl:text-[28px] font-medium leading-[1.25] sm:leading-[1.3] md:leading-[1.35] tracking-[-0.01em] mb-[12px] sm:mb-[14px] md:mb-[16px] lg:mb-[20px] xl:mb-[24px]">
                 Discover Luxury Holidays & Free Extras – All in One<br className="hidden lg:block" /> Download
               </h2>
-
               {/* Description */}
               <p className="font-['Montserrat'] text-[#555555] text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-normal leading-[1.6] sm:leading-[1.65] md:leading-[1.7] mb-[20px] sm:mb-[24px] md:mb-[28px] lg:mb-[32px] xl:mb-[36px] max-w-[500px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[700px] mx-auto md:mx-0">
-                Download our latest brochure to explore a handpicked collection of exclusive destinations at unbeatable prices. From sun-soaked escapes to cultural gems, you'll also find a selection of amazing FREE added extras waiting just for you!
+                  Download our latest brochure to explore a handpicked collection of exclusive destinations at unbeatable prices. From sun-soaked escapes to cultural gems, you&apos;ll also find a selection of amazing FREE added extras waiting just for you!
               </p>
 
               {/* Download Button */}

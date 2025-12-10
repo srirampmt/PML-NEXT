@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-export function Banner() {
+export function Banner({title, description}: {title?: string; description?: string}) {
   return (
     <section className="w-full font-['Montserrat']">
       {/* Hero Image Section - Full width */}
@@ -20,11 +20,11 @@ export function Banner() {
           <div className="w-full max-w-[1440px] mx-auto px-[16px] md:px-[40px]">
             <div className="w-full max-w-[1280px] mx-auto">
               <div className="max-w-[650px]">
-                <h1 className="font-['Montserrat'] text-white text-[32px] sm:text-[42px] md:text-[56px] lg:text-[64px] font-bold leading-[-0.01em]">
-                  LUXURY FOR LESS
+                <h1 className="font-['Montserrat'] text-white text-[32px] sm:text-[42px] md:text-[64px] lg:text-[64px] font-bold leading-[-1px]">
+                  {title}
                 </h1>
-                <p className="font-['Montserrat'] text-white text-[16px] sm:text-[18px] md:text-[22px] lg:text-[32px] font-semibold">
-                  Unforgettable designer holidays crafted for every budget
+                <p className="font-['Montserrat'] text-white text-[16px] sm:text-[18px] md:text-[32px] lg:text-[32px] font-semibold">
+                  {description}
                 </p>
               </div>
             </div>

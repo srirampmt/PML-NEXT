@@ -12,7 +12,7 @@ export default function Worldofplanmylux() {
   ];
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 font-['Montserrat']">
+    <section className="w-full bg-white py-8 md:py-10 font-['Montserrat']">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">

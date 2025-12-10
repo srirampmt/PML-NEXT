@@ -82,10 +82,10 @@ export default function Weather() {
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Title Section */}
           <div className="mb-8 md:mb-10 lg:mb-12">
-            <h2 className="text-[#808080] text-[28px] md:text-[48px] lg:text-[48px] font-semibold leading-tight mb-4">
+            <h2 className="text-[#808080] text-[28px] md:text-[48px] lg:text-[48px] font-semibold leading-tight mb-4 max-w-[625px]">
               What to expect from Mallorcas weather
             </h2>
-            <p className="text-[#808080] text-[12px] md:text-[14px] lg:text-[18px] leading-relaxed max-w-4xl">
+            <p className="text-[#808080] text-[12px] md:text-[14px] lg:text-[18px] leading-relaxed max-w-[850px]">
               Mallorca enjoys warm sunshine long summers and mild pleasant winters creating ideal conditions for beach days coastal walks and relaxed outdoor living. Temperatures rise through the spring and stay consistently high through late summer with clear skies gentle breezes and bright Mediterranean light. Autumn brings softer warmth and quieter days while winter remains comfortable with cool evenings and plenty of blue sky moments.
             </p>
           </div>

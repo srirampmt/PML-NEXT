@@ -76,7 +76,7 @@ const filterTabs = [
 
 // ------------------ COMPONENTS ------------------ //
 
-const FilterTab = ({ label, active, onClick }) => (
+const FilterTab = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
   <button
     onClick={onClick}
     className={`shrink-0 border rounded-[25px] text-xs md:text-sm px-4 py-1.5 md:px-6 md:py-2.5 transition bg-white ${
@@ -91,13 +91,13 @@ const FilterTab = ({ label, active, onClick }) => (
 
 // ------------------ MAIN ------------------ //
 
-export default function DestinationDealCarousel() {
+export default function DestinationDealCarousel({ title, description }: { title: string; description: string }) {
   const [activeFilter, setActiveFilter] = useState("Popular");
   const deals = [
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -107,7 +107,7 @@ export default function DestinationDealCarousel() {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -117,7 +117,7 @@ export default function DestinationDealCarousel() {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -127,7 +127,7 @@ export default function DestinationDealCarousel() {
      {
        id: 1,
        image:
-         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+         "/assets/images/hotel-4.jpg",
        badge: "Top Deal of the Day",
        location: "CYPRUS",
        title: "King Evelthon Resort & Spa Hotel",
@@ -147,18 +147,16 @@ export default function DestinationDealCarousel() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 relative z-10">
           {/* HEADER */}
           <div className="text-left md:mb-10">
-            <h2 className="text-4xl sm:text-5xl lg:text-[48px] font-semibold text-white mb-6 leading-tight">
-              Escape to these <br className="hidden sm:inline" /> destinations
+            <h2 className="text-4xl sm:text-5xl lg:text-[48px] font-semibold text-white mb-6 leading-tight max-w-[624px]">
+              {title}
             </h2>
 
             <p className="text-white max-w-3xl">
-              We focus on stunning destinations that deliver exceptional style
-              at prices you will love. Explore our curated collection and enjoy
-              luxury escapes designed to fit every budget.
+              {description}
             </p>
 
             {/* FILTER TABS */}
-            <div
+            {/* <div
               className="flex flex-nowrap gap-3 mt-8 overflow-x-auto pb-2 scrollbar-hide"
               style={{
                 WebkitOverflowScrolling: "touch",
@@ -174,7 +172,7 @@ export default function DestinationDealCarousel() {
                   onClick={() => setActiveFilter(tab)}
                 />
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* ------------------ SHADCN CAROUSEL ------------------ */}
@@ -256,7 +254,7 @@ export default function DestinationDealCarousel() {
                               {deal.price}
                             </span>{" "}
                             per person
-                            <CircleChevronRight className="inline ml-1" size={20}/>
+                            <CircleChevronRight className="inline ml-1 text-pml-primary" size={20}/>
                           </a>
                         </div>
                       </div>

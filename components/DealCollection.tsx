@@ -11,7 +11,7 @@ import {
 import { CircleChevronRight } from "lucide-react";
 
 // Deal Card Component
-export const DealCard = ({ deal }) => {
+export const DealCard = ({ deal }: { deal: any }) => {
   return (
     <div className="flex-[0_0_auto] w-[360px] h-[436px] font-['Montserrat']">
       <div className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 ease-in-out flex flex-col h-full border border-[#f0f0f0] hover:shadow-xl hover:border-[#e0e0e0]">
@@ -86,7 +86,7 @@ export const DealCard = ({ deal }) => {
               {deal.price}
             </span>{" "}
             per person
-            <CircleChevronRight className="inline ml-1" size={20}/>
+            <CircleChevronRight className="inline ml-1 text-pml-primary" size={20}/>
           </a>
         </div>
       </div>
@@ -95,7 +95,7 @@ export const DealCard = ({ deal }) => {
 };
 
 // Filter Tab
-const FilterTab = ({ label, active, onClick }) => (
+const FilterTab = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
   <button
     onClick={onClick}
     className={`shrink-0 px-6 py-2.5 text-xs md:text-sm border rounded-[25px] transition ${
@@ -109,7 +109,7 @@ const FilterTab = ({ label, active, onClick }) => (
 );
 
 // Main Component
-export default function DealCollections() {
+export default function DealCollections({title}: {title?: string}) {
   const [activeFilter, setActiveFilter] = React.useState("Top Trending");
 
   const filterTabs = [
@@ -168,16 +168,14 @@ export default function DealCollections() {
   return (
     <section className="bg-white max-w-7xl mx-auto px-4 md:px-6 lg:px-2 py-10 md:py-[30px]">
       {/* Header */}
-      <div className="flex justify-between mb-3 md:mb-5">
-        <h2 className="lg:text-5xl text-4xl font-semibold text-[#4c4c4c] leading-[1.2]">
-          Explore our deal
-          <br />
-          collections
+      <div className="flex justify-between items-end mb-3 md:mb-5">
+        <h2 className="text-[24px] md:text-[48px] font-semibold text-[#4c4c4c] leading-[1.2] max-w-[550px]">
+          {title}
         </h2>
 
         <a
           href="#"
-          className="text-gray-500 text-xs underline mt-2.5 hover:text-[#CB2187] hidden md:block"
+          className="text-gray-500 text-xs underline hover:text-[#CB2187] hidden md:block self-end"
         >
           view all PlanMyLuxe exclusives
         </a>

@@ -1,12 +1,21 @@
 import { CircleChevronRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
-export default function TrendingCarousel() {
+export default function TrendingCarousel({title}: {title: string}) {
   const deals = [
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+        "/assets/images/hotel-4.jpg",
+      badge: "Top Deal of the Day",
+      location: "CYPRUS",
+      title: "King Evelthon Resort & Spa Hotel",
+      extras: "Free Room Upgrade + Blue Lagoon Cruise",
+      price: "£1,999",
+    },
+    {
+      id: 1,
+      image: "/assets/images/hotel-4.jpg",
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
@@ -16,7 +25,7 @@ export default function TrendingCarousel() {
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+        "/assets/images/hotel-4.jpg",
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
@@ -26,17 +35,7 @@ export default function TrendingCarousel() {
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
-      badge: "Top Deal of the Day",
-      location: "CYPRUS",
-      title: "King Evelthon Resort & Spa Hotel",
-      extras: "Free Room Upgrade + Blue Lagoon Cruise",
-      price: "£1,999",
-    },
-    {
-      id: 1,
-      image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+        "/assets/images/hotel-4.jpg",
       badge: "Top Deal of the Day",
       location: "CYPRUS",
       title: "King Evelthon Resort & Spa Hotel",
@@ -47,10 +46,10 @@ export default function TrendingCarousel() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-16 mt-8">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mt-8">
       <div className="max-w-[550px] mb-[12px] lg:mb-0">
         <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[24px] sm:text-[32px] md:text-[48px] lg:text-[48px] font-semibold leading-[1.2] sm:leading-[1.25] md:leading-[1.3] lg:leading-[60px] tracking-[-0.005em] mb-[12px] sm:mb-[16px] md:mb-[20px] lg:mb-[24px]">
-          Top deals waiting in every destination
+          {title}
         </h2>
       </div>
       <Carousel opts={{ align: "start" }} className="w-full">
@@ -130,7 +129,7 @@ export default function TrendingCarousel() {
                         {deal.price}
                       </span>{" "}
                       per person
-                      <CircleChevronRight className="inline ml-1" size={20}/>
+                      <CircleChevronRight className="inline ml-1 text-pml-primary" size={20}/>
                     </a>
                   </div>
                 </div>
