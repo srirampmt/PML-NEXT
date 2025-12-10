@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "20": "^1.0.0",
     "@cashfreepayments/cashfree-js": "^1.0.5",
     "@date-io/date-fns": "^3.2.1",
     "@emotion/react": "^11.14.0",
@@ -59,9 +60,6 @@
     "embla-carousel-react": "^8.3.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
-    "firebase": "^11.6.0",
-    "firebase-admin": "^13.2.0",
-    "firebase-tools": "^14.2.1",
     "framer-motion": "^12.7.4",
     "i18next": "^24.2.3",
     "input-otp": "^1.2.4",
@@ -70,6 +68,7 @@
     "next": "^15.2.0",
     "next-i18next": "^15.4.2",
     "next-themes": "^0.3.0",
+    "node": "^20.19.6",
     "node-fetch": "^3.3.2",
     "postcss": "^8.5.3",
     "react": "18.2.0",
@@ -92,6 +91,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@types/react-google-recaptcha": "^2.1.9"
+    "@types/react-google-recaptcha": "^2.1.9",
+    "depcheck": "^1.4.7"
   }
 }
