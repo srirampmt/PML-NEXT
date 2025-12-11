@@ -150,7 +150,7 @@ export function Trustsection() {
           </div>
 
           {/* Bottom Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-end gap-[20px] sm:gap-[30px]">
+          <div className="flex flex-row items-center justify-end gap-[20px] sm:gap-[30px]">
             <a
               href="#"
               className="font-['Montserrat'] text-[#666666] text-[14px] md:text-[15px] font-normal underline hover:text-[#C8105B] transition-colors duration-300"

@@ -219,7 +219,7 @@ export function Partners() {
               </h2>
             </div>
             <div className="max-w-[720px] lg:pt-[12px]">
-              <p className="font-['Montserrat'] text-[#7c7c7c] text-[18px] font-normal leading-[28px] tracking-[0%]">
+              <p className="font-['Montserrat'] text-[#7c7c7c] text-[14px] md:text-[18px] font-normal leading-[28px] tracking-[0%]">
                 From iconic cities to hidden gems, the world is waiting for you. Browse our destinations and find the perfect setting for your next getaway.
               </p>
             </div>

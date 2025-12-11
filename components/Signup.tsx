@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function Signup() {
   return (
-    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-pml-primary font-['Montserrat'] overflow-hidden h-auto lg:h-[380px] mt-16">
+    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-pml-primary font-['Montserrat'] overflow-hidden h-auto lg:h-[380px] mt-0 md:mt-16">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[40px] sm:py-[50px] md:py-[60px] lg:py-0 h-full flex items-center">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-[30px] md:gap-[40px] lg:gap-[60px]">

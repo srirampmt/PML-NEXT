@@ -87,7 +87,7 @@ export function Perfectholiday({ title }: { title: string }) {
             <h2 className="font-['Montserrat'] text-[24px] md:text-[36px] xl:text-[46px] font-semibold text-[#4c4c4c] leading-tight mb-4">
               {title}
             </h2>
-            <p className="font-['Montserrat'] text-[#4C4C4C] text-base md:text-lg leading-relaxed">
+            <p className="font-['Montserrat'] text-[#4C4C4C] text-base text-sm md:text-lg leading-relaxed">
               Whether you dream of serene beaches lively resorts or romantic retreats our holiday styles bring you curated escapes that elevate every moment.
             </p>
           </div>

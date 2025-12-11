@@ -42,7 +42,7 @@ const Footer = () => {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-32 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-32 mb-8">
             {/* Contact Section */}
             <div>
               <h3 className="text-[16px] font-medium tracking-[0.02em] tracking-wider mb-3 pb-2 border-b-2 border-[#df8abd] inline-block">
@@ -222,7 +222,7 @@ const Footer = () => {
                   name="full_name"
                   placeholder="FULL NAME"
                   required
-                  className="flex-1 px-4 py-3 bg-[#9f9f9f] text-white placeholder-[#e0e0e0] focus:outline-none focus:ring-2 focus:ring-[#cb2187] text-sm appearance-none"
+                  className="flex-1 px-4 py-2 md:py-3 bg-[#9f9f9f] text-white placeholder-[#e0e0e0] focus:outline-none focus:ring-2 focus:ring-[#cb2187] text-sm appearance-none"
                   style={{ borderRadius: '8px', border: 'none' }}
                 />
                 <input
@@ -230,18 +230,18 @@ const Footer = () => {
                   name="email"
                   placeholder="EMAIL ADDRESS"
                   required
-                  className="flex-1 px-4 py-3 bg-[#9f9f9f] text-white placeholder-[#e0e0e0] focus:outline-none focus:ring-2 focus:ring-[#cb2187] text-sm appearance-none"
+                  className="flex-1 px-4 py-2 md:py-3 bg-[#9f9f9f] text-white placeholder-[#e0e0e0] focus:outline-none focus:ring-2 focus:ring-[#cb2187] text-sm appearance-none"
                   style={{ borderRadius: '8px', border: 'none' }}
                 />
                 <button
                   type="submit"
-                  className="px-8 py-3 font-semibold text-[20px] tracking-wider text-white transition-all hover:opacity-90"
+                  className="px-8 py-2 md:py-3 font-semibold text-[20px] tracking-wider text-white transition-all hover:opacity-90"
                   style={{
                     borderRadius: '8px',
                     background: 'linear-gradient(110deg, #cb2187 0%, #cb2187 45%, #ecaed3 100%)'
                   }}
                 >
-                  SIGNUP
+                  SIGN UP
                 </button>
               </form>
             </div>
@@ -277,18 +277,18 @@ const Footer = () => {
           </div>
 
           {/* Footer Bottom */}
-          <div className="pt-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px]">
+          <div className="pt-2 md:pt-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px]">
             <span className='text-[14px] font-light'>© 2024 Plan My Tour Limited. All Rights Reserved.</span>
             <div className="flex items-center gap-2">
-              <Link href="/cookie-policy" className="hover:text-[#cb2187] text-[14px] font-light transition-colors">
+              <Link href="/cookie-policy" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                 Cookie Policy
               </Link>
               <span>•</span>
-              <Link href="/privacy-policy" className="hover:text-[#cb2187] text-[14px] font-light transition-colors">
+              <Link href="/privacy-policy" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                 Privacy Policy
               </Link>
               <span>•</span>
-              <Link href="/terms" className="hover:text-[#cb2187] text-[14px] font-light transition-colors">
+              <Link href="/terms" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                 Terms & Conditions
               </Link>
             </div>
