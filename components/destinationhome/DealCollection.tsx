@@ -13,7 +13,7 @@ import { CircleChevronRight } from "lucide-react";
 // Deal Card Component
 export const DealCard = ({ deal }: { deal: any }) => {
   return (
-    <div className="flex-[0_0_auto] w-[360px] h-[436px] font-['Montserrat']">
+    <div className="flex-[0_0_auto] w-[300px] md:w-[360px] h-[436px] font-['Montserrat']">
       <div className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 ease-in-out flex flex-col h-full border border-[#f0f0f0] hover:shadow-xl hover:border-[#e0e0e0]">
         {/* Image Container */}
         <div className="relative w-full overflow-hidden bg-[#f5f5f5] h-[225px]">
@@ -69,11 +69,11 @@ export const DealCard = ({ deal }: { deal: any }) => {
             <span className="text-pml-primary text-[14px]">★★★★★</span>
           </div>
 
-          <h5 className="text-[16px] font-semibold text-pml-primary flex items-center justify-start mb-3">
+          <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start mb-3">
             {deal.title}
           </h5>
 
-          <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[9px] py-[9px] rounded-[10px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[1.3] w-full text-center">
+          <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[9px] py-[9px] rounded-[10px] text-[10px] md:text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[1.3] w-full text-center">
             {deal.extras}
           </div>
 
@@ -166,7 +166,7 @@ export default function DealCollections({title}: {title?: string}) {
   ];
 
   return (
-    <section className="bg-white max-w-7xl mx-auto px-4 md:px-6 lg:px-2 py-10 md:py-[30px]">
+    <section className="bg-white max-w-7xl mx-auto px-4 md:px-6 lg:px-2 py-5 md:py-[30px]">
       {/* Header */}
       <div className="flex justify-between items-end mb-3 md:mb-5">
         <h2 className="text-[24px] md:text-[48px] font-semibold text-[#4c4c4c] leading-[1.2] max-w-[550px]">

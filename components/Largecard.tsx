@@ -2,8 +2,8 @@ import { CircleChevronRight } from "lucide-react";
 
 export default function Largecard() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-10 font-['Montserrat']">
-      <div className="bg-white rounded-xl shadow-xl overflow-hidden ">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 font-['Montserrat']">
+      <div className="bg-white rounded-xl shadow-sm md:shadow-xl overflow-hidden ">
         <div className="max-w-[700px] mb-[12px] lg:mb-0">
             <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.2] sm:leading-[1.25] md:leading-[1.3] lg:leading-[60px] tracking-[-0.005em] mb-[12px] sm:mb-[16px] md:mb-[20px] lg:mb-[24px]">
                Check out our featured destination of the week
@@ -18,7 +18,7 @@ export default function Largecard() {
               className="absolute inset-0 w-full h-full object-cover"
             />
 
-            <span className="absolute top-0 left-0  bg-white text-pml-primary px-10 py-1.5 rounded-sm text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+            <span className="absolute top-0 left-0  bg-white text-pml-primary px-2 md:px-6 py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[25px] rounded-tl-[8px]">
               Top Deal of the Day
             </span>
 
@@ -78,7 +78,7 @@ export default function Largecard() {
             {/* Price Button */}
             <a
               href="#"
-              className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
+              className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-3 md:px-6 py-1.5 md:py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
             >
               7 nights from <strong className="text-[14px]">£1,099pp</strong> per person
               <CircleChevronRight className="inline" />

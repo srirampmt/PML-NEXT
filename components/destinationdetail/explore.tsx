@@ -37,15 +37,15 @@ const exploreItems: ExploreItem[] = [
 export default function Explore() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-12 md:py-16 lg:py-20">
-        <div className="w-full max-w-[1280px] mx-auto space-y-16 md:space-y-20 lg:space-y-24">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-16 lg:py-20">
+        <div className="w-full max-w-[1280px] mx-auto space-y-8 md:space-y-20 lg:space-y-24">
           {exploreItems.map((item, index) => {
             const isImageRight = index % 2 === 0; // First item (index 0) has image on right, alternates after
             
             return (
               <div 
                 key={index} 
-                className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center"
+                className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 items-center"
               >
                 {/* Image Column - 1 part */}
                 <div className={`lg:col-span-1 ${isImageRight ? 'lg:order-2' : 'lg:order-1'}`}>

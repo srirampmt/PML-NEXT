@@ -3,7 +3,7 @@
 export function WhybookwithPml() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[20px] md:py-[40px] lg:py-[40px]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[16px] md:py-[20px] lg:py-[20px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Heading */}
           <h2 className="font-['Montserrat'] text-[#595858] text-[20px] md:text-[24px] lg:text-[24px] font-semibold leading-[1.3] tracking-[-0.01em] mb-[16px] sm:mb-[20px] md:mb-[24px]">

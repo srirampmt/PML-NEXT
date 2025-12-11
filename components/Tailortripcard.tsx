@@ -129,7 +129,7 @@ export default function Tailortripcard() {
   ];
 
   return (
-    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative overflow-hidden mt-10">
+    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative overflow-hidden my-4 md:my-10">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 rounded-[16px]">
         <img
@@ -181,7 +181,7 @@ export default function Tailortripcard() {
 
           {/* CTA Button */}
           <div className="text-center">
-            <button className="bg-[#666666] hover:bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button className="bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
               Let&apos;s Start Planning
             </button>
           </div>

@@ -4,12 +4,12 @@ import Image from "next/image";
 export function Broucher() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[30px] sm:py-[30px] md:py-[40px] lg:py-[40px]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[10px] sm:py-[10px] md:py-[15px] lg:py-[20px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-[24px] sm:gap-[30px] md:gap-[40px] lg:gap-[60px] xl:gap-[80px]">
             {/* Brochure Image */}
             <div className="w-full md:flex-shrink-0 md:w-auto md:max-w-[220px] lg:max-w-[240px] xl:max-w-[260px]">
-              <div className="relative shadow-2xl rounded-[8px] overflow-hidden">
+              <div className="relative shadow-md rounded-[8px] overflow-hidden">
                 <Image
                   src="/assets/images/brochure.png"
                   alt="Summer Sun 2025 Collection Brochure"

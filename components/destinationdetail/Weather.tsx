@@ -100,7 +100,7 @@ export default function Weather() {
           >
             <CarouselContent className="-ml-4">
               {weatherMonths.map((month, index) => (
-                <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/4">
+                <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/4">
                   <div className="relative group overflow-hidden rounded-[10px]">
                     {/* Background Image */}
                     <div className="relative w-full h-[340px]">

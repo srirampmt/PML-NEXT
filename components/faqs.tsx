@@ -37,7 +37,7 @@ const faqItems: FAQItem[] = [
 
 export default function FAQs() {
   return (
-    <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] mt-8">
+    <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] mt-2 md:mt-8">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 pb-10">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Title */}

@@ -55,8 +55,8 @@ export default function TrendingCarousel({title}: {title: string}) {
       <Carousel opts={{ align: "start" }} className="w-full">
         <CarouselContent>
           {deals.map((deal, idx) => (
-            <CarouselItem key={idx} className="basis-auto cursor-pointer pr-4">
-              <div className="flex-[0_0_auto] w-[360px] h-[436px] font-['Montserrat']">
+            <CarouselItem key={idx} className="basis-auto cursor-pointer">
+              <div className="flex-[0_0_auto] w-[300px] md:w-[360px] h-[436px] font-['Montserrat']">
                 <div className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 ease-in-out flex flex-col h-full border border-[#f0f0f0] hover:shadow-xl hover:border-[#e0e0e0]">
                   {/* Image Container */}
                   <div className="relative w-full overflow-hidden bg-[#f5f5f5] h-[225px]">
@@ -112,11 +112,11 @@ export default function TrendingCarousel({title}: {title: string}) {
                       <span className="text-pml-primary text-[14px]">★★★★★</span>
                     </div>
           
-                    <h5 className="text-[16px] font-semibold text-pml-primary flex items-center justify-start mb-3">
+                    <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start mb-3">
                       {deal.title}
                     </h5>
           
-                    <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[9px] py-[9px] rounded-[10px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[1.3] w-full text-center">
+                    <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[4px] md:px-[9px] py-[9px] rounded-[10px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[1.3] w-full text-center">
                       {deal.extras}
                     </div>
           
