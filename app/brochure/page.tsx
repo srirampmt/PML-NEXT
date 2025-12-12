@@ -1,17 +1,27 @@
 "use client";
 import HTMLFlipBook from "react-pageflip";
-
-import dynamic from "next/dynamic";
 import React from "react";
 
-// react-pageflip uses window, so load client-side only
-// const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false }) as any;
-
 export default function BrochureBooklet() {
-    const pages = Array.from(
-      { length: 20 },
-      (_, i) => `/assets/images/pages-1-20-0.-PML-Brochure/page_${i + 1}.png`
-    );
+  const pages = Array.from(
+    { length: 20 },
+    (_, i) => `/assets/images/pages-1-20-0.-PML-Brochure/page_${i + 1}.png`
+  );
+
+  // Dynamic height state
+  const [bookHeight, setBookHeight] = React.useState(700);
+
+  React.useEffect(() => {
+    const updateHeight = () => {
+      setBookHeight(window.innerHeight); // 100% screen height
+    };
+
+    updateHeight(); // initial load
+    window.addEventListener("resize", updateHeight);
+
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']">
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[10px] sm:py-[10px] md:py-[15px] lg:py-[20px]">
@@ -19,16 +29,16 @@ export default function BrochureBooklet() {
           <div className="w-full flex justify-center bg-gray-100">
             <HTMLFlipBook
               width={500}
-              height={700}
+              height={bookHeight}        // 📌 Full screen height
+              minHeight={bookHeight}     // 📌 Lock height
+              maxHeight={bookHeight}
               size="stretch"
               minWidth={315}
               maxWidth={1000}
-              minHeight={420}
-              maxHeight={1280}
               showCover={true}
               className="shadow-xl"
               mobileScrollSupport={true}
-              style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.15)' }}
+              style={{ boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}
               startPage={0}
               drawShadow={true}
               flippingTime={800}
