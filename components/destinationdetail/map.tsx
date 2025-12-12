@@ -8,7 +8,7 @@ interface MapProps {
 export default function Map({ iframeSrc, title = "Location Map" }: MapProps) {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 pb-10">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-10">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Map Container */}
           <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-[10px] overflow-hidden shadow-md">

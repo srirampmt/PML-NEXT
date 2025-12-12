@@ -129,9 +129,9 @@ export default function ForFlight() {
   ];
 
   return (
-    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative overflow-hidden my-16 md:my-10">
+    <section className="w-full py-16 md:py-20 font-['Montserrat'] relative my-8 md:my-10">
       {/* Background Image with Overlay */}
-      <div className="absolute inset-0 rounded-[16px]">
+      <div className="absolute inset-0 rounded-[16px] mx-[16px] md:mx-[0px] "> 
         <img
           src="/assets/images/looking-for-flight.png"
           alt="Travel background"
@@ -141,9 +141,9 @@ export default function ForFlight() {
       </div>
 
       {/* Content Container */}
-      <div className="relative max-w-6xl mx-auto px-4 md:px-6 lg:px-8 ">
+      <div className="relative max-w-6xl mx-[16px] md:mx-auto px-4 md:px-6 lg:px-8 ">
         {/* Card with backdrop blur */}
-        <div className="bg-white/40 rounded-3xl p-8 md:p-12 shadow-2xl border border-white/30">
+        <div className="bg-white/40 rounded-3xl p-4 md:p-12 shadow-2xl border border-white/30">
           {/* Header */}
           <div className="text-center py-12 sm:py-16 md:py-16 ">
             <h2 className="text-[24px] md:text-[48px] lg:text-[48px] font-extrabold text-white mb-6 drop-shadow-lg">
@@ -156,7 +156,7 @@ export default function ForFlight() {
             </p>
             {/* CTA Button */}
             <div className="text-center mt-8">
-              <button className="bg-[#666666] hover:bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
                 Let&apos;s Start Planning
               </button>
             </div>

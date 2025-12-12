@@ -17,7 +17,8 @@ export default function Home() {
             "/assets/images/t-3.jpg"
           ]}
           badgeText="Prices include FREE Attraction Entry"
-        />  
+        /> 
+         
       </main>
     </div>
   );

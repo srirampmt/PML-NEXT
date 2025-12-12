@@ -164,13 +164,13 @@ export function MainNav() {
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
-                            <Link href="/categories/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
-                            <Link href="/categories/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
-                            <Link href="/categories/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/categories/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
-                            <Link href="/categories/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
-                            <Link href="/categories/luxury-top-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
-                            <Link href="/categories" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/offers/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
+                            <Link href="/offers/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
+                            <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
+                            <Link href="/offers/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
+                            <Link href="/offers/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
 
@@ -178,13 +178,13 @@ export function MainNav() {
                         <div className="hidden xl:block xl:flex-[0_0_30%] xl:pl-6">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Our Holiday Styles</p>
                           <div className="flex flex-col gap-1">
-                            <Link href="/categories/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
-                            <Link href="/categories/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
-                            <Link href="/categories/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
-                            <Link href="/categories/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
-                            <Link href="/categories/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
-                            <Link href="/categories/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
-                            <Link href="/categories" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/holiday-styles/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
+                            <Link href="/holiday-styles/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
+                            <Link href="/holiday-styles/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
+                            <Link href="/holiday-styles/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
+                            <Link href="/holiday-styles/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
+                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
+                            <Link href="/holiday-styles" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
 
@@ -215,13 +215,13 @@ export function MainNav() {
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Our Holiday Styles</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
-                            <Link href="/categories/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
-                            <Link href="/categories/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
-                            <Link href="/categories/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
-                            <Link href="/categories/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
-                            <Link href="/categories/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
-                            <Link href="/categories/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
-                            <Link href="/categories" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/holiday-styles/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
+                            <Link href="/holiday-styles/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
+                            <Link href="/holiday-styles/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
+                            <Link href="/holiday-styles/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
+                            <Link href="/holiday-styles/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
+                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
+                            <Link href="/holiday-styles" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
 
@@ -229,13 +229,13 @@ export function MainNav() {
                         <div className="hidden xl:block xl:flex-[0_0_30%] xl:pl-6">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
                           <div className="flex flex-col gap-1">
-                            <Link href="/categories/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
-                            <Link href="/categories/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
-                            <Link href="/categories/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/categories/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
-                            <Link href="/categories/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
-                            <Link href="/categories/luxury-top-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
-                            <Link href="/categories" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/offers/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
+                            <Link href="/offers/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
+                            <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
+                            <Link href="/offers/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
+                            <Link href="/offers/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
 
@@ -266,57 +266,57 @@ export function MainNav() {
                         <div className="flex gap-4 overflow-x-auto pb-2 justify-center xl:justify-start xl:grid xl:grid-cols-4 xl:gap-8 xl:overflow-visible xl:pb-0">
                           {/* Column 1 */}
                           <div className="flex flex-col gap-1 flex-shrink-0 min-w-[140px] xl:min-w-0 xl:border-r xl:border-pml-border xl:pr-4 ">
-                            <Link href="/destination/european-cities" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">European Cities</Link>
-                            <Link href="/destination/mediterranean-beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mediterranean Beach</Link>
-                            <Link href="/destination/tenerife" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Tenerife</Link>
-                            <Link href="/destination/gran-canaria" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Gran Canaria</Link>
-                            <Link href="/destination/lanzarote" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Lanzarote</Link>
-                            <Link href="/destination/fuerteventura" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Fuerteventura</Link>
-                            <Link href="/destination/mainland-spain" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mainland Spain</Link>
-                            <Link href="/destination/costa-blanca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa Blanca</Link>
-                            <Link href="/destination/costa-del-sol" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa del Sol</Link>
-                            <Link href="/destination/mallorca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mallorca</Link>
-                            <Link href="/destination/ibiza" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Ibiza</Link>
+                            <Link href="/destinations/european-cities" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">European Cities</Link>
+                            <Link href="/destinations/mediterranean-beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mediterranean Beach</Link>
+                            <Link href="/destinations/tenerife" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Tenerife</Link>
+                            <Link href="/destinations/gran-canaria" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Gran Canaria</Link>
+                            <Link href="/destinations/lanzarote" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Lanzarote</Link>
+                            <Link href="/destinations/fuerteventura" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Fuerteventura</Link>
+                            <Link href="/destinations/mainland-spain" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mainland Spain</Link>
+                            <Link href="/destinations/costa-blanca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa Blanca</Link>
+                            <Link href="/destinations/costa-del-sol" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa del Sol</Link>
+                            <Link href="/destinations/mallorca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mallorca</Link>
+                            <Link href="/destinations/ibiza" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Ibiza</Link>
                           </div>
 
                           {/* Column 2 */}
                           <div className="flex flex-col gap-1 flex-shrink-0 min-w-[140px] xl:min-w-0 xl:border-r xl:border-pml-border xl:pr-4">
-                            <Link href="/destination/greece" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Greece</Link>
-                            <Link href="/destination/halkidiki" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Halkidiki</Link>
-                            <Link href="/destination/crete" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Crete</Link>
-                            <Link href="/destination/corfu" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Corfu</Link>
-                            <Link href="/destination/rhodes" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Rhodes</Link>
-                            <Link href="/destination/kos" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Kos</Link>
-                            <Link href="/destination/kefalonia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Kefalonia</Link>
-                            <Link href="/destination/mykonos" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mykonos</Link>
-                            <Link href="/destination/zante" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Zante</Link>
-                            <Link href="/destination/santorini" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Santorini</Link>
+                            <Link href="/destinations/greece" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Greece</Link>
+                            <Link href="/destinations/halkidiki" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Halkidiki</Link>
+                            <Link href="/destinations/crete" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Crete</Link>
+                            <Link href="/destinations/corfu" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Corfu</Link>
+                            <Link href="/destinations/rhodes" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Rhodes</Link>
+                            <Link href="/destinations/kos" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Kos</Link>
+                            <Link href="/destinations/kefalonia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Kefalonia</Link>
+                            <Link href="/destinations/mykonos" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mykonos</Link>
+                            <Link href="/destinations/zante" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Zante</Link>
+                            <Link href="/destinations/santorini" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Santorini</Link>
                           </div>
 
                           {/* Column 3 */}
                           <div className="flex flex-col gap-1 flex-shrink-0 min-w-[140px] xl:min-w-0 xl:border-r xl:border-pml-border xl:pr-4">
-                            <Link href="/destination/cyprus" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Cyprus</Link>
-                            <Link href="/destination/turkey" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Turkey</Link>
-                            <Link href="/destination/croatia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Croatia</Link>
-                            <Link href="/destination/montenegro" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Montenegro</Link>
-                            <Link href="/destination/bulgaria" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Bulgaria</Link>
-                            <Link href="/destination/malta" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Malta</Link>
-                            <Link href="/destination/italy" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Italy</Link>
-                            <Link href="/destination" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/destinations/cyprus" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Cyprus</Link>
+                            <Link href="/destinations/turkey" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Turkey</Link>
+                            <Link href="/destinations/croatia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Croatia</Link>
+                            <Link href="/destinations/montenegro" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Montenegro</Link>
+                            <Link href="/destinations/bulgaria" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Bulgaria</Link>
+                            <Link href="/destinations/malta" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Malta</Link>
+                            <Link href="/destinations/italy" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Italy</Link>
+                            <Link href="/destinations" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
 
                           {/* Column 4 */}
                           <div className="flex flex-col gap-1 flex-shrink-0 min-w-[140px] xl:min-w-0">
-                            <Link href="/destination/egypt-red-sea" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Egypt & Red Sea</Link>
-                            <Link href="/destination/tunisia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Tunisia</Link>
-                            <Link href="/destination/morocco" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Morocco</Link>
-                            <Link href="/destination/cape-verde" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Cape Verde</Link>
-                            <Link href="/destination/mexico" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mexico</Link>
-                            <Link href="/destination/florida" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Florida</Link>
-                            <Link href="/destination/new-york" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">New York</Link>
-                            <Link href="/destination/maldives" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Maldives</Link>
-                            <Link href="/destination/phuket" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Phuket</Link>
-                            <Link href="/destination" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">All our destinations</Link>
+                            <Link href="/destinations/egypt-red-sea" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Egypt & Red Sea</Link>
+                            <Link href="/destinations/tunisia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Tunisia</Link>
+                            <Link href="/destinations/morocco" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Morocco</Link>
+                            <Link href="/destinations/cape-verde" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Cape Verde</Link>
+                            <Link href="/destinations/mexico" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mexico</Link>
+                            <Link href="/destinations/florida" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Florida</Link>
+                            <Link href="/destinations/new-york" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">New York</Link>
+                            <Link href="/destinations/maldives" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Maldives</Link>
+                            <Link href="/destinations/phuket" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Phuket</Link>
+                            <Link href="/destinations" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">All our destinations</Link>
                           </div>
                         </div>
                       </div>

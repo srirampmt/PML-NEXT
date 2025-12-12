@@ -7,7 +7,7 @@ import { DealCard } from "./DealCollection";
 /* HEADER SECTION */
 const HeaderSection = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-5 md:mb-6">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-5 md:my-6">
       <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight">
         Unmissable stylish <br /> escapes this week
       </h2>

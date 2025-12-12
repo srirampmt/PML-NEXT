@@ -37,7 +37,7 @@ const exploreItems: ExploreItem[] = [
 export default function Explore() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-16 lg:py-20">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-10 lg:py-10">
         <div className="w-full max-w-[1280px] mx-auto space-y-8 md:space-y-20 lg:space-y-24">
           {exploreItems.map((item, index) => {
             const isImageRight = index % 2 === 0; // First item (index 0) has image on right, alternates after

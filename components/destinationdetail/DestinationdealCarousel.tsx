@@ -139,7 +139,7 @@ export default function DestinationDealCarousel({ title, description }: { title:
   return (
     <section className="relative bg-white w-screen ml-[calc(-50vw+50%)] font-['Montserrat']">
       {/* BACKGROUND LAYER */}
-      <div className="bg-gradient-to-br from-[#1a9b9e] via-[#2ab5b8] to-[#5bc9cc] w-full pt-[70px] pb-20 md:pt-20 md:pb-24 lg:pt-24 lg:pb-[80px] relative z-0">
+      <div className="bg-gradient-to-br from-[#1a9b9e] via-[#2ab5b8] to-[#5bc9cc] w-full pt-[35px] md:pt-[70px] pb-10 md:pt-20 md:pb-24 lg:pt-24 lg:pb-[80px] relative z-0">
         <div className="absolute inset-0 opacity-70 bg-cover bg-center bg-no-repeat pointer-events-none"
           style={{ backgroundImage: "url('https://planmylux.s3.eu-west-2.amazonaws.com/static/images/escapedestinations.png')", }}>
         </div>

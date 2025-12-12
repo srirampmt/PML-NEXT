@@ -28,28 +28,16 @@ const coupons: Coupon[] = [
     image: "/assets/images/coupon-2.png",
     buttonText: "Discover Now",
   },
-   {
-    title: "TRENDING DEALS SALE NOW ON",
+  {
+    title: "WINTER SALE CHRISTMAS MARKET TRIPS",
     subtitle: "",
-    image: "/assets/images/coupon-1.png",
+    image: "/assets/images/coupon-3.png",
     buttonText: "Discover Now",
   },
   {
-    title: "SUMMER 2026 SALE NOW ON",
+    title: "LAST MINUTE XMAS & NEW YEAR HOLIDAYS",
     subtitle: "",
-    image: "/assets/images/coupon-2.png",
-    buttonText: "Discover Now",
-  },
-   {
-    title: "TRENDING DEALS SALE NOW ON",
-    subtitle: "",
-    image: "/assets/images/coupon-1.png",
-    buttonText: "Discover Now",
-  },
-  {
-    title: "SUMMER 2026 SALE NOW ON",
-    subtitle: "",
-    image: "/assets/images/coupon-2.png",
+    image: "/assets/images/coupon-4.png",
     buttonText: "Discover Now",
   },
 ];
@@ -57,7 +45,7 @@ const coupons: Coupon[] = [
 export default function Coupons() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-10 ">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-6 md:py-10 ">
         <div className="w-full max-w-[1280px] mx-auto relative">
           {/* Carousel Container */}
           <div className="relative w-full min-h-[400px] md:min-h-[520px] lg:min-h-[520px]">
@@ -73,7 +61,7 @@ export default function Coupons() {
                   {coupons.map((coupon, index) => (
                     <CarouselItem
                       key={index}
-                      className={`pl-4 basis-[90%] md:basis-[85%] lg:basis-[85%] ${
+                      className={`pl-4 basis-[80%] md:basis-[85%] lg:basis-[85%] ${
                         index === coupons.length - 1 ? 'pr-4 md:pr-[250px]' : ''
                       }`}
                     >

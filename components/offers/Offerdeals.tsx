@@ -5,7 +5,7 @@ import { CircleChevronRight } from "lucide-react";
 /* HEADER SECTION */
 const HeaderSection = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-5 md:mb-6">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-5 md:my-6">
       <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight">
         Unmissable stylish <br /> escapes this week
       </h2>
@@ -167,7 +167,7 @@ export default function Offerdeals() {
     <section className="w-full">
       <HeaderSection />
       {deals.map((deal) => (
-        <div key={deal.id} className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-10 font-['Montserrat']">
+        <div key={deal.id} className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-5 md:mb-10 font-['Montserrat']">
           <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-[#ececec]">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* LEFT: IMAGE */}
@@ -178,7 +178,7 @@ export default function Offerdeals() {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
 
-                <span className="absolute top-0 left-0  bg-white text-pml-primary px-10 py-1.5 rounded-sm text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+                <span className="absolute top-0 left-0  bg-white text-pml-primary px-5 md:px-10 py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
                   Top Deal of the Day
                 </span>
 
@@ -234,7 +234,7 @@ export default function Offerdeals() {
                 {/* Price Button */}
                 <a
                   href="#"
-                  className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
+                  className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-3 md:px-6 py-2 md:py-3 rounded-xl flex items-center gap-2 hover:bg-[#a01a6e] transition"
                 >
                   {deal.nights} nights from <strong className="text-[14px]">£{deal.price}pp</strong> per person
                   <CircleChevronRight className="inline" />

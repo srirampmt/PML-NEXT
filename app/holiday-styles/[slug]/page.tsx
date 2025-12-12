@@ -7,7 +7,7 @@ import Trustsection from "@/components/Trustsection";
 import TrendingCarousel from "@/components/TrendingCarousel";
 import Tailortripcard from "@/components/Tailortripcard";
 import Experience from "@/components/destinationdetail/Experience";
-import Trendingbanner from "@/components/holidaystyleshome/trendingbanner";
+import Trendingbanner from "@/components/holidaystyledetail/trendingbanner";
 import DestinationDealCarousel from "@/components/destinationdetail/DestinationdealCarousel";
 import Explore from "@/components/destinationdetail/explore";
 import FAQs from "@/components/faqs";

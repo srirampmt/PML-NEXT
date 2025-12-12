@@ -1,7 +1,7 @@
 export default function trendingbanner() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-0 md:my-10">
-      <div className="rounded-2xl overflow-hidden shadow-xl relative">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-0 md:my-10 mb-6 md:mb-0">
+      <div className="rounded-2xl overflow-hidden relative">
         <img
           src="/assets/images/trending-20banner.jpg"
           className="sm:block hidden w-full h-[208px] object-cover"
