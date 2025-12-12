@@ -351,7 +351,7 @@ export function MainNav() {
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Useful Links</p>
                           <div className="flex flex-col gap-1">
                             <Link href="/support/about-us" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">About Us</Link>
-                            <Link href="/support/brochure" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Download our Brochure</Link>
+                            <Link href="/brochure" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Download our Brochure</Link>
                             <Link href="/support/reviews" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Feedback & Reviews</Link>
                             <Link href="/suppliers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Become a PlanMyLuxe Supplier</Link>
                             <Link href="/careers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Interesting in Work for Us</Link>
@@ -361,8 +361,8 @@ export function MainNav() {
                         {/* Image Card - Desktop only */}
                         <div className="hidden xl:flex xl:flex-[0_0_36%] items-center justify-end">
                           <ImageCard
-                            href="/support/brochure"
-                            imageSrc="https://images.unsplash.com/photo-1714836404653-db13d5781e8e?q=80&w=1600&auto=format&fit=crop"
+                            href="/brochure"
+                            imageSrc="/assets/images/menu-image-3.png"
                             text="Download our latest brochure"
                             alt="Download our latest brochure"
                           />

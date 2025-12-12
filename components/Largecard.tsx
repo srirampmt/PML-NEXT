@@ -3,27 +3,27 @@ import { CircleChevronRight } from "lucide-react";
 export default function Largecard() {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 font-['Montserrat']">
-      <div className="bg-white rounded-xl shadow-sm md:shadow-xl overflow-hidden ">
+      <div className="bg-white rounded-xl overflow-hidden group">
         <div className="max-w-[700px] mb-[12px] lg:mb-0">
             <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.2] sm:leading-[1.25] md:leading-[1.3] lg:leading-[60px] tracking-[-0.005em] mb-[12px] sm:mb-[16px] md:mb-[20px] lg:mb-[24px]">
                Check out our featured destination of the week
             </h2>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 border border-[#e0e0e0] rounded-xl overflow-hidden">
           {/* LEFT: IMAGE */}
           <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&q=80"
               alt="Featured Escape"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105 hover:scale-105"
             />
 
-            <span className="absolute top-0 left-0  bg-white text-pml-primary px-2 md:px-6 py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[25px] rounded-tl-[8px]">
+            <span className="pointer-events-none absolute top-0 left-0 bg-white text-pml-primary px-2 md:px-6 py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] rounded-br-[25px] rounded-tl-[8px]">
               Top Deal of the Day
             </span>
 
             {/* Exclusive Tag SVG */}
-            <div className="absolute top-0 right-[-25px]">
+            <div className="pointer-events-none absolute top-0 right-[-25px]">
               <svg
                 width="130"
                 height="65"

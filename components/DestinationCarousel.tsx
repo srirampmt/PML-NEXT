@@ -81,18 +81,28 @@ const DestinationCard = ({ destination }: { destination: any }) => {
     <div className="w-[210px] snap-start">
       <a
         href="#"
-        className="block rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300"
+        className="block rounded-xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-[2px] group"
       >
         {/* IMAGE */}
-        <div className="w-full h-80 overflow-hidden">
+        <div className="w-full h-80 overflow-hidden relative">
           <img
             src={destination.image}
             alt={destination.location}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 group-hover:scale-105 will-change-transform"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src =
                 "https://placehold.co/600x400/cccccc/666666?text=Image+Unavailable";
+            }}
+          />
+          {/* Overlay layer */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(var(--bg-brand-tint, #FFF7FC), var(--bg-brand-tint, #FFF7FC)), #0000001A",
+              mixBlendMode: "normal",
+              opacity: 0.1,
             }}
           />
         </div>

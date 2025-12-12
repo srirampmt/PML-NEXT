@@ -32,7 +32,7 @@ export function Broucher() {
               </p>
 
               {/* Download Button */}
-              <button className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] sm:py-[12px] md:py-[14px] lg:py-[16px] border-[2px] border-pml-primary rounded-[10px] bg-transparent hover:bg-pml-primary group transition-all duration-300">
+              <button onClick={() => window.location.href = "/brochure"} className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] sm:py-[12px] md:py-[14px] lg:py-[16px] border-[2px] border-pml-primary rounded-[10px] bg-transparent hover:bg-pml-primary group transition-all duration-300">
                 <span className="font-['Montserrat'] text-pml-primary text-[12px] sm:text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300">
                   Download Now
                 </span>

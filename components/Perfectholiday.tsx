@@ -115,13 +115,13 @@ export function Perfectholiday({ title }: { title: string }) {
               >
                 <Link
                   href={card.href}
-                  className="block group"
+                  className="block group transform hover:-translate-y-[2px] transition-transform duration-300"
                 >
                   <div className="relative overflow-hidden aspect-[3/4] mb-3">
                     <img
                       src={card.image}
                       alt={card.title}
-                      className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-[12px] sm:rounded-t-[14px] md:rounded-t-[16px]"
+                      className="w-full h-[300px] object-cover transition-transform duration-500 hover:scale-110 group-hover:scale-110 rounded-t-[12px] sm:rounded-t-[14px] md:rounded-t-[16px]"
                     />
                   </div>
                   <div>

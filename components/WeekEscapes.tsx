@@ -34,22 +34,22 @@ const HeaderSection = () => {
 const FeaturedCard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 mb-10 font-['Montserrat']">
-      <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-[#ececec]">
+      <div className="bg-white rounded-xl overflow-hidden border border-[#ececec] group">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* LEFT: IMAGE */}
           <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">
             <img
               src="/assets/images/hotel-3.jpg"
               alt="Featured Escape"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105 group-hover:scale-105 will-change-transform"
             />
 
-            <span className="absolute top-0 left-0  bg-white text-pml-primary px-5 md:px-10 py-1 md:py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+            <span className="absolute top-0 left-0  bg-white text-pml-primary px-5 md:px-10 py-1 md:py-1.5 rounded-sm text-[12px] md:text-[14px] font-semibold uppercase max-w-[70%] rounded-br-[45px] rounded-tl-[9px] pointer-events-none">
               Top Deal of the Day
             </span>
 
             {/* Exclusive Tag SVG */}
-            <div className="absolute top-0 right-[-25px]">
+            <div className="absolute top-0 right-[-25px] pointer-events-none">
               <svg
                 width="130"
                 height="65"
@@ -169,22 +169,22 @@ const TrendingCarousel = () => {
           {deals.map((deal, idx) => (
             <CarouselItem key={idx} className="basis-auto">
                 <div className="flex-[0_0_auto] w-[300px] md:w-[360px] h-[436px] font-['Montserrat']">
-                  <div className="bg-white rounded-xl overflow-hidden shadow-md transition-all duration-300 ease-in-out flex flex-col h-full border border-[#f0f0f0] hover:shadow-xl hover:border-[#e0e0e0]">
+                  <div className="bg-white rounded-xl overflow-hidden flex flex-col h-full border border-[#e0e0e0] group">
                     {/* Image Container */}
                     <div className="relative w-full overflow-hidden bg-[#f5f5f5] h-[225px]">
                       <img
                         src={deal.image}
                         alt={deal.title}
-                        className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+                        className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105 group-hover:scale-105 will-change-transform"
                       />
             
                       {/* Location Badge */}
-                      <span className="absolute top-0 left-0 bg-white text-[#CB2187] px-3.5 py-1.5 rounded-sm text-[11px] font-bold uppercase max-w-[70%] leading-[1.2] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px]">
+                      <span className="absolute top-0 left-0 bg-white text-[#CB2187] px-3.5 py-1.5 rounded-sm text-[11px] font-bold uppercase max-w-[70%] leading-[1.2] shadow-[0_2px_8px_rgba(0,0,0,0.15)] rounded-br-[45px] rounded-tl-[9px] pointer-events-none">
                         {deal.badge}
                       </span>
             
                       {/* Exclusive Tag SVG */}
-                      <div className="absolute top-0 right-[-25px]">
+                      <div className="absolute top-0 right-[-25px] pointer-events-none">
                         <svg
                           width="130"
                           height="65"
