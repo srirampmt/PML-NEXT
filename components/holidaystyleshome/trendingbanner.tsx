@@ -1,7 +1,7 @@
 export default function trendingbanner() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 my-0 md:my-10">
-      <div className="rounded-2xl overflow-hidden shadow-xl relative">
+    <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-0 py-0 md:py-10 mb-0 font-['Montserrat']">
+      <div className="rounded-[8px] overflow-hidden shadow-xl relative">
         <img
           src="/assets/images/trending-20banner.jpg"
           className="sm:block hidden w-full h-[208px] object-cover"
@@ -9,7 +9,7 @@ export default function trendingbanner() {
 
         <div className="w-full h-[160px] md:h-[220px] object-cover bg-[#92D8CC] sm:hidden"></div>
 
-        <div className="absolute inset-0 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-3 sm:gap-5 px-6 md:px-12">
+        <div className="absolute inset-0 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-3 sm:gap-5 px-3 md:px-12">
           <div className="flex flex-row items-center gap-5">
             <svg
               width="99"
@@ -24,17 +24,13 @@ export default function trendingbanner() {
               />
             </svg>
             <div className="flex flex-col justify-center items-start">
-              <div className="text-white text-[12px] md:text-[16px] font-semibold tracking-widest">
+              <div className="text-white text-[12px] md:text-[14px] font-medium leading-[140%] tracking-[0.01em]">
                 DISCOVER EXCLUSIVES
               </div>
-              <div className="text-white text-[18px] md:text-[32px] font-bold mt-1">
+              <div className="text-white text-[16px] md:text-[24px] leading-[140%] font-bold">
                 TRENDING TOP 20
               </div>
-
-              <a
-                href="#"
-                className="mt-4 bg-[#CB2187] text-white px-3 md:px-6 py-2 rounded-xl text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center"
-              >
+              <a href="#" className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
                 Find Your Perfect Deal
               </a>
             </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 interface ExploreItem {
   tagline: string;
   title: string;
@@ -35,9 +37,14 @@ const exploreItems: ExploreItem[] = [
 ];
 
 export default function Explore() {
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+
+  const toggleExpanded = (idx: number) => {
+    setExpanded((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-10 lg:py-10">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-[60px] lg:py-[80px]">
         <div className="w-full max-w-[1280px] mx-auto space-y-8 md:space-y-20 lg:space-y-24">
           {exploreItems.map((item, index) => {
             const isImageRight = index % 2 === 0; // First item (index 0) has image on right, alternates after
@@ -68,22 +75,32 @@ export default function Explore() {
                 </div>
 
                 {/* Text Column - 2 parts */}
-                <div className={`lg:col-span-2 ${isImageRight ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div className="space-y-4">
+                <div className={`lg:col-span-2 ${isImageRight ? 'lg:order-1' : 'lg:order-2'} `}>
+                  <div className="max-w-[843px]">
                     {/* Tagline */}
-                    <p className="text-[#888888] text-[12px] md:text-[13px] font-normal tracking-wide uppercase">
+                    <p className="text-[#7C7C7C] text-[16px] font-semibold leading-[24px] tracking-wide">
                       {item.tagline}
                     </p>
 
                     {/* Title */}
-                    <h2 className="text-[#5A5A5A] text-[28px] md:text-[48px] lg:text-[48px] font-semibold max-w-[625px]">
+                    <h2 className="text-[#7C7C7C] text-[28px] md:text-[48px] lg:text-[48px] font-semibold leading-[36px] md:leading-[60px] tracking-[0.05em] max-w-[626px]">
                       {item.title}
                     </h2>
 
                     {/* Description */}
-                    <p className="text-[#6B6B6B] text-[13px] md:text-[14px] leading-relaxed">
+                    <p
+                      className={`text-[#7C7C7C] text-[16px] md:text-[18px] leading-[28px] font-normal ${expanded[index] ? "" : "line-clamp-4 md:line-clamp-none"}`}
+                    >
                       {item.description}
                     </p>
+
+                    {/* Read More / Less - Mobile only */}
+                    <button
+                      className="md:hidden text-pml-primary text-[14px] font-semibold underline hover:text-[#a01a6e] transition-colors mt-2"
+                      onClick={() => toggleExpanded(index)}
+                    >
+                      {expanded[index] ? "Read Less" : "Read More"}
+                    </button>
                   </div>
                 </div>
               </div>

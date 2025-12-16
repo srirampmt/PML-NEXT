@@ -126,12 +126,12 @@ export function Features() {
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[28px] md:py-[28px] lg:py-[28px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Section Title */}
-          <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-semibold mb-[24px] md:mb-[32px] lg:mb-[40px]">
+          <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-semibold mb-[14px] md:mb-[16px] lg:mb-[24px]">
             Sign up for exclusive savings...
           </h2>
 
           {/* Features Grid - Desktop (lg and above) */}
-          <div className="hidden lg:grid lg:grid-cols-5 gap-[32px] mb-[48px]">
+          <div className="hidden lg:grid lg:grid-cols-5 gap-[14px] mb-[20px]">
             {features.map((feature, index) => (
               <div
                 key={index}
@@ -146,7 +146,7 @@ export function Features() {
           </div>
 
           {/* Features Carousel - Mobile and Tablet (below lg) */}
-          <div className="lg:hidden mb-[32px] md:mb-[40px]">
+          <div className="lg:hidden mb-[14px] md:mb-[20px]">
             <Carousel
               opts={{
                 align: "start",
@@ -175,7 +175,7 @@ export function Features() {
           </div>
 
           {/* CTA Section */}
-          <div className="flex flex-row items-center justify-end gap-[12px] sm:gap-[16px] md:gap-[20px] lg:gap-[24px]">
+          <div className="flex flex-row items-center justify-end gap-[16px] sm:gap-[16px] md:gap-[32px] lg:gap-[32px]">
             <Link
               href="/about"
               className="font-['Montserrat'] text-[#666666] text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-normal underline hover:text-[#4c4c4c] transition-colors whitespace-nowrap"
@@ -184,7 +184,7 @@ export function Features() {
             </Link>
             <Link
               href="/signup"
-              className="font-['Montserrat'] bg-[#4c4c4c] text-white text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-medium px-[16px] sm:px-[20px] md:px-[26px] lg:px-[32px] py-[8px] sm:py-[10px] md:py-[12px] lg:py-[14px] rounded-full hover:bg-[#333333] transition-colors whitespace-nowrap"
+              className="font-['Montserrat'] bg-[#666666] text-white text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-medium px-[16px] sm:px-[20px] md:px-[26px] lg:px-[32px] py-[8px] sm:py-[10px] md:py-[12px] lg:py-[12px] rounded-[8px] hover:bg-[#333333] transition-colors whitespace-nowrap"
             >
               Signup & Save
             </Link>

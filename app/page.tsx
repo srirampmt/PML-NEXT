@@ -17,17 +17,17 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
         <Banner title="LUXURY FOR LESS" description="Unforgettable designer holidays crafted for every budget"/>
-        <Features />
-        <Handpickedescapes />
-        <WeekEscapes />
+        <Features/>
+        <Handpickedescapes/>
+        <WeekEscapes/>
         <DealCollections title="Explore our deal collections"/>
         <DestinationCarousel title="Destinations designed for your escape" description="We focus on stunning destinations that deliver exceptional style at prices you will love. Explore our curated collection and enjoy luxury escapes designed to fit every budget."/>
-        <Partners />
+        <Partners/>
         <Perfectholiday title="Find your perfect holiday style"/>
-        <Broucher />
-        <WhybookwithPml />
-        <Signup />
-        <Trustsection />
+        <Broucher/>
+        <WhybookwithPml/>
+        <Signup/>
+        <Trustsection/>
         {/* <Destination /> */}
         {/* <OfferByType /> */}
         {/* <OfferPageActiveDesktop /> */}

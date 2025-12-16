@@ -207,12 +207,12 @@ const partners: Partner[] = [
 
 export function Partners() {
   return (
-    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#fdf4f2] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[50px] sm:py-[60px] md:py-[70px] lg:py-[90px]">
+    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#FFF7FC] font-['Montserrat']">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[50px] sm:py-[60px] md:py-[70px] lg:py-[80px]">
         <div className="w-full max-w-[1280px] mx-auto">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-[10px] md:gap-[16px] lg:gap-[50px] mb-[26px] md:mb-[40px] lg:mb-[40px]">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-[10px] md:gap-[16px] lg:gap-[50px] mb-[18px] md:mb-[24px] lg:mb-[24px]">
             <div className="flex-shrink-0">
-              <h2 className="font-['Montserrat'] text-[#7c7c7c] text-[24px] md:text-[32px] lg:text-[48px] font-semibold leading-[-0.005em] tracking-[-0.01em]">
+              <h2 className="font-['Montserrat'] text-[#7c7c7c] text-[24px] md:text-[32px] lg:text-[48px] font-semibold leading-[30px] md:leading-[60px] tracking-[-0.05em]">
                 Partnering the Worlds
                 <br />
                 Best Brands
@@ -225,7 +225,7 @@ export function Partners() {
             </div>
           </div>
           <Carousel opts={{ align: "start", loop: false, }} className="w-full" >
-            <CarouselContent className="-ml-[30px] sm:-ml-[40px] md:-ml-[50px] lg:-ml-[60px] gap-[10px] md:gap-[16px] lg:gap-[20px]">
+            <CarouselContent className="-ml-[30px] sm:-ml-[40px] md:-ml-[50px] lg:-ml-[60px] gap-[10px] md:gap-[16px] lg:gap-[20px] pt-[10px]">
               {partners.map((partner) => (
                 <CarouselItem key={partner.id} className="pl-[30px] sm:pl-[40px] md:pl-[50px] lg:pl-[60px] basis-auto" >
                   <div className="flex items-center justify-center h-[55px] sm:h-[60px] md:h-[65px] lg:h-[70px]">

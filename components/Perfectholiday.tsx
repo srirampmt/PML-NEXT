@@ -79,34 +79,29 @@ const holidayStyles: HolidayCard[] = [
 export function Perfectholiday({ title }: { title: string }) {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-20">
         <div className="w-full max-w-[1280px] mx-auto">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-8 mb-8 md:mb-10">
-          <div className="max-w-[600px]">
-            <h2 className="font-['Montserrat'] text-[24px] md:text-[36px] xl:text-[46px] font-semibold text-[#4c4c4c] leading-tight mb-4">
-              {title}
-            </h2>
-            <p className="font-['Montserrat'] text-[#4C4C4C] text-base text-sm md:text-lg leading-relaxed">
-              Whether you dream of serene beaches lively resorts or romantic retreats our holiday styles bring you curated escapes that elevate every moment.
-            </p>
-          </div>
-          <Link 
-            href="/categories" 
-            className="font-['Montserrat'] text-[#7c7c7c] text-[12px] font-normal underline hover:text-pml-primary/80 transition-colors whitespace-nowrap self-start md:self-end"
+        <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight">
+          Unmissable stylish <br /> escapes this week
+        </h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end">
+          <p className="text-[#4c4c4c] font-['Montserrat'] mt-2 max-w-xl text-[14px] md:text-[16px] lg:text-[16px] font-normal line-clamp-2 md:line-clamp-none lg:line-clamp-none ">
+            Step into this weeks collection of stylish escapes where beach bliss
+            meets a sensible service and added luxuries come together to elevate
+            your getaway to new heights.
+          </p>
+
+          <a
+            href="#"
+            className="font-['Montserrat'] text-[12px] text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
           >
             view all PlanMyLuxe exclusives
-          </Link>
+          </a>
         </div>
 
         {/* Cards Carousel */}
-        <Carousel
-          opts={{
-            align: "start",
-            loop: false,
-          }}
-          className="w-full"
-        >
+        <Carousel opts={{ align: "start", loop: false, }} className="w-full mt-[20px] md:mt-[40px]" >
           <CarouselContent className="-ml-4">
             {holidayStyles.map((card) => (
               <CarouselItem 
@@ -121,7 +116,7 @@ export function Perfectholiday({ title }: { title: string }) {
                     <img
                       src={card.image}
                       alt={card.title}
-                      className="w-full h-[300px] object-cover transition-transform duration-500 hover:scale-110 group-hover:scale-110 rounded-t-[12px] sm:rounded-t-[14px] md:rounded-t-[16px]"
+                      className="w-full h-[300px] object-cover transition-transform duration-500 hover:scale-110 group-hover:scale-110 rounded-t-[8px]"
                     />
                   </div>
                   <div>

@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export function Broucher() {
   return (
-    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[10px] sm:py-[10px] md:py-[15px] lg:py-[20px]">
+    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat'] bg-[#FFF7FC]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[16px] sm:py-[18px] md:py-[22px] lg:py-[32px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-[24px] sm:gap-[30px] md:gap-[40px] lg:gap-[60px] xl:gap-[80px]">
             {/* Brochure Image */}
@@ -27,13 +27,13 @@ export function Broucher() {
                 Discover Luxury Holidays & Free Extras – All in One<br className="hidden lg:block" /> Download
               </h2>
               {/* Description */}
-              <p className="font-['Montserrat'] text-[#555555] text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-normal leading-[1.6] sm:leading-[1.65] md:leading-[1.7] mb-[20px] sm:mb-[24px] md:mb-[28px] lg:mb-[32px] xl:mb-[36px] max-w-[500px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[700px] mx-auto md:mx-0">
+              <p className="font-['Montserrat'] text-[#555555] text-[13px] sm:text-[14px] md:text-[15px] lg:text-[16px] font-normal leading-[1.6] sm:leading-[1.65] md:leading-[1.7] mb-[20px] sm:mb-[24px] md:mb-[28px] lg:mb-[32px] xl:mb-[36px] max-w-[500px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[700px] mx-auto md:mx-0 text-justify">
                   Download our latest brochure to explore a handpicked collection of exclusive destinations at unbeatable prices. From sun-soaked escapes to cultural gems, you&apos;ll also find a selection of amazing FREE added extras waiting just for you!
               </p>
 
               {/* Download Button */}
-              <button onClick={() => window.location.href = "/brochure"} className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] sm:py-[12px] md:py-[14px] lg:py-[16px] border-[2px] border-pml-primary rounded-[10px] bg-transparent hover:bg-pml-primary group transition-all duration-300">
-                <span className="font-['Montserrat'] text-pml-primary text-[12px] sm:text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300">
+              <button onClick={() => window.location.href = "/brochure"} className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] md:py-[12px] border-[1px] border-pml-primary rounded-[10px] bg-[#EFEFEF] hover:bg-pml-primary group transition-all duration-300">
+                <span className="font-['Montserrat'] text-pml-primary text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300 leading-[22px]">
                   Download Now
                 </span>
                 <svg 
