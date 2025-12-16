@@ -6,8 +6,8 @@ interface FlightDetails {
   arrivalCode: string;
   departureDate: string;
   departureTime: string;
+  arrivalDate: string;
   arrivalTime: string;
-  arrivalCode: string; // Ensure this is present in the interface
 }
 
 interface HolidaySummaryProps {

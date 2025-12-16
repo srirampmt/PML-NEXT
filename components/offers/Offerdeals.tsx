@@ -185,8 +185,8 @@ export default function Offerdeals() {
                 view all PlanMyLuxe exclusives
               </a>
             </div>
-            {deals.map((deal) => (
-              <div className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
+            {deals.map((deal, idx) => (
+              <div key={idx} className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* LEFT: IMAGE */}
                   <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">

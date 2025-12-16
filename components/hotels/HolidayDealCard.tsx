@@ -96,9 +96,9 @@ export default function HolidayDealCard({
         <p className="text-sm sm:text-base leading-relaxed">{aboutDeal}</p>
       </div>
 
-      {/* --- What's Included Section --- */}
+      {/* --- What\'s Included Section --- */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-3">What's Included</h3>
+        <h3 className="text-lg font-semibold mb-3">What&apos;s Included</h3>
         <ul className="space-y-2 text-sm  ">
           {inclusions.map((item, index) => (
             <li key={index} className="flex items-center">
