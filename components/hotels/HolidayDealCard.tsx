@@ -39,8 +39,8 @@ const StarRating = ({ rating = 5 }: { rating: number }) => {
     .map((_, i) => (
       <span key={i} className={`text-xl ${i < rating ? "text-[#595858]" : "text-gray-500"}`} >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clip-path="url(#clip0_1_3173)">
-          <path d="M16 6.18179L10.1863 5.79957L7.99681 0.299072L5.80734 5.79957L0 6.18179L4.45419 9.96385L2.99256 15.701L7.99681 12.5379L13.0011 15.701L11.5395 9.96385L16 6.18179Z" fill="#595858"/>
+          <g clipPath="url(#clip0_1_3173)">
+            <path d="M16 6.18179L10.1863 5.79957L7.99681 0.299072L5.80734 5.79957L0 6.18179L4.45419 9.96385L2.99256 15.701L7.99681 12.5379L13.0011 15.701L11.5395 9.96385L16 6.18179Z" fill="#595858"/>
           </g>
           <defs>
             <clipPath id="clip0_1_3173">

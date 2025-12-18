@@ -49,7 +49,7 @@ const Footer = () => {
                 CONTACT
               </h3>
               <p className="text-[16px] font-light tracking-[0.04em] leading-relaxed mb-3 whitespace-nowrap">
-                PlanMyLuxe is a trading name of Plan My Tour Ltd.
+                PlanMyLuxe is a trading name <br/> of Plan My Tour Ltd.
               </p>
               <p className="text-[16px] font-light tracking-[0.04em] leading-relaxed mb-4">
                 314 Midsummer Boulevard,<br />
