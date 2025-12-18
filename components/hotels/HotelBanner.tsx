@@ -155,7 +155,7 @@ export default function HotelBanner({
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
           side="bottom"
-          className="w-full h-screen md:h-auto md:max-h-[100vh] overflow-y-auto bg-white"
+          className="w-full h-screen md:h-auto md:max-h-[100vh] overflow-y-auto bg-white z-[1001]"
         >
           <SheetHeader className="sticky -top-6 bg-white z-10 py-5 px-[20px] md:px-[128px] border-b">
             <SheetTitle className="flex items-center justify-between text-lg md:text-xl font-semibold">

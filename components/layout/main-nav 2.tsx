@@ -120,7 +120,7 @@ export function MainNav() {
                           <span className="lg:w-[114px] lg:h-6 font-['Montserrat'] font-medium font-weight-600 text-base leading-6 text-[#4C4C4C] flex-none">Deals & Offers</span>
                         </div>
                         <span className={`w-4 h-4 relative flex-none origin-center transform-gpu transition-transform duration-300 ease-in-out ${openDropdown === 'deals' ? 'rotate-180' : ''}`} aria-hidden="true">
-                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clip-path:polygon(50%_100%,0_0,100%_0)]"></span>
+                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clipPath:polygon(50%_100%,0_0,100%_0)]"></span>
                         </span>
                       </div>
                     </button>
@@ -189,7 +189,7 @@ export function MainNav() {
                           className={`w-4 h-4 relative flex-none origin-center transform-gpu transition-transform duration-300 ease-in-out ${openDropdown === 'holiday' ? 'rotate-180' : ''}`}
                           aria-hidden="true"
                         >
-                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clip-path:polygon(50%_100%,0_0,100%_0)]"></span>
+                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clipPath:polygon(50%_100%,0_0,100%_0)]"></span>
                         </span>
                       </div>
                     </button>
@@ -254,7 +254,7 @@ export function MainNav() {
                           className={`w-4 h-4 relative flex-none origin-center transform-gpu transition-transform duration-300 ease-in-out ${openDropdown === 'destinations' ? 'rotate-180' : ''}`}
                           aria-hidden="true"
                         >
-                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clip-path:polygon(50%_100%,0_0,100%_0)]"></span>
+                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clipPath:polygon(50%_100%,0_0,100%_0)]"></span>
                         </span>
                       </div>
                     </button>
@@ -348,7 +348,7 @@ export function MainNav() {
                           className={`w-4 h-4 relative flex-none origin-center transform-gpu transition-transform duration-300 ease-in-out ${openDropdown === 'support' ? 'rotate-180' : ''}`}
                           aria-hidden="true"
                         >
-                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clip-path:polygon(50%_100%,0_0,100%_0)]"></span>
+                          <span className="absolute left-[18%] right-[18%] top-[29.38%] bottom-[29.38%] bg-[#595858] [clipPath:polygon(50%_100%,0_0,100%_0)]"></span>
                         </span>
                       </div>
                     </button>
