@@ -293,14 +293,11 @@ is approximately 20 minutes away.
           finePrint={finePrintData}
         />
 
-        <div
-          className="sticky left-0 bottom-0 px-5 w-full bg-white justify-between z-50 
-                    md:hidden md:inset-auto md:px-0 md:w-auto md:bg-transparent md:z-auto flex items-center gap-4"
-        >
+        <div className="fixed inset-x-0 bottom-0 px-5 py-2 w-full bg-white justify-between z-50 md:hidden flex items-center gap-4">
           <div className="text-[#4c4c4c] text-[12px] md:text-[13px]">
             <div className="mb-1">Price Starting From</div>
             <div className="text-[#CB2187] text-[24px] md:text-[28px] font-bold">
-              499 <span className="text-[#4c4c4c] text-[12px]">pp</span>
+              <span className="text-[#4c4c4c] text-[12px]">£</span> 499 <span className="text-[#4c4c4c] text-[12px]">pp</span>
             </div>
           </div>
 

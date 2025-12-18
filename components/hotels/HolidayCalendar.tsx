@@ -384,12 +384,12 @@ export default function HolidayCalendar({
                 {day.dayOfMonth && (
                   <>
                     {/* Day number */}
-                    <span className="text-[14px] font-normal leading-[140%]">
+                    <span className="text-[12px] md:text-[14px] font-normal leading-[140%]">
                       {day.dayOfMonth}
                     </span>
                     {/* Price */}
                     <span
-                      className={`text-[14px] font-medium leading-[140%] ${
+                      className={`text-[10px] md:text-[14px] font-semibold md:font-medium leading-[140%] ${
                         isSelected
                           ? "text-white"
                           : disabled
@@ -420,19 +420,23 @@ export default function HolidayCalendar({
       </div>
 
       {/* TRIP SUMMARY (EXACT STYLING MATCH) */}
-      <div className="mt-6 flex justify-center items-center">
-        <span className="w-8 h-8 mr-2 flex justify-center items-center rounded-full bg-[#393939]">
-          <PlaneTakeoff className="w-5 h-5 text-white" />
-        </span>
-        <span className="text-[16px] text-[#393939] leading-[24px] font-normal whitespace-nowrap">
-          Your trip
-        </span>
-        <span className="text-[18px] text-[#393939] leading-[24px] font-medium ml-2 whitespace-nowrap">
-          {formatDate(selectedDate)} – {formatDate(returnDate)}
-        </span>
-        <span className="text-[18px] text-[#393939] leading-[24px] ml-2 font-normal">
-          ({nights} nights)
-        </span>
+      <div className="mt-6 flex flex-col items-center sm:flex-row sm:justify-center sm:text-nowrap">
+        <div className="flex items-center">
+          <span className="w-8 h-8 mr-2 flex justify-center items-center rounded-full bg-[#393939]">
+            <PlaneTakeoff className="w-5 h-5 text-white" />
+          </span>
+          <span className="text-[12px] md:text-[16px] text-[#393939] leading-[24px] font-normal whitespace-nowrap">
+            Your trip
+          </span>
+        </div>
+        <div className="flex items-center mt-2 sm:mt-0 sm:ml-2">
+          <span className="text-[14px] md:text-[18px] text-[#393939] leading-[24px] font-medium whitespace-nowrap">
+            {formatDate(selectedDate)} – {formatDate(returnDate)}
+          </span>
+          <span className="text-[12px] md:text-[18px] text-[#393939] leading-[24px] ml-2 font-normal">
+            ({nights} nights)
+          </span>
+        </div>
       </div>
     </div>
   );

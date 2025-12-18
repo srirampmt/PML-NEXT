@@ -85,7 +85,7 @@ export default function HotelBanner({
                   <div className="scale-75 top-0 -left-5 md:scale-100 absolute md:top-3 md:left-3 z-10 bg-[#4c4c4c] text-white text-[14px] px-[12px] py-[6px] rounded-md shadow-md border border-white leading-[140%] font-normal">
                     <div className="flex gap-2">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_1_3128)">
+                        <g clipPath="url(#clip0_1_3128)">
                           <path d="M12.3887 8.38574H14.2635V12.875H12.3887V8.38574Z" fill="white"/>
                           <path d="M8.83789 8.38574H10.7129V12.875H8.83789V8.38574Z" fill="white"/>
                           <path d="M5.28711 8.38574H7.16211V12.875H5.28711V8.38574Z" fill="white"/>
