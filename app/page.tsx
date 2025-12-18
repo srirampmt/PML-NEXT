@@ -28,9 +28,6 @@ export default function Home() {
         <WhybookwithPml/>
         <Signup/>
         <Trustsection/>
-        {/* <Destination /> */}
-        {/* <OfferByType /> */}
-        {/* <OfferPageActiveDesktop /> */}
       </main>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   MessageSquare,
   Send,
   Dot,
+  ChevronDown,
 } from "lucide-react";
 
 // --- INTERFACES ---
@@ -36,11 +37,17 @@ const StarRating = ({ rating = 5 }: { rating: number }) => {
   const stars = Array(5)
     .fill(null)
     .map((_, i) => (
-      <span
-        key={i}
-        className={`text-xl ${i < rating ? "text-[#CB2187]" : "text-gray-500"}`}
-      >
-        ★
+      <span key={i} className={`text-xl ${i < rating ? "text-[#595858]" : "text-gray-500"}`} >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_1_3173)">
+          <path d="M16 6.18179L10.1863 5.79957L7.99681 0.299072L5.80734 5.79957L0 6.18179L4.45419 9.96385L2.99256 15.701L7.99681 12.5379L13.0011 15.701L11.5395 9.96385L16 6.18179Z" fill="#595858"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_1_3173">
+              <rect width="16" height="16" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
       </span>
     ));
   return <div className="flex space-x-0.5">{stars}</div>;
@@ -61,14 +68,16 @@ export default function HolidayDealCard({
   ctaText = "Read more",
 }: HolidayDealCardProps) {
   return (
-    <div className="w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto rounded-none text-[#595858]">
+    <div className="w-full md:max-w-4xl lg:max-w-4xl mx-auto rounded-none text-[#595858] font-['Montserrat']">
       {/* --- Top Badges & Header --- */}
       <div className="flex flex-wrap gap-2 mb-4">
         {badges.map((badge, index) => (
           <div
             key={index}
-            className={` text-xs px-3 py-2  flex items-center gap-1 ${
-              index === 0 ? "bg-[#CB2187] text-white" : "bg-gray-300"
+            className={` text-[12px] leading-[140%] p-[8px]  flex items-center gap-1 font-semibold ${
+              index === 0
+                ? "bg-[#CB2187] text-white"
+                : "bg-[#E8E5E5] text-[#595858]"
             }`}
           >
             {badge}
@@ -76,50 +85,65 @@ export default function HolidayDealCard({
         ))}
       </div>
 
-      <div className="mb-6">
-        <div className="flex items-center text-sm text-gray-400 mb-1">
-          <MapPin className="w-4 h-4 mr-1 text-[#CB2187]" />
+      <div className="mb-6 max-w-3xl">
+        <div className="flex items-center gap-1 text-[14px] text-[#4C4C4C] leading-[22px] tracking-[0.01em] font-normal mb-1">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 10 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.66668 0C2.09352 0 0 2.09352 0 4.66668C0 5.43914 0.193129 6.20504 0.560273 6.88436L4.41148 13.8496C4.46275 13.9425 4.56045 14 4.66668 14C4.77291 14 4.87061 13.9425 4.92188 13.8496L8.7745 6.88207C9.14022 6.20504 9.33335 5.43911 9.33335 4.66665C9.33335 2.09352 7.23983 0 4.66668 0ZM4.66668 7C3.3801 7 2.33335 5.95325 2.33335 4.66668C2.33335 3.3801 3.3801 2.33335 4.66668 2.33335C5.95325 2.33335 7 3.3801 7 4.66668C7 5.95325 5.95325 7 4.66668 7Z"
+              fill="#595858"
+            />
+          </svg>
+
           {location}
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-semibold mb-1">{hotelName}</h1>
+        <h1 className="text-[16px] md:text-[24px] font-semibold leading-[32px] mb-1">{hotelName}</h1>
         <StarRating rating={rating} />
 
-        <p className="  text-sm mt-3 leading-relaxed">{description}</p>
+        <p className="text-[14px] md:text-[16px] font-medium leading-[24px] mt-2">{description}</p>
       </div>
 
       {/* --- About The Deal Section --- */}
-      <div className="mb-8 ">
-        <h2 className="text-xl sm:text-2xl font-semibold text-[#CB2187] mb-3">
+      <div className="mb-8 max-w-[751px]">
+        <h2 className="text-[16px] sm:text-[20px] font-bold text-pml-primary leading-[30px] ">
           About The Deal
         </h2>
-        <p className="text-sm sm:text-base leading-relaxed">{aboutDeal}</p>
+        <p className="text-[14px] md:text-[16px] leading-[24px] font-normal">{aboutDeal}</p>
       </div>
 
-      {/* --- What\'s Included Section --- */}
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-3">What&apos;s Included</h3>
-        <ul className="space-y-2 text-sm  ">
+      {/* --- What&apos;s Included Section --- */}
+      <div className="mb-8 max-w-[751px]">
+        <h3 className="text-[16px] font-semibold leading-[24px] mb-1">What&apos;s Included</h3>
+        <ul className="space-y-1 text-[14px] md:text-[16px] leading-[140%] font-normal">
           {inclusions.map((item, index) => (
-            <li key={index} className="flex items-center">
-              <Dot size={15} />
+            <li key={index} className="flex items-start">
+              <Dot size={20} />
               {item}
             </li>
           ))}
         </ul>
-        <button className="text-sm text-[#CB2187] font-semibold mt-3 hover:underline">
+        <button className="flex items-center text-[14px] text-[#595858] font-medium leading-[140%] gap-[4px] mt-[4px] underline ">
           {ctaText}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.50002 5.50003C2.50002 5.37216 2.54889 5.24416 2.64651 5.14653C2.84189 4.95116 3.15827 4.95116 3.35352 5.14653L8.00002 9.79303L12.6465 5.14653C12.8419 4.95116 13.1583 4.95116 13.3535 5.14653C13.5488 5.34191 13.5489 5.65828 13.3535 5.85353L8.35352 10.8535C8.15814 11.0489 7.84177 11.0489 7.64652 10.8535L2.64651 5.85353C2.54889 5.75591 2.50002 5.62791 2.50002 5.50003Z" fill="#595858"/>
+          </svg>
         </button>
       </div>
 
       {/* --- Why we love this hotel Section --- */}
-      <div className="mb-10">
-        <h3 className="text-lg text-[#CB2187] font-semibold mb-3">
+      <div className="max-w-3xl pb-[10px]">
+        <h3 className="text-[16px] text-pml-primary leading-[24px] font-semibold mb-[6px]">
           Why we love this hotel
         </h3>
-        <ul className="grid grid-cols-1 gap-y-2 gap-x-6 text-sm  ">
+        <ul className="grid grid-cols-1 gap-y-2 gap-x-6   ">
           {whyWeLoveIt.map((item, index) => (
-            <li key={index} className="flex items-center gap-1">
+            <li key={index} className="flex items-center gap-[4px] text-[16px] leading-[24px]">
               <svg
                 width="16"
                 height="16"
@@ -132,7 +156,6 @@ export default function HolidayDealCard({
                   fill="#595858"
                 />
               </svg>
-
               {item}
             </li>
           ))}
@@ -140,9 +163,9 @@ export default function HolidayDealCard({
       </div>
 
       {/* --- Contact / CTA Footer --- */}
-      <div className="pt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="max-w-[578px] pt-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
         {/* Contact Info (Left Side) */}
-        <div className="w-[80px] h-[80px] overflow-hidden rounded-md">
+        <div className="w-[100px] h-[100px] overflow-hidden rounded-md">
           <img
             src="/assets/images/contact.png"
             alt="Contact Icon"
@@ -151,34 +174,54 @@ export default function HolidayDealCard({
         </div>
         <div className="flex-1 text-sm ">
           {contact.isAvailable24_7 && (
-            <p className=" font-bold mb-2">
+            <p className="text-[#4C4C4C] font-semibold text-[14px] leading-[140%] mb-2">
               Our team are available 24 hours, 7 days
             </p>
           )}
 
           {contact.limitedAvailabilityMessage && (
-            <p className="text-[#595858]  mb-3">
+            <p className="text-[#4C4C4C] font-normal text-[14px] leading-[22px] tracking-[0.01em] mb-3">
               {contact.limitedAvailabilityMessage}
             </p>
           )}
 
-          <div className="flex flex-wrap gap-4 text-xs sm:text-sm ">
+          <div className="flex flex-wrap gap-4">
             {/* Phone CTA */}
-            <a
-              href={`tel:${contact.phoneNumber.replace(/\s/g, "")}`}
-              className="flex items-center font-bold hover:text-[#CB2187] transition-colors"
-            >
-              <Phone className="w-4 h-4 mr-1" />
+            <a href={`tel:${contact.phoneNumber.replace(/\s/g, "")}`} className="flex items-center font-semibold text-[#4C4C4C] leading-[140%] transition-colors gap-1" >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_3247)">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3907 10.9234L11.132 12.1821C11.0975 12.2181 11.0675 12.2391 11.024 12.2631C9.24613 13.2203 5.83448 11.432 4.26667 9.78014C4.25015 9.76215 4.23664 9.74864 4.22016 9.73213C2.56829 8.16432 0.77993 4.75267 1.73713 2.9748C1.76113 2.9313 1.78213 2.90278 1.81815 2.8683L3.07689 1.60805C3.16991 1.51503 3.27343 1.47303 3.40244 1.47303H3.41294C3.54797 1.47453 3.65299 1.52255 3.74451 1.62156L5.36783 3.37391C5.53886 3.55695 5.53285 3.839 5.35582 4.01605L4.30711 5.06477C4.01155 5.36183 3.88252 5.75339 3.94404 6.16749C4.07455 7.03915 4.51265 7.85831 5.2838 8.66999C5.30032 8.6865 5.3138 8.70149 5.33031 8.7165C6.14198 9.48765 6.95964 9.92575 7.83131 10.0563C8.24688 10.1178 8.63847 9.98875 8.93553 9.69168L9.98274 8.64447C10.1598 8.46745 10.4418 8.46143 10.6264 8.63097L12.3787 10.2543C12.4777 10.3458 12.5242 10.4508 12.5272 10.5859C12.5303 10.7208 12.4867 10.8274 12.3907 10.9234ZM12.9398 9.64813L11.1875 8.02481C10.6774 7.5522 9.89122 7.56721 9.39912 8.05932L8.3504 9.10803C8.24089 9.21754 8.10734 9.26108 7.95433 9.23854C7.2552 9.13352 6.58457 8.76747 5.89893 8.11633C5.89291 8.11185 5.88843 8.10583 5.88241 8.09981C5.23278 7.41567 4.8667 6.74354 4.7617 6.04592C4.7392 5.89287 4.7827 5.75935 4.89224 5.64834L5.94095 4.60113C6.43306 4.10902 6.44807 3.32286 5.97396 2.81126L4.35215 1.05891C4.10761 0.796353 3.78804 0.652333 3.42946 0.646317C3.0709 0.640329 2.74682 0.769337 2.49179 1.0244L1.23302 2.28317C1.1415 2.37469 1.07098 2.46922 1.00948 2.58324C0.71693 3.12484 0.599899 3.78647 0.661422 4.54562C0.713922 5.20124 0.896961 5.91838 1.20603 6.67455C1.76264 8.03982 2.67633 9.40808 3.65001 10.3323C3.6575 10.3383 3.66202 10.3428 3.668 10.3488C4.5922 11.3225 5.95895 12.2377 7.32422 12.7943C8.08186 13.1018 8.7975 13.2849 9.45315 13.3389C9.58369 13.3494 9.71119 13.3539 9.83572 13.3539C10.4373 13.3539 10.9669 13.2324 11.4155 12.9908C11.5296 12.9293 11.6256 12.8588 11.7171 12.7673L12.9758 11.507C13.2294 11.2535 13.3599 10.9294 13.3539 10.5708C13.3464 10.2107 13.2039 9.89266 12.9398 9.64813Z" fill="#595858"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_1_3247">
+                    <rect width="14" height="14" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
               {contact.phoneNumber}
             </a>
             {/* Chat CTA */}
-            <button className="flex items-center font-bold hover:text-[#CB2187]  transition-colors">
-              <MessageSquare className="w-4 h-4 mr-1" />
+            <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 15C3.9265 15 3.8525 14.9835 3.783 14.9505C3.6105 14.867 3.5 14.6925 3.5 14.5V12H2C1.173 12 0.5 11.327 0.5 10.5V2.5C0.5 1.673 1.173 1 2 1H14C14.827 1 15.5 1.673 15.5 2.5V10.5C15.5 11.327 14.827 12 14 12H7.9255L4.3125 14.8905C4.222 14.963 4.1115 15 4 15ZM2 2C1.724 2 1.5 2.2245 1.5 2.5V10.5C1.5 10.7755 1.724 11 2 11H4C4.2765 11 4.5 11.2235 4.5 11.5V13.46L7.4375 11.1095C7.5265 11.0385 7.636 11 7.75 11H14C14.276 11 14.5 10.7755 14.5 10.5V2.5C14.5 2.2245 14.276 2 14 2H2Z" fill="#595858"/>
+                <path d="M12 6H4C3.7235 6 3.5 5.776 3.5 5.5C3.5 5.224 3.7235 5 4 5H12C12.2765 5 12.5 5.224 12.5 5.5C12.5 5.776 12.2765 6 12 6Z" fill="#595858"/>
+                <path d="M8 8H4C3.7235 8 3.5 7.776 3.5 7.5C3.5 7.224 3.7235 7 4 7H8C8.2765 7 8.5 7.224 8.5 7.5C8.5 7.776 8.2765 8 8 8Z" fill="#595858"/>
+              </svg>
               chat online
             </button>
             {/* Whatsapp CTA */}
-            <button className="flex items-center font-bold hover:text-[#CB2187]  transition-colors">
-              <Send className="w-4 h-4 mr-1" />
+            <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1_3261)">
+                  <path d="M11.6714 9.53795L11.6654 9.58795C10.1994 8.85728 10.0461 8.75995 9.85676 9.04395C9.72543 9.24062 9.34276 9.68662 9.22743 9.81862C9.11076 9.94862 8.99476 9.95862 8.79676 9.86862C8.59676 9.76862 7.95476 9.55862 7.19476 8.87862C6.60276 8.34862 6.20543 7.69862 6.08809 7.49862C5.89276 7.16128 6.30143 7.11328 6.67343 6.40928C6.74009 6.26928 6.70609 6.15928 6.65676 6.05995C6.60676 5.95995 6.20876 4.97995 6.04209 4.58928C5.88209 4.19995 5.71743 4.24928 5.59409 4.24928C5.21009 4.21595 4.92943 4.22128 4.68209 4.47862C3.60609 5.66128 3.87743 6.88128 4.79809 8.17862C6.60743 10.5466 7.57143 10.9826 9.33409 11.588C9.81009 11.7393 10.2441 11.718 10.5874 11.6686C10.9701 11.608 11.7654 11.188 11.9314 10.718C12.1014 10.248 12.1014 9.85795 12.0514 9.76795C12.0021 9.67795 11.8714 9.62795 11.6714 9.53795Z" fill="#595858"/>
+                  <path d="M13.68 2.29938C8.554 -2.65596 0.0706667 0.938044 0.0673333 7.92871C0.0673333 9.32605 0.433333 10.6887 1.13067 11.892L0 16L4.22333 14.8987C9.49333 17.7454 15.9973 13.9654 16 7.93271C16 5.81538 15.1733 3.82271 13.67 2.32538L13.68 2.29938ZM14.668 7.91071C14.664 12.9994 9.078 16.1774 4.66 13.58L4.42 13.4374L1.92 14.0874L2.59 11.6574L2.43067 11.4074C-0.318667 7.03071 2.84 1.31071 8.048 1.31071C9.81733 1.31071 11.478 2.00071 12.7287 3.25071C13.9787 4.49004 14.668 6.15071 14.668 7.91071Z" fill="#595858"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_1_3261">
+                    <rect width="16" height="16" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
               send a whatsapp
             </button>
           </div>

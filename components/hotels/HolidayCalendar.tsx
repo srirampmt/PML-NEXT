@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Plane } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Plane, PlaneTakeoff } from "lucide-react";
 
 /* ===================== TYPES ===================== */
 
@@ -214,21 +214,21 @@ export default function HolidayCalendar({
 
   // --- JSX RENDERING ---
   return (
-    <div className="w-full max-w-4xl bg-white rounded-lg shadow-xl p-4 sm:p-6">
+    <div className="w-full max-w-4xl bg-white rounded-lg py-4 md:py-6 font-['Montserrat']">
       {/* TITLE */}
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+      <h2 className="text-[24px] leading-[32px] font-semibold mb-6 text-[#4C4C4C]">
         Holiday Dates & Prices
       </h2>
 
       {/* FILTERS (RESPONSIVE GRID) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6 text-[#595858]">
         {/* Departing From */}
-        <div>
-          <label className="text-sm text-gray-500 mb-1 block">
+        <div className="relative w-full">
+          <label className="text-[12px] text-[#595858] mb-1 leading-[18px] block">
             Departing from
           </label>
           <select
-            className="w-full p-2.5 border border-gray-300 rounded-md text-sm appearance-none bg-white focus:border-gray-500"
+            className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedAirport}
             onChange={(e) => setSelectedAirport(e.target.value)}
           >
@@ -236,15 +236,18 @@ export default function HolidayCalendar({
               <option key={a}>{a}</option>
             ))}
           </select>
+          <span className="pointer-events-none absolute inset-y-0 top-6 right-5 flex items-center">
+            <ChevronDown size={18} strokeWidth={1.4} color="#595858" />
+          </span>
         </div>
 
         {/* Board basis */}
-        <div>
-          <label className="text-sm text-gray-500 mb-1 block">
+        <div className="relative w-full">
+          <label className="text-[12px] text-[#595858] mb-1 leading-[18px] block">
             Board basis
           </label>
           <select
-            className="w-full p-2.5 border border-gray-300 rounded-md text-sm appearance-none bg-white focus:border-gray-500"
+            className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedBoardBasis}
             onChange={(e) => setSelectedBoardBasis(e.target.value)}
           >
@@ -252,13 +255,17 @@ export default function HolidayCalendar({
               <option key={b}>{b}</option>
             ))}
           </select>
+
+          <span className="pointer-events-none absolute inset-y-0 top-6 right-5 flex items-center">
+            <ChevronDown size={18} strokeWidth={1.4} color="#595858" />
+          </span>
         </div>
 
         {/* Duration */}
-        <div>
-          <label className="text-sm text-gray-500 mb-1 block">Duration</label>
+        <div className="relative w-full">
+          <label className="text-[12px] text-[#595858] mb-1 leading-[18px] block">Duration</label>
           <select
-            className="w-full p-2.5 border border-gray-300 rounded-md text-sm appearance-none bg-white focus:border-gray-500"
+            className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedDuration}
             onChange={(e) => setSelectedDuration(e.target.value)}
           >
@@ -266,31 +273,35 @@ export default function HolidayCalendar({
               <option key={d}>{d}</option>
             ))}
           </select>
+          <span className="pointer-events-none absolute inset-y-0 top-6 right-5 flex items-center">
+            <ChevronDown size={18} strokeWidth={1.4} color="#595858" />
+          </span>
         </div>
       </div>
 
-
       {/* MONTH NAV & YEAR SELECT */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-center items-center mb-4">
         <button
           onClick={() => handleMonthChange("prev")}
           disabled={isPrevDisabled}
-          className={`p-2 rounded-full transition-colors ${
+          className={`mr-5 text-[#595858]${
             isPrevDisabled
-              ? "text-gray-400 cursor-not-allowed"
+              ? "text-[#595858] cursor-not-allowed"
               : "text-gray-700 hover:bg-gray-100"
           }`}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.5 12.5C9.37212 12.5 9.24412 12.4511 9.1465 12.3535L5.1465 8.3535C4.95113 8.15812 4.95113 7.84175 5.1465 7.6465L9.1465 3.6465C9.34188 3.45113 9.65825 3.45113 9.8535 3.6465C10.0487 3.84188 10.0489 4.15825 9.8535 4.3535L6.207 8L9.8535 11.6465C10.0489 11.8419 10.0489 12.1583 9.8535 12.3535C9.75588 12.4511 9.62788 12.5 9.5 12.5ZM16 8C16 3.58887 12.4111 0 8 0C3.58887 0 0 3.58887 0 8C0 12.4111 3.58887 16 8 16C12.4111 16 16 12.4111 16 8ZM15 8C15 11.8599 11.8599 15 8 15C4.14013 15 1 11.8599 1 8C1 4.14013 4.14013 1 8 1C11.8599 1 15 4.14013 15 8Z" fill="#595858"/>
+          </svg>
         </button>
 
         {/* Month/Year Dropdown */}
         <select
-          className="px-4 py-2 border border-gray-300 rounded-md font-semibold text-gray-800 appearance-none bg-white focus:border-gray-500 text-center"
+          className="px-[24px] py-[10px] border border-[1px] border-[#9F9F9F] rounded-[4px] text-[#595858] appearance-none bg-white focus:border-gray-500 text-center text-[14px]"
           value={`${currentYear}-${currentMonth}`}
           onChange={handleMonthYearSelect}
           // Ensure width is sufficient for long month names
-          style={{ width: "180px" }}
+          style={{ width: "160px" }}
         >
           {yearOptions.flatMap((year) =>
             Array.from({ length: 12 }, (_, monthIndex) => {
@@ -316,16 +327,15 @@ export default function HolidayCalendar({
           )}
         </select>
 
-        <button
-          onClick={() => handleMonthChange("next")}
-          className="p-2 rounded-full text-gray-700 hover:bg-gray-100 transition-colors"
-        >
-          <ChevronRight className="w-5 h-5" />
+        <button onClick={() => handleMonthChange("next")} className="ml-5 text-[#595858]" >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.5 12.5C6.62788 12.5 6.75588 12.4511 6.8535 12.3535L10.8535 8.3535C11.0489 8.15812 11.0489 7.84175 10.8535 7.6465L6.8535 3.6465C6.65812 3.45113 6.34175 3.45113 6.1465 3.6465C5.95125 3.84188 5.95112 4.15825 6.1465 4.3535L9.793 8L6.1465 11.6465C5.95112 11.8419 5.95112 12.1583 6.1465 12.3535C6.24412 12.4511 6.37212 12.5 6.5 12.5ZM0 8C0 3.58887 3.58887 0 8 0C12.4111 0 16 3.58887 16 8C16 12.4111 12.4111 16 8 16C3.58887 16 0 12.4111 0 8ZM1 8C1 11.8599 4.14013 15 8 15C11.8599 15 15 11.8599 15 8C15 4.14013 11.8599 1 8 1C4.14013 1 1 4.14013 1 8Z" fill="#595858"/>
+          </svg>
         </button>
       </div>
 
       {/* WEEKDAYS */}
-      <div className="grid grid-cols-7 text-center text-sm font-medium text-gray-600 mb-1">
+      <div className="grid grid-cols-7 text-center text-[14px] font-normal text-[#595858] leading-[140%] mb-1">
         {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
           <div key={d} className="text-center py-2">
             {d}
@@ -343,7 +353,7 @@ export default function HolidayCalendar({
           const displayPrice = day.price !== null ? `£${day.price}` : "-";
 
           let cls =
-            "h-[70px] w-full rounded-xl flex flex-col justify-center items-center border transition duration-150 ease-in-out cursor-pointer";
+            "h-[50px]  sm:h-[70px] w-full rounded-[8px] flex flex-col justify-center items-center border transition duration-150 ease-in-out cursor-pointer";
 
           if (!hasContent) {
             cls += " border-none bg-white cursor-default";
@@ -354,11 +364,11 @@ export default function HolidayCalendar({
           } else if (isSelected) {
             // Selected style (Pink background, matching image)
             cls +=
-              " bg-[#CB2187] text-white font-bold border-[#CB2187] shadow-lg ring-2 ring-[#CB2187]";
+              " bg-[#CB2187] text-white  border-[#CB2187] shadow-lg ring-2 ring-[#CB2187]";
           } else if (isBest) {
             // Best Price style (Light Green background, matching image)
             cls +=
-              " bg-[#C7F4D3] text-gray-900 border-green-400 font-semibold hover:bg-[#b0e8c1]";
+              " bg-[#A6EDA6] text-[#008000] border-[#008000] hover:bg-[#b0e8c1]";
           } else {
             // Available price style (Default price/background)
             cls += " bg-white text-gray-800 border-gray-200 hover:bg-gray-100";
@@ -374,17 +384,19 @@ export default function HolidayCalendar({
                 {day.dayOfMonth && (
                   <>
                     {/* Day number */}
-                    <span className="text-base sm:text-[15px] font-semibold">
+                    <span className="text-[14px] font-normal leading-[140%]">
                       {day.dayOfMonth}
                     </span>
                     {/* Price */}
                     <span
-                      className={`text-sm sm:text-[13px] ${
+                      className={`text-[14px] font-medium leading-[140%] ${
                         isSelected
                           ? "text-white"
                           : disabled
-                          ? "text-gray-400"
-                          : "text-gray-500"
+                          ? "text-[#595858]"
+                          : isBest
+                          ? "text-[#008000]"
+                          : "text-gray-500 "
                       }`}
                     >
                       {displayPrice}
@@ -398,27 +410,27 @@ export default function HolidayCalendar({
       </div>
 
       {/* LEGEND (FOOTER) */}
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-6 text-sm">
-        <div className="flex items-center">
-          <div className="w-3 h-3 bg-green-400 rounded-md mr-1" />
-          <span className="font-semibold text-gray-700">Best Price</span>
-        </div>
-        <span className="hidden sm:inline text-gray-400">|</span>
-        <span className="text-gray-600 text-center sm:text-left">
+      <div className="flex flex-col sm:flex-row justify-center md:justify-end items-center gap-2 text-[12px] leading-[140%]">
+        <span className="text-[#008000] text-center bg-[#A6EDA6] border border-[#008000] p-[10px] rounded-[8px] font-medium">
+          Best Price
+        </span>
+        <span className="text-[#4C4C4C] bg-[#EDEDED] border border-[#9F9F9F] p-[10px] rounded-[4px] font-regular">
           Per person price based on lowest priced flights and rooms
         </span>
       </div>
 
       {/* TRIP SUMMARY (EXACT STYLING MATCH) */}
-      <div className="mt-6 pt-4 border-t border-gray-200 flex flex-col justify-center items-center text-lg font-semibold">
-        <div className="flex items-center text-base sm:text-lg">
-          <Plane className="w-5 h-5 mr-2 text-gray-600" />
-          <span className="text-gray-900 whitespace-nowrap">Your trip:</span>
-          <span className="ml-2 whitespace-nowrap text-gray-800">
-            {formatDate(selectedDate)} – {formatDate(returnDate)}
-          </span>
-        </div>
-        <span className="text-sm font-normal text-gray-600 sm:mt-1">
+      <div className="mt-6 flex justify-center items-center">
+        <span className="w-8 h-8 mr-2 flex justify-center items-center rounded-full bg-[#393939]">
+          <PlaneTakeoff className="w-5 h-5 text-white" />
+        </span>
+        <span className="text-[16px] text-[#393939] leading-[24px] font-normal whitespace-nowrap">
+          Your trip
+        </span>
+        <span className="text-[18px] text-[#393939] leading-[24px] font-medium ml-2 whitespace-nowrap">
+          {formatDate(selectedDate)} – {formatDate(returnDate)}
+        </span>
+        <span className="text-[18px] text-[#393939] leading-[24px] ml-2 font-normal">
           ({nights} nights)
         </span>
       </div>
