@@ -177,9 +177,7 @@ export default function HotelBanner({
             ))}
           </div>
         </SheetContent>
-      </Sheet>
-
-      
+      </Sheet>     
     </>
   );
 }
