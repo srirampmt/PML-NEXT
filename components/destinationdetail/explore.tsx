@@ -50,10 +50,7 @@ export default function Explore() {
             const isImageRight = index % 2 === 0; // First item (index 0) has image on right, alternates after
             
             return (
-              <div 
-                key={index} 
-                className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 items-center"
-              >
+              <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 items-center">
                 {/* Image Column - 1 part */}
                 <div className={`lg:col-span-1 ${isImageRight ? 'lg:order-2' : 'lg:order-1'}`}>
                   {item.image ? (
@@ -78,7 +75,7 @@ export default function Explore() {
                 <div className={`lg:col-span-2 ${isImageRight ? 'lg:order-1' : 'lg:order-2'} `}>
                   <div className="max-w-[843px]">
                     {/* Tagline */}
-                    <p className="text-[#7C7C7C] text-[16px] font-semibold leading-[24px] tracking-wide">
+                    <p className="text-[#7C7C7C] text-[16px] font-semibold leading-[24px] tracking-wide uppercase">
                       {item.tagline}
                     </p>
 
