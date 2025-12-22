@@ -138,7 +138,7 @@ export default function DestinationDealCarousel({ title, description }: { title:
    ];
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']" >
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* BACKGROUND LAYER */}
           <div className="bg-gradient-to-br from-[#1a9b9e] via-[#2ab5b8] to-[#5bc9cc] w-full py-[36px] md:py-[70px] md:pt-20 md:pb-24 lg:pt-24 lg:pb-[80px] relative z-0">

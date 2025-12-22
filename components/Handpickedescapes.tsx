@@ -138,7 +138,7 @@ const escapeCards: EscapeCard[] = [
 export function Handpickedescapes() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[20px] md:py-[50px] lg:py-[50px]">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[20px] md:py-[50px] lg:py-[50px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Header Section */}
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end mb-[10px] md:mb-[20px] lg:mb-[25px]">

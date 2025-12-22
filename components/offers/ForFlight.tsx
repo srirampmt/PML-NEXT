@@ -130,10 +130,10 @@ export default function ForFlight() {
 
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-20">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-8 md:py-20">
         <div className="w-full max-w-[1280px] mx-auto relative h-[420px] md:h-[560px] lg:h-[664px]">
           {/* Background Image with Overlay */}
-          <div className="absolute inset-0 rounded-[8px] mx-[16px] md:mx-[0px] "> 
+          <div className="absolute inset-0 rounded-[8px] mx-[0px] md:mx-[0px] "> 
             <img
               src="/assets/images/looking-for-flight.png"
               alt="Travel background"

@@ -208,7 +208,7 @@ const partners: Partner[] = [
 export function Partners() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#FFF7FC] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[50px] sm:py-[60px] md:py-[70px] lg:py-[80px]">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[50px] sm:py-[60px] md:py-[70px] lg:py-[80px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-[10px] md:gap-[16px] lg:gap-[50px] mb-[18px] md:mb-[24px] lg:mb-[24px]">
             <div className="flex-shrink-0">

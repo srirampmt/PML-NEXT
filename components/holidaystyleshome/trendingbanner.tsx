@@ -1,6 +1,6 @@
 export default function trendingbanner() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-0 py-0 md:py-10 mb-0 font-['Montserrat']">
+    <div className="max-w-7xl mx-auto px-[16px] sm:px-[16px] md:px-[16px] lg:px-0 py-0 md:py-10 mb-0 font-['Montserrat']">
       <div className="rounded-[8px] overflow-hidden shadow-xl relative">
         <img
           src="/assets/images/trending-20banner.jpg"

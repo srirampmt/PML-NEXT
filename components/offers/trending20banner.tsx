@@ -1,7 +1,7 @@
 export default function trendingbanner() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-0 md:py-20">
+        <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-0 md:py-20">
           <div className="w-full max-w-[1280px] mx-auto">
       <div className="rounded-[8px] overflow-hidden relative">
         <img

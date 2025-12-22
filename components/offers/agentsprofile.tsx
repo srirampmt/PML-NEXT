@@ -78,7 +78,7 @@ const experts: Expert[] = [
 export default function AgentsProfile() {
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 font-['Montserrat']">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-[16px] sm:px-[24px] md:px-[24px] lg:px-[32px]">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row gap-2 md:gap-8 mb-4 md:mb-16">
           <h2 className="text-[18px] md:text-[32px] lg:text-[32px] font-semibold text-[#4c4c4c] leading-tight mb:2 md:mb-4">

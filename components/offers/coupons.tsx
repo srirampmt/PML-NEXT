@@ -45,7 +45,7 @@ const coupons: Coupon[] = [
 export default function Coupons() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-0 md:py-10 ">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-0 md:py-10 ">
         <div className="w-full max-w-[1280px] mx-auto relative">
           {/* Carousel Container */}
           <div className="relative w-full min-h-[400px] md:min-h-[520px] lg:min-h-[520px]">

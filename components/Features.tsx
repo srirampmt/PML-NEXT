@@ -123,7 +123,7 @@ const features: FeatureItem[] = [
 export function Features() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-[#EDEDED] font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[28px] md:py-[28px] lg:py-[28px]">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[28px] md:py-[28px] lg:py-[28px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Section Title */}
           <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-semibold mb-[14px] md:mb-[16px] lg:mb-[24px]">

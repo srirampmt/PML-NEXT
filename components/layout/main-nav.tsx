@@ -99,23 +99,9 @@ export function MainNav() {
     };
   }, []);
 
-  // Handle mouse enter for desktop only
-  const handleMouseEnter = (dropdown: string) => {
-    if (window.innerWidth >= 1280) {
-      setOpenDropdown(dropdown);
-    }
-  };
-
-  // Handle mouse leave for desktop only
-  const handleMouseLeave = () => {
-    if (window.innerWidth >= 1280) {
-      setOpenDropdown(null);
-    }
-  };
-
   return (
     <header className="sticky top-0 left-0 right-0 z-[1000] bg-white shadow-sm">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="py-4 xl:py-6">
             <nav ref={navRef} className="flex justify-between items-center w-full gap-8">
@@ -150,7 +136,7 @@ export function MainNav() {
                 ${mobileMenuOpen ? 'block' : 'hidden xl:flex'}
               `}>
                 <ul className="flex flex-col xl:flex-row xl:items-center gap-1 xl:gap-2 items-center">
-                  <li className="relative group w-full xl:w-auto" onMouseEnter={() => handleMouseEnter('deals')} onMouseLeave={handleMouseLeave}>
+                  <li className="relative group w-full xl:w-auto">
                     <button onClick={() => toggleDropdown('deals')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Deals & Offers</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'deals' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -201,7 +187,7 @@ export function MainNav() {
                     </MegaMenu>
                   </li>
 
-                  <li className="relative group w-full xl:w-auto" onMouseEnter={() => handleMouseEnter('holiday')} onMouseLeave={handleMouseLeave}>
+                  <li className="relative group w-full xl:w-auto">
                     <button onClick={() => toggleDropdown('holiday')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Holiday Styles</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'holiday' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -252,7 +238,7 @@ export function MainNav() {
                     </MegaMenu>
                   </li>
 
-                  <li className="relative group w-full xl:w-auto" onMouseEnter={() => handleMouseEnter('destinations')} onMouseLeave={handleMouseLeave}>
+                  <li className="relative group w-full xl:w-auto">
                     <button onClick={() => toggleDropdown('destinations')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Destinations</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'destinations' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -323,7 +309,7 @@ export function MainNav() {
                     </MegaMenu>
                   </li>
 
-                  <li className="relative group w-full xl:w-auto" onMouseEnter={() => handleMouseEnter('support')} onMouseLeave={handleMouseLeave}>
+                  <li className="relative group w-full xl:w-auto">
                     <button onClick={() => toggleDropdown('support')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Support</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'support' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>

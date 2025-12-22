@@ -7,7 +7,7 @@ export default function Experience() {
 
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white py-8 md:py-16 lg:py-20 font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
           {/* Right Column - Brochure Card (shown first on mobile/tablet) */}

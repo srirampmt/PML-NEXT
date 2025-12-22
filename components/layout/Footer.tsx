@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="bg-[#666666] text-white rounded-t-[16px] overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
+    <footer className="bg-[#666666] text-white overflow-hidden">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto pt-8 pb-4">
           {/* Header Section */}
           <div className="flex flex-wrap items-center gap-8 mb-6">

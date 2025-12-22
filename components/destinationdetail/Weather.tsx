@@ -78,7 +78,7 @@ const weatherMonths: WeatherMonth[] = [
 export default function Weather() {
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 pb-10">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] pb-10">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Title Section */}
           <div className="mb-8 md:mb-10 lg:mb-12 max-w-[843px]">

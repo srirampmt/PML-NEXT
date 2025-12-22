@@ -2,7 +2,7 @@ import { CircleChevronRight } from "lucide-react";
 
 export default function Largecard() {
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 font-['Montserrat']">
+    <div className="max-w-7xl mx-auto px-[16px] sm:px-[24px] md:px-[24px] lg:px-[8px] font-['Montserrat']">
       <div className="bg-white rounded-xl overflow-hidden group">
         <div className="max-w-[700px] mb-[12px] lg:mb-0">
           <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[30px] md:leading-[60px] tracking-[-0.005em] mb-[12px] sm:mb-[16px] md:mb-[20px] lg:mb-[24px] max-w-[626px]">
@@ -12,7 +12,7 @@ export default function Largecard() {
         <div className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* LEFT: IMAGE */}
-            <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">
+            <div className="relative h-[260px] md:h-[320px] overflow-hidden">
               <img
                 src="/assets/images/hotel-3.jpg"
                 alt="Featured Escape"
@@ -97,7 +97,7 @@ export default function Largecard() {
 
               {/* Price Button */}
               <a href="#" className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-[16px] md:px-[32px] py-[4px] md:py-[8px] rounded-[8px] flex items-center hover:bg-[#a01a6e] transition leading-[18px] tracking-[0.02em]" >
-                7 nights from <strong className="text-[14px] ">£1,099</strong> per person
+                7 nights from <strong className="text-[14px] ">&nbsp;£1,099&nbsp;</strong> per person
                 <CircleChevronRight className="ml-[4px] w-[18px] md:w-[24px]" />
               </a>
             </div>

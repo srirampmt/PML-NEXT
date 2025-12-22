@@ -3,7 +3,7 @@
 export function Trustsection() {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#E8E8E8] font-['Montserrat'] h-auto lg:h-[295px]">
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[30px] md:py-[35px] lg:py-[40px] h-full">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[30px] md:py-[35px] lg:py-[40px] h-full">
         <div className="w-full max-w-[1280px] mx-auto h-full flex flex-col justify-between">
           {/* Heading */}
           <h2 className="font-['Montserrat'] text-[#666666] text-[16px] md:text-[24px] lg:text-[24px] font-semibold leading-[1.2] mb-[20px] md:mb-[25px]">
@@ -11,10 +11,10 @@ export function Trustsection() {
           </h2>
 
           {/* Features Carousel - Horizontal Scroll */}
-          <div className="overflow-x-auto overflow-y-hidden scrollbar-hide mb-[20px] md:mb-[25px] -mx-4 md:-mx-10 lg:-mx-0">
-            <div className="flex gap-[30px] lg:gap-[40px] w-max lg:w-full lg:justify-between px-4 md:px-10 lg:px-0">
+          <div className="overflow-x-auto overflow-y-hidden scrollbar-hide mb-[12px] md:mb-[16px] -mx-[16px] sm:-mx-[24px] md:-mx-[32px] lg:-mx-0">
+            <div className="flex w-max lg:w-full lg:justify-between px-[16px] sm:px-[24px] md:px-[32px] lg:px-0">
               {/* Feature 1 - Low Deposits */}
-              <div className="flex flex-col items-center text-center w-[180px] flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-[256px] p-[16px] gap-[5px] flex-shrink-0">
                   <svg
                     width="32"
                     height="32"
@@ -27,13 +27,13 @@ export function Trustsection() {
                       stroke="#666666"
                     />
                   </svg>
-                <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] font-normal leading-[1.5] whitespace-nowrap">
+                <p className="font-['Montserrat'] text-[#666666] text-[14px] font-normal leading-[1.4] whitespace-nowrap w-[220px]">
                   We offer <span className="font-bold">low deposits</span> for as<br />little as £29 per person
                 </p>
               </div>
 
               {/* Feature 2 - Spread the Cost */}
-              <div className="flex flex-col items-center text-center w-[180px] flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-[256px] p-[16px] gap-[5px] flex-shrink-0">
                   <svg
                     width="32"
                     height="32"
@@ -50,13 +50,13 @@ export function Trustsection() {
                       stroke="#666666"
                     />
                   </svg>
-                <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] font-normal leading-[1.5] whitespace-nowrap">
+                <p className="font-['Montserrat'] text-[#666666] text-[14px] font-normal leading-[1.4] whitespace-nowrap w-[220px]">
                   Helpful <span className="font-bold">spread the cost</span><br />payment options
                 </p>
               </div>
 
               {/* Feature 3 - 24/7 Support */}
-              <div className="flex flex-col items-center text-center w-[180px] flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-[256px] p-[16px] gap-[5px] flex-shrink-0">
                   <svg
                     width="29"
                     height="32"
@@ -89,13 +89,13 @@ export function Trustsection() {
                       stroke="#666666"
                     />
                   </svg>
-                <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] font-normal leading-[1.5] whitespace-nowrap">
+                <p className="font-['Montserrat'] text-[#666666] text-[14px] font-normal leading-[1.4] whitespace-nowrap w-[220px]">
                   Our <span className="font-bold">24/7 support service</span> -<br />always here to help you.
                 </p>
               </div>
 
               {/* Feature 4 - Price Match */}
-              <div className="flex flex-col items-center text-center w-[180px] flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-[256px] p-[16px] gap-[5px] flex-shrink-0">
                   <svg
                     width="32"
                     height="32"
@@ -123,13 +123,13 @@ export function Trustsection() {
                       </clipPath>
                     </defs>
                   </svg>
-                <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] font-normal leading-[1.5] whitespace-nowrap">
+                <p className="font-['Montserrat'] text-[#666666] text-[14px] font-normal leading-[1.4] whitespace-nowrap w-[220px]">
                   We&apos;ll <span className="font-bold">price match</span> any product<br />against any other retailer
                 </p>
               </div>
 
               {/* Feature 5 - Fully Bonded */}
-              <div className="flex flex-col items-center text-center w-[180px] flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-[256px] p-[16px] gap-[5px] flex-shrink-0">
                   <svg
                     width="32"
                     height="32"
@@ -142,7 +142,7 @@ export function Trustsection() {
                       stroke="#666666"
                     />
                   </svg>
-                <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] font-normal leading-[1.5] whitespace-nowrap">
+                <p className="font-['Montserrat'] text-[#666666] text-[14px] font-normal leading-[1.4] whitespace-nowrap w-[220px]">
                   Enjoy peace of mind with<br /><span className="font-bold">fully bonded holidays</span>
                 </p>
               </div>

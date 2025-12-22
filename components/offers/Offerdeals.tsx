@@ -165,7 +165,7 @@ export default function Offerdeals() {
 
   return (
       <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-8 md:py-20">
+        <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-8 md:py-20">
           <div className="w-full max-w-[1280px] mx-auto">
             {/* Header Section */}
             <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight">
@@ -189,7 +189,7 @@ export default function Offerdeals() {
               <div key={idx} className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* LEFT: IMAGE */}
-                  <div className="relative h-[260px] md:h-[320px] lg:h-full overflow-hidden">
+                  <div className="relative h-[260px] md:h-[320px] overflow-hidden">
                     <img
                       src="/assets/images/hotel-3.jpg"
                       alt="Featured Escape"
@@ -274,7 +274,7 @@ export default function Offerdeals() {
 
                     {/* Price Button */}
                     <a href="#" className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-[16px] md:px-[32px] py-[4px] md:py-[8px] rounded-[8px] flex items-center hover:bg-[#a01a6e] transition leading-[18px] tracking-[0.02em]" >
-                      7 nights from <strong className="text-[14px] ">£1,099</strong> per person
+                      7 nights from <strong className="text-[14px] ">&nbsp;£1,099&nbsp;</strong> per person
                       <CircleChevronRight className="ml-[4px] w-[18px] md:w-[24px]" />
                     </a>
                   </div>

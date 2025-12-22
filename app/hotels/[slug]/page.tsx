@@ -1,4 +1,6 @@
 "use client";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 import FlightSummary from "@/components/hotels/FlightSummary";
 import HolidayCalendar from "@/components/hotels/HolidayCalendar";
 import HolidayDealCard from "@/components/hotels/HolidayDealCard";
@@ -8,9 +10,27 @@ import ShareOffer from "@/components/hotels/ShareOffer";
 import Trustsection from "@/components/Trustsection";
 
 export default function Home() {
+  const { slug } = useParams<{ slug: string }>();
+
   const handleBookNow = () => {
     alert("Booking holiday!");
   };
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const fetchFlights = async () => {
+      try {
+        await fetch(`/api/hotels/${slug}`);
+        console.log("Fetched hotel data for slug:", slug);
+      } catch (error) {
+        console.error("Error fetching hotel data:", error);
+      }
+    };
+
+    fetchFlights();
+  }, [slug]);
+
   const palmDealData = {
     badges: [
       "LIMITED TIME OFFER: ENDS 14/03/24",

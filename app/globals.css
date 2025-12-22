@@ -7,6 +7,7 @@
 /* Ensure Montserrat is used across the app */
 html, body {
 	font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 /* Hide scrollbar for carousel/horizontal scroll */

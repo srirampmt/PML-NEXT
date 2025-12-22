@@ -91,7 +91,7 @@ export default function DestinationCarousel({title, description}: {title?: strin
 
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-[#FFF7FC] font-['Montserrat']" >
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* BACKGROUND LAYER */}
           <div className="bg-gradient-to-br from-[#1a9b9e] via-[#2ab5b8] to-[#5bc9cc] w-full py-[36px] md:py-[70px] md:pt-20 md:pb-24 lg:pt-24 lg:pb-[80px] relative z-0">
@@ -107,7 +107,7 @@ export default function DestinationCarousel({title, description}: {title?: strin
               <div className="absolute inset-0 bg-black opacity-10"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-2 relative z-10">
+            <div className="max-w-7xl mx-auto  relative z-10">
               {/* HEADER */}
               <div className="text-left md:mb-10">
                 <h2 className="text-[24px] md:text-[48px] font-semibold text-white leading-[30px] md:leading-[60px] tracking-[-0.005em] max-w-[626px] mb-4 md:md-8">

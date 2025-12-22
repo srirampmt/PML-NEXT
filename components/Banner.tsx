@@ -17,7 +17,7 @@ export function Banner({title, description}: {title?: string; description?: stri
         
         {/* Hero Text - Constrained width */}
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full max-w-[1440px] mx-auto px-[16px] md:px-[40px]">
+          <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
             <div className="w-full max-w-[1280px] mx-auto">
               <div className="max-w-[623px]">
                 <h1 className="font-['Montserrat'] text-white text-[32px] sm:text-[42px] md:text-[64px] lg:text-[64px] font-bold tracking-[-0.01em] line-height-[6px]">
