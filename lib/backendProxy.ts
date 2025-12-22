@@ -6,7 +6,7 @@ export async function proxyToBackend(
   options: RequestInit = {}
 ) {
     const startTime = Date.now();
-    console.log("time of execution start:", new Date(startTime).toISOString());
+    // console.log("time of execution start:", new Date(startTime).toISOString());
     const res = await fetch(`${process.env.BACKEND_URL}${path}`, {
         ...options,
         headers: {

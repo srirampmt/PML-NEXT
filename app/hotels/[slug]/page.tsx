@@ -21,8 +21,19 @@ export default function Home() {
 
     const fetchFlights = async () => {
       try {
-        await fetch(`/api/hotels/${slug}`);
-        console.log("Fetched hotel data for slug:", slug);
+        console.log("Sending request to:", `/api/hotels/${slug}`);
+        const startTime = Date.now();
+        console.log("time of execution start:", new Date(startTime).toISOString());
+        const response = await fetch(`/api/hotels/${slug}`);
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers);
+        
+        const data = await response.json();
+        const endTime = Date.now();
+        console.log("time of execution end:", new Date(endTime).toISOString());
+        const delta = endTime - startTime;
+        console.log("execution time delta:", delta, "ms");
+        console.log("Response data:", data);
       } catch (error) {
         console.error("Error fetching hotel data:", error);
       }
