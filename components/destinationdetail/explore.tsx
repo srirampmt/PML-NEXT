@@ -48,7 +48,6 @@ export default function Explore() {
         <div className="w-full max-w-[1280px] mx-auto space-y-8 md:space-y-20 lg:space-y-24">
           {exploreItems.map((item, index) => {
             const isImageRight = index % 2 === 0; // First item (index 0) has image on right, alternates after
-            
             return (
               <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-12 items-center">
                 {/* Image Column - 1 part */}
