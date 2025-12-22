@@ -5,6 +5,12 @@ export async function proxyToBackend(
   path: string,
   options: RequestInit = {}
 ) {
+    if (!process.env.BACKEND_URL) {
+      throw new Error("BACKEND_URL is not set in the environment!");
+    }
+    if (!process.env.NEXT_SERVER_API_SECRET) {
+      throw new Error("NEXT_SERVER_API_SECRET is not set in the environment!");
+    }
     const startTime = Date.now();
     // console.log("time of execution start:", new Date(startTime).toISOString());
     const res = await fetch(`${process.env.BACKEND_URL}${path}`, {
