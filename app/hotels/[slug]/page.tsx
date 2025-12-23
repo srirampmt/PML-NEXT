@@ -34,6 +34,7 @@ export default function Home() {
         const delta = endTime - startTime;
         console.log("execution time delta:", delta, "ms");
         console.log("Response data:", data);
+        
       } catch (error) {
         console.error("Error fetching hotel data:", error);
       }
