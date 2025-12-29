@@ -19,6 +19,10 @@
 .DS_Store
 *.pem
 
+# brochure assets (avoid committing large PDFs)
+/public/brouchers/*.pdf
+/public/brouchers/*.PDF
+
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -23,6 +23,6 @@
     },
     
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/contact-us/components/ContactUs.tsx", "app/(dashboard)/applications/cashfree/util.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts", ".next/types/**/*.ts", "types/**/*.d.ts", "app/contact-us/components/ContactUs.tsx", "app/(dashboard)/applications/cashfree/util.js"],
   "exclude": ["node_modules"]
 }
