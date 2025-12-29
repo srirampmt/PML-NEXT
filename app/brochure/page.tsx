@@ -3,8 +3,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 
-const FLIP_EVERY_MS = 6000;
+const FLIP_EVERY_MS = 3000;
 const UI_HIDE_AFTER_MS = 2000;
+const STAGE_SCALE = 0.96; // leave a small margin so the book never touches edges
 
 function computeStageSize(viewportWidth: number, viewportHeight: number) {
   const target = 16 / 9;
@@ -51,8 +52,8 @@ export default function BrochureBooklet() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [uiVisible, setUiVisible] = useState(false);
   const [stage, setStage] = useState(() => ({ width: 1280, height: 720 }));
-  const [pageAspect, setPageAspect] = useState(595 / 842); // A4 portrait fallback
-  const [pageSize, setPageSize] = useState(() => ({ width: 420, height: 700 }));
+  const [pageAspect, setPageAspect] = useState(842 / 1191); // A3 portrait fallback
+  const [pageSize, setPageSize] = useState(() => ({ width: 500, height: 1000 }));
 
   const cursorClass = uiVisible ? "cursor-default" : "cursor-none";
 
@@ -105,13 +106,16 @@ export default function BrochureBooklet() {
       const nextStage = computeStageSize(window.innerWidth, window.innerHeight);
       setStage(nextStage);
 
+      const availableWidth = Math.floor(nextStage.width * STAGE_SCALE);
+      const availableHeight = Math.floor(nextStage.height * STAGE_SCALE);
+
       // Compute a two-page spread that fits inside the 16:9 stage.
       // `width` prop is per-page width for react-pageflip.
-      let height = nextStage.height;
-      let width = Math.floor((height * pageAspect));
+      let height = availableHeight;
+      let width = Math.floor(height * pageAspect);
 
-      if (width * 2 > nextStage.width) {
-        width = Math.floor(nextStage.width / 2);
+      if (width * 2 > availableWidth) {
+        width = Math.floor(availableWidth / 2);
         height = Math.floor(width / pageAspect);
       }
 
@@ -124,7 +128,7 @@ export default function BrochureBooklet() {
   }, [pageAspect]);
 
   useEffect(() => {
-    // Auto page turn every 6s. Loops back to the beginning.
+    // Auto page turn. Loops back to the beginning.
     if (pages.length <= 1) return;
 
     const scheduleNext = () => {
@@ -133,11 +137,12 @@ export default function BrochureBooklet() {
         if (api) {
           const current = api.getCurrentPageIndex?.() ?? 0;
           const total = api.getPageCount?.() ?? pages.length;
-          if (current >= total - 1) {
-            api.flip?.(0, "top");
-          } else {
-            api.flipNext?.("top");
-          }
+
+          // In 2-page spread mode, the last visible spread usually starts at `total - 2`.
+          // If we only check `total - 1`, we can get stuck on the last spread.
+          const lastSpreadStartIndex = Math.max(0, total - 2);
+          if (current >= lastSpreadStartIndex) api.flip?.(0, "top");
+          else api.flipNext?.("top");
         }
         scheduleNext();
       }, FLIP_EVERY_MS);
@@ -213,17 +218,20 @@ export default function BrochureBooklet() {
           className="relative flex items-center justify-center"
           style={{ width: `${stage.width}px`, height: `${stage.height}px` }}
         >
-          <div className="relative">
+          <div
+            className="relative flex items-center justify-center"
+            style={{ width: `${pageSize.width * 2}px`, height: `${pageSize.height}px` }}
+          >
             <HTMLFlipBook
               ref={bookRef}
               width={pageSize.width}
               height={pageSize.height}
-              minWidth={Math.max(200, Math.floor(pageSize.width * 0.6))}
-              maxWidth={Math.floor(stage.width / 2)}
-              minHeight={Math.max(200, Math.floor(pageSize.height * 0.6))}
-              maxHeight={stage.height}
-              size="stretch"
-              showCover={true}
+              minWidth={pageSize.width}
+              maxWidth={pageSize.width}
+              minHeight={pageSize.height}
+              maxHeight={pageSize.height}
+              size="fixed"
+              showCover={false}
               className=""
               style={{}}
               startPage={0}
@@ -231,7 +239,7 @@ export default function BrochureBooklet() {
               flippingTime={800}
               usePortrait={false}
               startZIndex={10}
-              autoSize={true}
+              autoSize={false}
               maxShadowOpacity={0.5}
               swipeDistance={30}
               disableFlipByClick={true}
