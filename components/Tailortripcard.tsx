@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
 import EnquiryModal from "./hotels/EnquiryModal";
 import React from "react";
 
@@ -132,14 +131,13 @@ export default function Tailortripcard() {
     },
   ];
   const [isEnquiryOpen, setIsEnquiryOpen] = React.useState(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const pageRoute = React.useMemo(() => {
-    const queryString = searchParams?.toString();
-    return `${pathname || ''}${queryString ? `?${queryString}` : ''}`;
-  }, [pathname, searchParams]);
+  const [pageRoute, setPageRoute] = React.useState<string>("");
 
   const handleEnquireNow = () => {
+    if (typeof window !== "undefined") {
+      const route = `${window.location.pathname || ""}${window.location.search || ""}`;
+      setPageRoute(route);
+    }
     setIsEnquiryOpen(true);
   };
 

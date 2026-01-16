@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ChevronDown, Menu, Phone, X } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 // import { useAuth } from "@/lib/auth";
 // import { UserAccountNav } from "@/components/layout/user-account-nav";
 // import { useLoginModal } from "@/app/store/bookingStore";
@@ -83,7 +83,6 @@ export function MainNav() {
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const hoverCloseTimeoutRef = useRef<number | null>(null);
 
   const toggleDropdown = (dropdown: string) => {
@@ -173,7 +172,7 @@ export function MainNav() {
   useEffect(() => {
     closeMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   useEffect(() => {
     const updateNavHeightVar = () => {
