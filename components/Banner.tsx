@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 
-export function Banner({title, description}: {title?: string; description?: string}) {
+export function Banner({title, description, image}: {title?: string; description?: string; image?: string}) {
   return (
     <section className="w-full font-['Montserrat']">
       {/* Hero Image Section - Full width */}
       <div className="relative w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] h-[300px] sm:h-[400px] md:h-[480px] lg:h-[480px]">
         <img
-          src="/assets/images/banner.png"
-          alt="Luxury beach resort with pool"
+          src={image}
+          alt={title}
           className="w-full h-full object-cover"
         />
         {/* Overlay for text readability */}

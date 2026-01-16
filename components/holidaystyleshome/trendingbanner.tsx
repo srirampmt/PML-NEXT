@@ -1,16 +1,30 @@
-export default function trendingbanner() {
+ 
+export default function Trendingbanner({
+  card_image,
+  add_title,
+  add_subtitle,
+  add_link,
+}: {
+  card_image?: string;
+  add_title?: string;
+  add_subtitle?: string;
+  add_link?: string;
+}) {
   return (
     <div className="max-w-7xl mx-auto px-[16px] sm:px-[16px] md:px-[16px] lg:px-0 py-0 md:py-10 mb-0 font-['Montserrat']">
       <div className="rounded-[8px] overflow-hidden shadow-xl relative">
+        {/* Desktop Image */}
         <img
-          src="/assets/images/trending-20banner.jpg"
+          src={card_image || "/assets/images/trending-20banner.jpg"}
           className="sm:block hidden w-full h-[208px] object-cover"
         />
-
+ 
+        {/* Mobile Background */}
         <div className="w-full h-[160px] md:h-[220px] object-cover bg-[#92D8CC] sm:hidden"></div>
-
+ 
         <div className="absolute inset-0 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-3 sm:gap-5 px-3 md:px-12">
           <div className="flex flex-row items-center gap-5">
+            {/* KEEP SAME SVG */}
             <svg
               width="99"
               height="116"
@@ -23,20 +37,27 @@ export default function trendingbanner() {
                 fill="white"
               />
             </svg>
+ 
             <div className="flex flex-col justify-center items-start">
               <div className="text-white text-[12px] md:text-[14px] font-medium leading-[140%] tracking-[0.01em]">
-                DISCOVER EXCLUSIVES
+                {add_subtitle || "DISCOVER EXCLUSIVES"}
               </div>
+ 
               <div className="text-white text-[16px] md:text-[24px] leading-[140%] font-bold">
-                TRENDING TOP 20
+                {add_title || "TRENDING TOP 20"}
               </div>
-              <a href="#" className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
+ 
+              <a
+                href={add_link}
+                className="mt-4 bg-[#CB2187] text-white hover:text-pml-primary px-2 md:px-6 py-2 rounded-[8px] text-[11px] sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center border-[2px] border-transparent hover:border-pml-primary"
+              >
                 Find Your Perfect Deal
               </a>
             </div>
           </div>
         </div>
-      </div>                                                  
+      </div>
     </div>
   );
-};
+}
+

@@ -1,14 +1,15 @@
+/** @jsxImportSource react */
 "use client";
 
-export default function Worldofplanmylux() {
+export default function Worldofplanmyluxe() {
   const destinations = [
-    { col1: "Bali, Indonesia", col2: "New York", col3: "Boston", col4: "Houston" },
-    { col1: "Santorini, Greece", col2: "Los Angeles", col3: "Denver", col4: "Atlanta" },
-    { col1: "Tokyo, Japan", col2: "Chicago", col3: "Orlando", col4: "San Diego" },
-    { col1: "Machu Picchu, Peru", col2: "Miami", col3: "Philadelphia", col4: "Las Vegas" },
-    { col1: "Cape Town, South Africa", col2: "San Francisco", col3: "Phoenix", col4: "Washington D.C." },
-    { col1: "Reykjavik, Iceland", col2: "Seattle", col3: "Portland", col4: "Nashville" },
-    { col1: "Queenstown, New Zealand", col2: "Austin", col3: "Dallas", col4: "Salt Lake City" },
+    { col1: "Bali,Indonesia", col2: "New York", col3: "Boston", col4: "Houston" },
+    { col1: "Santorini,Greece", col2: "Los Angeles", col3: "Denver", col4: "Atlanta" },
+    { col1: "Tokyo,Japan", col2: "Chicago", col3: "Orlando", col4: "San Diego" },
+    { col1: "Machu Picchu,Peru", col2: "Miami", col3: "Philadelphia", col4: "Las Vegas" },
+    { col1: "Cape Town,South Africa", col2: "San Francisco", col3: "Phoenix", col4: "Washington D.C." },
+    { col1: "Reykjavik,Iceland", col2: "Seattle", col3: "Portland", col4: "Nashville" },
+    { col1: "Queenstown,New Zealand", col2: "Austin", col3: "Dallas", col4: "Salt Lake City" },
   ];
 
   return (
@@ -25,41 +26,39 @@ export default function Worldofplanmylux() {
         </div>
 
         {/* Destinations Grid - Desktop: 4 columns, Mobile/Tablet: Horizontal scroll */}
-        <div className="max-w-[1024px] mx-auto lg:grid lg:grid-cols-4 lg:text-center ">
-          {/* Desktop Version - 4 Column Grid */}
-          <div className="hidden lg:contents">
-            {destinations.map((row, idx) => (
-              <>
-                <a
-                  key={`${idx}-1`}
-                  href="#"
-                  className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all py-[4px]"
-                >
-                  {row.col1}
-                </a>
-                <a
-                  key={`${idx}-2`}
-                  href="#"
-                  className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all"
-                >
-                  {row.col2}
-                </a>
-                <a
-                  key={`${idx}-3`}
-                  href="#"
-                  className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all"
-                >
-                  {row.col3}
-                </a>
-                <a
-                  key={`${idx}-4`}
-                  href="#"
-                  className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all"
-                >
-                  {row.col4}
-                </a>
-              </>
-            ))}
+        <div className="max-w-[1024px] mx-auto">
+          {/* Desktop Version - 4 Column Grid (each item = 1 row across 4 cols) */}
+          <div className="hidden lg:grid lg:grid-cols-4 lg:text-center lg:gap-y-[8px]">
+            {destinations.flatMap((row, idx) => [
+              <a
+                key={`${idx}-1`}
+                href="#"
+                className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all py-[4px]"
+              >
+                {row.col1}
+              </a>,
+              <a
+                key={`${idx}-2`}
+                href="#"
+                className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all py-[4px]"
+              >
+                {row.col2}
+              </a>,
+              <a
+                key={`${idx}-3`}
+                href="#"
+                className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all py-[4px]"
+              >
+                {row.col3}
+              </a>,
+              <a
+                key={`${idx}-4`}
+                href="#"
+                className="text-pml-primary text-[16px] leading-[24px] font-medium hover:underline transition-all py-[4px]"
+              >
+                {row.col4}
+              </a>,
+            ])}
           </div>
         </div>
 

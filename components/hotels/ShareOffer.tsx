@@ -15,10 +15,15 @@ import {
 
 interface ShareOfferProps {
   copyText: string;
-  className?:string;
+  className?: string;
+  variant?: "button" | "headerRow";
 }
 
-export default function ShareOffer({ copyText,className='' }: ShareOfferProps) {
+export default function ShareOffer({
+  copyText,
+  className = "",
+  variant = "button",
+}: ShareOfferProps) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -31,13 +36,25 @@ export default function ShareOffer({ copyText,className='' }: ShareOfferProps) {
   return (
     <>
       {/* ===== SHARE BUTTON ===== */}
-      <button
-        onClick={() => setOpen(true)}
-        className={` ${className} ml-auto flex items-center gap-2 bg-[#9F9F9F] text-white px-[32px] py-[4px] mb-5 font-bold rounded-full hover:bg-[#8a8a8a] text-[14px] leading-[140%]`}
-      >
-        <Share2 size={16} />
-        Share This Offer
-      </button>
+      {variant === "headerRow" ? (
+        <div className="flex items-start justify-center md:justify-end">
+          <button
+            onClick={() => setOpen(true)}
+            className={`${className} shrink-0 flex items-center gap-2 bg-[#9F9F9F] text-white px-[32px] py-[4px] font-bold rounded-full hover:bg-[#8a8a8a] text-[14px] leading-[140%]`}
+          >
+            <Share2 size={16} />
+            Share This Offer
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setOpen(true)}
+          className={`${className} ml-auto flex items-center gap-2 bg-[#9F9F9F] text-white px-[32px] py-[4px] mb-5 font-bold rounded-full hover:bg-[#8a8a8a] text-[14px] leading-[140%]`}
+        >
+          <Share2 size={16} />
+          Share This Offer
+        </button>
+      )}
 
       {/* ===== MODAL ===== */}
       {open && (

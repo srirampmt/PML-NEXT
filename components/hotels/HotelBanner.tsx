@@ -33,6 +33,12 @@ export default function HotelBanner({
 }: HotelBannerProps) {
   const [open, setOpen] = useState(false);
 
+  const handleCtaClick = () => {
+    const calendarEl = document.getElementById("holiday-calendar");
+    if (!calendarEl) return;
+    calendarEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const largeImage = images?.[0];
   const rightTopImage = images?.[1];
   const rightBottomImage = images?.[2];
@@ -70,7 +76,11 @@ export default function HotelBanner({
                       <span className="text-[#4c4c4c] text-[12px]">pp</span>
                     </div>
                   </div>
-                  <button className="bg-[#CB2187] text-white text-[13px] md:text-[16px] font-semibold px-5 py-2 md:px-6 md:py-3 rounded-[10px]">
+                  <button
+                    type="button"
+                    onClick={handleCtaClick}
+                    className="bg-[#CB2187] text-white text-[13px] md:text-[16px] font-semibold px-5 py-2 md:px-6 md:py-3 rounded-[10px]"
+                  >
                     {ctaText}
                   </button>
                 </div>

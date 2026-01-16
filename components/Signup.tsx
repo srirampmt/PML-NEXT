@@ -1,9 +1,14 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
+import NewsletterModal from "./NewsletterModal";
 
 export function Signup() {
+  const [open, setOpen] = useState(false);
+
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-pml-primary font-['Montserrat'] overflow-hidden h-auto lg:h-[380px]">
+      <NewsletterModal open={open} onClose={() => setOpen(false)} />
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[40px] sm:py-[50px] md:py-[60px] lg:py-0 h-full flex items-center">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-[30px] md:gap-[40px] lg:gap-[60px]">
@@ -25,7 +30,11 @@ export function Signup() {
               </p>
 
               {/* Signup Button */}
-              <button className="inline-flex items-center justify-center px-[24px] sm:px-[28px] md:px-[32px] lg:px-[36px] py-[8px] md:py-[12px] bg-white rounded-[8px] hover:bg-gray-100 transition-all duration-300">
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="inline-flex items-center justify-center px-[24px] sm:px-[28px] md:px-[32px] lg:px-[36px] py-[8px] md:py-[12px] bg-white rounded-[8px] hover:bg-gray-100 transition-all duration-300"
+              >
                 <span className="font-['Montserrat'] text-[#4c4c4c] text-[14px] md:text-[16px] font-semibold tracking-[0.02em]">
                   Signup & Save
                 </span>

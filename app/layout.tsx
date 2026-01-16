@@ -22,10 +22,12 @@ export default function RootLayout({
   const hideChrome = pathname?.startsWith("/brochure");
   return (
     <html lang="en" suppressHydrationWarning className={montserrat.variable}>
-      <body className={`${montserrat.className} bg-white `}> 
+      <body className={`${montserrat.className} bg-white `}>
         {!hideChrome && <MainNav />}
-        {children}
-        {!hideChrome && <Footer />}
+        <div style={!hideChrome ? { paddingTop: "var(--main-nav-height, 0px)" } : undefined}>
+          {children}
+          {!hideChrome && <Footer />}
+        </div>
       </body>
     </html>
   );

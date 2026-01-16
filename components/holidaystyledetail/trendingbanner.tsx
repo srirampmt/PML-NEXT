@@ -1,10 +1,28 @@
-export default function trendingbanner() {
+type TrendingBannerProps = {
+  add_card_image?: string;
+  add_title?: string;
+  add_subtitle?: string;
+  add_link?: string;
+};
+
+export default function trendingbanner({
+  add_card_image,
+  add_title,
+  add_subtitle,
+  add_link,
+}: TrendingBannerProps) {
+  const imageSrc = add_card_image || "/assets/images/trending-20banner.jpg";
+  const subtitle = add_subtitle || "DISCOVER EXCLUSIVES";
+  const title = add_title || "TRENDING TOP 20";
+  const href = add_link || "#";
+
   return (
     <div className="max-w-7xl mx-auto px-[16px] sm:px-[16px] md:px-[16px] lg:px-0 py-0 md:py-10 pb-6 md:mb-0 font-['Montserrat']">
       <div className="rounded-[8px] overflow-hidden relative">
         <img
-          src="/assets/images/trending-20banner.jpg"
+          src={imageSrc}
           className="sm:block hidden w-full h-[208px] object-cover"
+          alt=""
         />
 
         <div className="w-full h-[160px] md:h-[220px] object-cover bg-[#92D8CC] sm:hidden"></div>
@@ -25,12 +43,15 @@ export default function trendingbanner() {
             </svg>
             <div className="flex flex-col justify-center items-start">
               <div className="text-white text-[12px] md:text-[14px] font-medium leading-[140%] tracking-[0.01em]">
-                DISCOVER EXCLUSIVES
+                {subtitle}
               </div>
               <div className="text-white text-[16px] md:text-[24px] leading-[140%] font-bold">
-                TRENDING TOP 20
+                {title}
               </div>
-              <a href="#" className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
+              <a
+                href={href}
+                className="mt-4 bg-[#CB2187] text-white hover:text-pml-primary px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center border border-transparent hover:border-[2px] hover:border-pml-primary"
+              >
                 Find Your Perfect Deal
               </a>
             </div>

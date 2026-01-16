@@ -1,4 +1,8 @@
-"use client";
+import type { Metadata } from "next";
+import Script from "next/script";
+import { cache } from "react";
+import HomePageSkeleton from "@/components/HomePageSkeleton";
+import type { DestinationsHomepageResponse } from "@/types/destinationsHomepage";
 import { Perfectholiday } from "@/components/Perfectholiday";
 import Banner from "@/components/Banner";
 import Features from "@/components/Features";
@@ -10,48 +14,179 @@ import Trustsection from "@/components/Trustsection";
 import Largecard from "@/components/Largecard";
 import Worldofplanmyluxe from "@/components/Worldofplanmyluxe";
 import Tailortripcard from "@/components/Tailortripcard";
-import DealCollections from "@/components/destinationhome/DealCollection";
+import DealCollections from "@/components/DealCollection";
+import ChatSection from "@/components/ChatSection";
+import { getSiteUrl } from "@/lib/site-url";
 
-export default function Destinations() {
+function joinUrl(base: string, path: string) {
+  const normalizedBase = base.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizedBase}${normalizedPath}`;
+}
+
+function toAbsoluteUrl(input: string, siteUrl: string) {
+  try {
+    return new URL(input, siteUrl).toString();
+  } catch {
+    return input;
+  }
+}
+
+const getDestinationHomeResponse = cache(
+  async (): Promise<DestinationsHomepageResponse | null> => {
+  const backendUrl = process.env.BACKEND_URL;
+  const secret = process.env.NEXT_SERVER_API_SECRET;
+
+  if (!backendUrl || !secret) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(joinUrl(backendUrl, "/client/api/destination-home/"), {
+      headers: {
+        "X-NEXT-SERVER-KEY": secret,
+      },
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+    const data = (await res.json()) as DestinationsHomepageResponse;
+    if (!data || (data as any).success !== true) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+);
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getDestinationHomeResponse();
+  const page = data?.page;
+
+  const siteUrl = getSiteUrl();
+
+  const title = page?.Meta_Title || "Plan My Luxury";
+  const description = page?.Meta_Description || "Luxury Travel & Accommodations";
+  const canonicalUrl = page?.Canonical_URL
+    ? toAbsoluteUrl(page.Canonical_URL, siteUrl)
+    : toAbsoluteUrl("/destinations", siteUrl);
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title: page?.Meta_Title,
+      description: page?.Meta_Description,
+      url: canonicalUrl,
+      images: page?.OG_Image
+        ? [{ url: toAbsoluteUrl(page.OG_Image, siteUrl) }]
+        : undefined,
+    },
+    twitter: {
+      title: page?.Meta_Title,
+      description: page?.Meta_Description,
+      images: page?.Twitter_Image
+        ? [toAbsoluteUrl(page.Twitter_Image, siteUrl)]
+        : undefined,
+    },
+  };
+}
+
+export default async function Destinations() {
+  const data = await getDestinationHomeResponse();
+  const page = data?.page;
+
   return (
-    <div className="min-h-screen bg-white">
-      <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
-        <Banner title="Where your next escape begins" description="Find the perfect place to relax unwind and enjoy luxury for less"/>
+    <>
+      
+      {page?.Head_Scripts && (
+        <Script id="homepage-head-scripts" strategy="beforeInteractive">
+          {page.Head_Scripts}
+        </Script>
+      )}
+
+      <div className="min-h-screen bg-white">
+        <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
+          {!page ? 
+          <HomePageSkeleton /> : 
+            <>
+              <Banner
+          title={page?.banner_title}
+          description={page?.banner_subtitle}
+          image={page?.banner_image}
+        />
         <Features />
-        <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
-          <div className="w-full max-w-[1440px] mx-auto px-4 md:px-10 py-[20px] md:py-[50px] lg:py-[50px]">
-            <div className="w-full max-w-[1280px] mx-auto">
-              {/* Header Section */}
-              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end mb-[10px] md:mb-[20px] lg:mb-[25px]">
-                {/* Left side - Title and description */}
-                <div className="max-w-[700px] mb-[12px] lg:mb-0">
-                  <h2 className="font-['Montserrat'] text-[#4c4c4c] text-[24px] sm:text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.2] sm:leading-[1.25] md:leading-[1.3] lg:leading-[60px] tracking-[-0.005em] mb-[12px] sm:mb-[16px] md:mb-[20px] lg:mb-[24px]">
-                   Explore the most beautiful places for less
-                  </h2>
-                  <p className="font-['Montserrat'] text-[#4c4c4c] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] font-normal leading-[1.6] sm:leading-[1.7] md:leading-[1.75] lg:leading-[28px] tracking-[0] max-w-[580px]">
-                    From sun drenched islands to iconic coastlines our destinations bring together unforgettable scenery stylish resorts and luxury that feels effortlessly affordable.
-                  </p>
-                  <button className="inline-flex items-center justify-center px-[28px] md:px-[36px] py-[12px] md:py-[14px] bg-pml-primary rounded-[8px] hover:bg-[#a30d4a] transition-all duration-300 mt-4">
-                    <span className="font-['Montserrat'] text-white text-[14px] md:text-[16px] font-semibold">
-                      Let&apos;s Chat
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <Largecard />
-        <DealCollections title="Top deals waiting in every destination"/>
-        <DestinationCarousel title="Destinations designed for your escape" description="We focus on stunning destinations that deliver exceptional style at prices you will love. Explore our curated collection and enjoy luxury escapes designed to fit every budget."/>
+        <ChatSection chat_title={page?.chat_title} chat_subtitle={page?.chat_subtitle} />
+        
+        <Largecard
+          title={page?.Weekly_deals_title}
+          deal={page?.Weekly_hot_deal}
+        />
+
+        <DealCollections
+          deal_collection_title={page?.deal_collection_title}
+          deal_collection_tag_1={page?.deal_collection_tag_1}
+          tag_1_deals={page?.tag_1_deals}
+          deal_collection_tag_2={page?.deal_collection_tag_2}
+          tag_2_deals={page?.tag_2_deals}
+          deal_collection_tag_3={page?.deal_collection_tag_3}
+          tag_3_deals={page?.tag_3_deals}
+          deal_collection_tag_4={page?.deal_collection_tag_4}
+          tag_4_deals={page?.tag_4_deals}
+          deal_collection_tag_5={page?.deal_collection_tag_5}
+          tag_5_deals={page?.tag_5_deals}
+          deal_collection_tag_6={page?.deal_collection_tag_6}
+          tag_6_deals={page?.tag_6_deals}
+        />
+        <DestinationCarousel
+          Destination_collection_title={
+            page?.Desination_collection_title
+          }
+          description={
+            page?.Destination_collection_description
+          } // optional
+          Destination_collection_tag_1={
+            page?.Destination_collection_tag_1
+          }
+          tag_1_destination={page?.tag_1_destination}
+          Destination_collection_tag_2={
+            page?.Destination_collection_tag_2
+          }
+          tag_2_destination={page?.tag_2_destination}
+          Destination_collection_tag_3={
+            page?.Destination_collection_tag_3
+          }
+          tag_3_destination={page?.tag_3_destination}
+          Destination_collection_tag_4={
+            page?.Destination_collection_tag_4
+          }
+          tag_4_destination={page?.tag_4_destination}
+          Destination_collection_tag_5={
+            page?.Destination_collection_tag_5
+          }
+          tag_5_destination={page?.tag_5_destination}
+          Destination_collection_tag_6={
+            page?.Destination_collection_tag_6
+          }
+          tag_6_destination={page?.tag_6_destination}
+        />
         <Worldofplanmyluxe />
         <Tailortripcard />
-        <Perfectholiday title="Find your perfect holiday style"/>
+        <Perfectholiday
+          perfect_holiday_title={page?.perfect_holiday_title}
+          perfect_holiday_subtitle={page?.perfect_holiday_subtitle}
+          perfect_holiday_types={page?.perfect_holiday_types}
+        />
         <Broucher />
         <WhybookwithPml />
         <Signup />
         <Trustsection />
-      </main>
-    </div>
+            </>
+          }
+        </main>
+      </div>
+    </>
   );
 }

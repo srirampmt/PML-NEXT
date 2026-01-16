@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
-import { ChevronDown, ChevronLeft, ChevronRight, Plane, PlaneTakeoff } from "lucide-react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { ChevronDown, ChevronLeft, ChevronRight, Plane, PlaneTakeoff, Phone } from "lucide-react";
 
 /* ===================== TYPES ===================== */
 
@@ -14,9 +15,19 @@ interface HolidayCalendarProps {
   availableAirports: string[];
   availableBoardBases: string[];
   availableDurations: string[];
+  selectedAirport?: string;
+  selectedBoardBasis?: string;
+  selectedDuration?: string;
   initialPrices: PriceData[]; // Full list of available prices
   initialDepartureDate: string; // YYYY-MM-DD (e.g., "2025-10-08")
+  defaultDate?: string; // Default deal date (shown in green)
   nights: number; // Initial number of nights (e.g., 7)
+  onDateSelect?: (date: string) => void; // Callback when date is selected
+  onFilterChange?: (filterType: "departure" | "boardBasis" | "duration", value: string) => void; // Callback for filter changes
+  onEnquire?: () => void; // Callback for enquiry button (no deals state)
+  isSearching?: boolean; // Loading state for search
+  hideFilters?: boolean; // Hide filter dropdowns when custom pricing is active
+  noDealsMessage?: string; // Show empty state when no deals found
 }
 
 interface DayData {
@@ -28,8 +39,6 @@ interface DayData {
 }
 
 /* ===================== HELPERS ===================== */
-
-const DEFAULT_PRICE = 1999; // Price for dates not explicitly listed, but available/selectable
 
 // Function to generate the price map for quick lookup
 const getPriceMap = (prices: PriceData[]) => {
@@ -70,12 +79,12 @@ const getDaysInMonth = (
 
     const dayDate = new Date(year, month, day);
     dayDate.setHours(0, 0, 0, 0); // Ensure comparison accuracy
-    const isPast = dayDate < today;
+    const isPast = dayDate <= today; // Today and earlier dates are past
 
-    // Check if price is explicitly defined (Best Price) or default
-    const price = priceMap[dateKey] ?? DEFAULT_PRICE;
+    // Only use price if explicitly defined in priceMap
+    const price = priceMap[dateKey] ?? null;
 
-    // Set price to null if it's not available and not a future date
+    // Set price to null for past dates
     const finalPrice = !isPast ? price : null;
 
     days.push({
@@ -83,7 +92,7 @@ const getDaysInMonth = (
       dateKey,
       price: finalPrice,
       isPast,
-      isSelectable: !isPast && finalPrice !== null,
+      isSelectable: !isPast, // All future dates are selectable (even without price)
     });
 
     date.setDate(date.getDate() + 1);
@@ -109,10 +118,24 @@ export default function HolidayCalendar({
   availableAirports,
   availableBoardBases,
   availableDurations,
+  selectedAirport: selectedAirportProp,
+  selectedBoardBasis: selectedBoardBasisProp,
+  selectedDuration: selectedDurationProp,
   initialPrices,
   initialDepartureDate,
+  defaultDate,
   nights,
+  onDateSelect,
+  onFilterChange,
+  onEnquire,
+  isSearching = false,
+  hideFilters = false,
+  noDealsMessage,
 }: HolidayCalendarProps) {
+  const router = useRouter();
+  const { slug } = useParams<{ slug: string | string[] }>();
+  const safeSlug = Array.isArray(slug) ? slug[0] : slug;
+
   // --- STATE ---
   const today = useMemo(() => {
     const d = new Date();
@@ -120,23 +143,67 @@ export default function HolidayCalendar({
     return d;
   }, []);
 
-  const initialDate = new Date(initialDepartureDate);
+  const initialDate = useMemo(() => {
+    if (!initialDepartureDate) return today;
+    const d = new Date(initialDepartureDate);
+    return Number.isNaN(d.getTime()) ? today : d;
+  }, [initialDepartureDate, today]);
 
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
   const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
   const [selectedDateKey, setSelectedDateKey] = useState(initialDepartureDate);
 
   // Filter states
-  const [selectedAirport, setSelectedAirport] = useState(availableAirports[0]);
+  const [selectedAirport, setSelectedAirport] = useState(
+    selectedAirportProp || availableAirports[0] || ""
+  );
   const [selectedBoardBasis, setSelectedBoardBasis] = useState(
-    availableBoardBases[0]
+    selectedBoardBasisProp || availableBoardBases[0] || ""
   );
   const [selectedDuration, setSelectedDuration] = useState(
-    availableDurations[2]
-  ); // Default to 5 nights as per image
+    selectedDurationProp || availableDurations[0] || ""
+  );
 
-  // Mock the best price date shown in the image for styling purposes
-  const bestPriceDate = "2025-12-20";
+  // Keep internal selected date/month in sync when parent changes selected date
+  useEffect(() => {
+    if (!initialDepartureDate) return;
+    const d = new Date(initialDepartureDate);
+    if (Number.isNaN(d.getTime())) return;
+    setSelectedDateKey(initialDepartureDate);
+    setCurrentMonth(d.getMonth());
+    setCurrentYear(d.getFullYear());
+  }, [initialDepartureDate]);
+
+  // Keep dropdown selections synced with the selected deal's filter values
+  useEffect(() => {
+    if (selectedAirportProp && availableAirports.includes(selectedAirportProp)) {
+      setSelectedAirport(selectedAirportProp);
+      return;
+    }
+    if (!availableAirports.includes(selectedAirport)) {
+      setSelectedAirport(availableAirports[0] || "");
+    }
+  }, [selectedAirportProp, availableAirports, selectedAirport]);
+
+  useEffect(() => {
+    if (selectedBoardBasisProp && availableBoardBases.includes(selectedBoardBasisProp)) {
+      setSelectedBoardBasis(selectedBoardBasisProp);
+      return;
+    }
+    if (!availableBoardBases.includes(selectedBoardBasis)) {
+      setSelectedBoardBasis(availableBoardBases[0] || "");
+    }
+  }, [selectedBoardBasisProp, availableBoardBases, selectedBoardBasis]);
+
+  useEffect(() => {
+    if (selectedDurationProp && availableDurations.includes(selectedDurationProp)) {
+      setSelectedDuration(selectedDurationProp);
+      return;
+    }
+    if (!availableDurations.includes(selectedDuration)) {
+      setSelectedDuration(availableDurations[0] || "");
+    }
+  }, [selectedDurationProp, availableDurations, selectedDuration]);
 
   // --- MEMOIZED DATA ---
   const priceMap = useMemo(() => getPriceMap(initialPrices), [initialPrices]);
@@ -220,7 +287,8 @@ export default function HolidayCalendar({
         Holiday Dates & Prices
       </h2>
 
-      {/* FILTERS (RESPONSIVE GRID) */}
+      {/* FILTERS (RESPONSIVE GRID) - Hidden when custom pricing is active */}
+      {!hideFilters && (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6 text-[#595858]">
         {/* Departing From */}
         <div className="relative w-full">
@@ -230,7 +298,10 @@ export default function HolidayCalendar({
           <select
             className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedAirport}
-            onChange={(e) => setSelectedAirport(e.target.value)}
+            onChange={(e) => {
+              setSelectedAirport(e.target.value);
+              onFilterChange?.("departure", e.target.value);
+            }}
           >
             {availableAirports.map((a) => (
               <option key={a}>{a}</option>
@@ -249,7 +320,10 @@ export default function HolidayCalendar({
           <select
             className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedBoardBasis}
-            onChange={(e) => setSelectedBoardBasis(e.target.value)}
+            onChange={(e) => {
+              setSelectedBoardBasis(e.target.value);
+              onFilterChange?.("boardBasis", e.target.value);
+            }}
           >
             {availableBoardBases.map((b) => (
               <option key={b}>{b}</option>
@@ -267,7 +341,11 @@ export default function HolidayCalendar({
           <select
             className="w-full p-2.5 border rounded-[5px] border-[#9F9F9F] text-[14px] outline-none appearance-none bg-white font-normal"
             value={selectedDuration}
-            onChange={(e) => setSelectedDuration(e.target.value)}
+            onChange={(e) => {
+              setSelectedDuration(e.target.value);
+              onFilterChange?.("duration", e.target.value);
+            }}
+            disabled={isSearching}
           >
             {availableDurations.map((d) => (
               <option key={d}>{d}</option>
@@ -278,6 +356,7 @@ export default function HolidayCalendar({
           </span>
         </div>
       </div>
+      )}
 
       {/* MONTH NAV & YEAR SELECT */}
       <div className="flex justify-center items-center mb-4">
@@ -344,79 +423,141 @@ export default function HolidayCalendar({
       </div>
 
       {/* CALENDAR GRID (RESPONSIVE) */}
-      <div className="grid grid-cols-7 gap-1 sm:gap-2">
-        {days.map((day, i) => {
-          const isSelected = day.dateKey === selectedDateKey;
-          const isBest = day.dateKey === bestPriceDate;
-          const disabled = !day.isSelectable;
-          const hasContent = day.dayOfMonth !== null;
-          const displayPrice = day.price !== null ? `£${day.price}` : "-";
-
-          let cls =
-            "h-[50px]  sm:h-[70px] w-full rounded-[8px] flex flex-col justify-center items-center border transition duration-150 ease-in-out cursor-pointer";
-
-          if (!hasContent) {
-            cls += " border-none bg-white cursor-default";
-          } else if (disabled) {
-            // Disabled style (Past dates or dates with no price)
-            cls +=
-              " bg-gray-50 text-gray-400 cursor-not-allowed border-gray-100";
-          } else if (isSelected) {
-            // Selected style (Pink background, matching image)
-            cls +=
-              " bg-[#CB2187] text-white  border-[#CB2187] shadow-lg ring-2 ring-[#CB2187]";
-          } else if (isBest) {
-            // Best Price style (Light Green background, matching image)
-            cls +=
-              " bg-[#A6EDA6] text-[#008000] border-[#008000] hover:bg-[#b0e8c1]";
-          } else {
-            // Available price style (Default price/background)
-            cls += " bg-white text-gray-800 border-gray-200 hover:bg-gray-100";
-          }
-
-          return (
-            <div key={i} className="w-full">
-              <button
-                disabled={disabled}
-                onClick={() => day.dateKey && setSelectedDateKey(day.dateKey)}
-                className={cls}
-              >
-                {day.dayOfMonth && (
-                  <>
-                    {/* Day number */}
-                    <span className="text-[12px] md:text-[14px] font-normal leading-[140%]">
-                      {day.dayOfMonth}
-                    </span>
-                    {/* Price */}
-                    <span
-                      className={`text-[10px] md:text-[14px] font-semibold md:font-medium leading-[140%] ${
-                        isSelected
-                          ? "text-white"
-                          : disabled
-                          ? "text-[#595858]"
-                          : isBest
-                          ? "text-[#008000]"
-                          : "text-gray-500 "
-                      }`}
-                    >
-                      {displayPrice}
-                    </span>
-                  </>
-                )}
-              </button>
+      {noDealsMessage ? (
+        <div className="grid grid-cols-7 gap-1 sm:gap-2 min-h-[460px]">
+          <div className="col-span-7 flex items-center justify-center rounded-[8px] border border-[#EDEDED] bg-white text-[#4C4C4C]">
+            <div className="text-center">
+              <div className="text-[16px] font-semibold">No deal found</div>
+              <div className="text-[14px] mt-1">We couldn’t find any offers that match your
+                current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll
+                create the perfect travel plan tailored just for you.</div>
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={onEnquire}
+                  className="bg-pml-primary hover:bg-pink-800 text-white font-semibold py-3 px-6 rounded-[8px] transition-all duration-200 text-[16px]"
+                >
+                  Enquire Now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!safeSlug) return;
+                    router.push(`/hotels/${safeSlug}`);
+                  }}
+                  className="bg-[#595858] hover:bg-[#4C4C4C] text-white font-semibold py-3 px-6 rounded-[8px] transition-all duration-200 text-[16px]"
+                >
+                  Back
+                </button>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
+          {days.map((day, i) => {
+            const isSelected = day.dateKey === selectedDateKey;
+            const isDefault = defaultDate && day.dateKey === defaultDate;
+            const disabled = !day.isSelectable;
+            const hasContent = day.dayOfMonth !== null;
+            const hasPrice = day.price !== null;
+            const isPast = day.isPast;
+            const showPhoneIcon = !hasPrice && !isPast && hasContent;
+            const displayPrice = hasPrice ? `£${Math.round(day.price as number)}` : "";
+
+            let cls =
+              "h-[72px] w-full rounded-[8px] flex flex-col justify-center items-center py-4 border transition duration-150 ease-in-out cursor-pointer";
+
+            if (!hasContent) {
+              cls += " border-none bg-white cursor-default";
+            } else if (isPast) {
+              // Past dates - disabled and grayed out
+              cls +=
+                " bg-gray-50 text-gray-400 cursor-not-allowed border-[#EDEDED]";
+            } else if (isSelected) {
+              // Selected style (Pink background)
+              cls +=
+                " bg-[#CB2187] text-white border-[#CB2187] shadow-lg ring-2 ring-[#CB2187]";
+            } else if (isDefault) {
+              // Default deal style (Light Green background)
+              cls +=
+                " bg-[#A6EDA6] text-[#008000] border-[#008000] hover:bg-[#b0e8c1]";
+            } else if (showPhoneIcon) {
+              // Dates with no price - show phone icon, clickable
+              cls += " bg-white text-[#595858] border-[#EDEDED] hover:bg-gray-50";
+            } else {
+              // Available price style (Default price/background)
+              cls += " bg-white text-[#595858] border-[#EDEDED] hover:bg-gray-50";
+            }
+
+            return (
+              <div key={i} className="w-full">
+                <button
+                  disabled={disabled}
+                  onClick={() => {
+                    if (!day.dateKey) return;
+
+                    setSelectedDateKey(day.dateKey);
+                    onDateSelect?.(day.dateKey);
+
+                    if (showPhoneIcon) {
+                      onEnquire?.();
+                    }
+                  }}
+                  className={cls}
+                >
+                  {day.dayOfMonth && (
+                    <>
+                      {/* Day number */}
+                      <span className="text-[14px] font-normal leading-[140%] text-center">
+                        {day.dayOfMonth}
+                      </span>
+                      {/* Price or Phone Icon */}
+                      {showPhoneIcon ? (
+                        <Phone className="w-4 h-4 text-[#595858] mt-1" />
+                      ) : (
+                        <span
+                          className={`text-[13px] md:text-[14px] font-medium leading-[140%] text-center ${
+                            isSelected
+                              ? "text-white"
+                              : isPast
+                              ? "text-[#595858]"
+                              : isDefault
+                              ? "text-[#008000]"
+                              : "text-[#595858]"
+                          }`}
+                        >
+                          {displayPrice || "-"}
+                        </span>
+                      )}
+                    </>
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* LEGEND (FOOTER) */}
-      <div className="flex flex-col sm:flex-row justify-center md:justify-end items-center gap-2 text-[12px] leading-[140%]">
-        <span className="text-[#008000] text-center bg-[#A6EDA6] border border-[#008000] p-[10px] rounded-[8px] font-medium">
-          Best Price
-        </span>
-        <span className="text-[#4C4C4C] bg-[#EDEDED] border border-[#9F9F9F] p-[10px] rounded-[4px] font-regular">
-          Per person price based on lowest priced flights and rooms
-        </span>
+      <div className="flex flex-col items-center justify-center gap-2 text-[12px] leading-[140%] sm:flex-row md:ml-auto md:h-[60px] md:w-full md:max-w-[843px] md:flex-col md:items-end md:justify-center md:gap-[10px] md:p-[10px]">
+        <div className="flex flex-row items-center justify-center gap-2 sm:justify-end md:h-[40px] md:w-full md:max-w-[823px] md:items-center md:justify-end md:gap-[18px]">
+          <div className="hidden md:block flex flex-col items-start gap-[10px] rounded-[8px] border border-[#008000] bg-[#A6EDA6] p-[10px] md:h-[40px] md:w-[92px]">
+            <div className="flex flex-row items-center gap-1 md:h-[20px] md:w-[72px]">
+              <span className="flex items-center text-[#008000] text-[12px] font-medium leading-[140%] md:text-[14px]">
+                Best Price
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start gap-[10px] rounded-[4px] border border-[#9F9F9F] bg-[#EDEDED] p-[10px] md:h-[40px] md:w-[427px]">
+            <div className="flex flex-row items-center gap-1 md:h-[20px] md:w-[407px]">
+              <span className="flex items-center text-[#4C4C4C] text-[12px] font-normal leading-[140%] md:text-[14px]">
+                Per person price based on lowest priced flights and rooms
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* TRIP SUMMARY (EXACT STYLING MATCH) */}
@@ -428,11 +569,11 @@ export default function HolidayCalendar({
           <span className="text-[12px] md:text-[16px] text-[#393939] leading-[24px] font-normal whitespace-nowrap">
             Your trip
           </span>
-        </div>
-        <div className="flex items-center mt-2 sm:mt-0 sm:ml-2">
           <span className="text-[14px] md:text-[18px] text-[#393939] leading-[24px] font-medium whitespace-nowrap">
             {formatDate(selectedDate)} – {formatDate(returnDate)}
           </span>
+        </div>
+        <div className="flex items-center mt-2 sm:mt-0 sm:ml-2">
           <span className="text-[12px] md:text-[18px] text-[#393939] leading-[24px] ml-2 font-normal">
             ({nights} nights)
           </span>

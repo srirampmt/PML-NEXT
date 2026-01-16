@@ -212,14 +212,14 @@ export function Partners() {
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-[10px] md:gap-[16px] lg:gap-[50px] mb-[18px] md:mb-[24px] lg:mb-[24px]">
             <div className="flex-shrink-0">
-              <h2 className="font-['Montserrat'] text-[#7c7c7c] text-[24px] md:text-[32px] lg:text-[48px] font-semibold leading-[30px] md:leading-[60px] tracking-[-0.05em]">
+              <h2 className="font-['Montserrat'] text-[#4C4C4C] text-[24px] md:text-[32px] lg:text-[48px] font-semibold leading-[30px] md:leading-[60px] tracking-[-0.05em]">
                 Partnering the Worlds
                 <br />
                 Best Brands
               </h2>
             </div>
             <div className="max-w-[720px] lg:pt-[12px]">
-              <p className="font-['Montserrat'] text-[#7c7c7c] text-[14px] md:text-[18px] font-normal leading-[28px] tracking-[0%]">
+              <p className="font-['Montserrat'] text-[#4C4C4C] text-[14px] md:text-[18px] font-normal leading-[28px] tracking-[0%]">
                 From iconic cities to hidden gems, the world is waiting for you. Browse our destinations and find the perfect setting for your next getaway.
               </p>
             </div>

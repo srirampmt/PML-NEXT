@@ -2,30 +2,42 @@
 
 import Link from "next/link";
 import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 // import { useAuth } from "@/lib/auth";
 // import { UserAccountNav } from "@/components/layout/user-account-nav";
 // import { useLoginModal } from "@/app/store/bookingStore";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 // import { FAQWidgetMobile } from "../faq-widget-mobile";
 
 // Mega Menu Dropdown Component
 interface MegaMenuProps {
-  children: React.ReactNode;
+  children: ReactNode;
   isOpen: boolean;
+  onRequestClose?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
-const MegaMenu = ({ children, isOpen }: MegaMenuProps) => {
+const MegaMenu = ({ children, isOpen, onRequestClose, onMouseEnter, onMouseLeave }: MegaMenuProps) => {
   return (
     <div
       className={`
         bg-white
         ${isOpen ? 'flex' : 'hidden'}
         w-full py-3 flex-col
-        xl:fixed xl:top-[76px] xl:left-0 xl:right-0 xl:w-full
+        xl:fixed xl:top-[var(--main-nav-height)] xl:left-0 xl:right-0 xl:w-full
         xl:min-h-[280px] xl:max-h-[600px]
         xl:overflow-y-auto xl:py-6
       `}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={(e) => {
+        if (!onRequestClose) return;
+        const target = e.target as HTMLElement | null;
+        if (!target) return;
+        if (target.closest('a')) onRequestClose();
+      }}
     >
       <div className="w-full max-w-[1320px] mx-auto px-6">
         {children}
@@ -68,10 +80,38 @@ const ImageCard = ({ href, imageSrc, text, alt }: ImageCardProps) => {
 export function MainNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hoverCloseTimeoutRef = useRef<number | null>(null);
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const isDesktop = () => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth >= 1280;
+  };
+
+  const clearHoverCloseTimeout = () => {
+    if (hoverCloseTimeoutRef.current) {
+      window.clearTimeout(hoverCloseTimeoutRef.current);
+      hoverCloseTimeoutRef.current = null;
+    }
+  };
+
+  const scheduleHoverClose = () => {
+    clearHoverCloseTimeout();
+    // Small delay prevents flicker when moving across tiny gaps
+    hoverCloseTimeoutRef.current = window.setTimeout(() => {
+      setOpenDropdown(null);
+    }, 180);
+  };
+
+  const closeDropdowns = () => {
+    setOpenDropdown(null);
   };
 
   const closeMenu = () => {
@@ -79,14 +119,32 @@ export function MainNav() {
     setOpenDropdown(null);
   };
 
+  const handleMegaMenuLinkClick = () => {
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth < 1280) {
+      closeMenu();
+    } else {
+      closeDropdowns();
+    }
+  };
+
+  const handleDropdownMouseEnter = (dropdown: string) => {
+    if (!isDesktop()) return;
+    clearHoverCloseTimeout();
+    setOpenDropdown(dropdown);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    if (!isDesktop()) return;
+    scheduleHoverClose();
+  };
+
   // Handle click outside to close menu on mobile/tablet
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        // Only close on mobile/tablet (below xl breakpoint)
-        if (window.innerWidth < 1280) {
-          closeMenu();
-        }
+        if (window.innerWidth < 1280) closeMenu();
+        else closeDropdowns();
       }
     };
 
@@ -99,8 +157,41 @@ export function MainNav() {
     };
   }, []);
 
+  // Close dropdowns on ESC
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (window.innerWidth < 1280) closeMenu();
+        else closeDropdowns();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  // Close menus when route changes
+  useEffect(() => {
+    closeMenu();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, searchParams]);
+
+  useEffect(() => {
+    const updateNavHeightVar = () => {
+      const height = headerRef.current?.getBoundingClientRect().height;
+      if (!height) return;
+      document.documentElement.style.setProperty(
+        "--main-nav-height",
+        `${Math.round(height)}px`
+      );
+    };
+
+    updateNavHeightVar();
+    window.addEventListener("resize", updateNavHeightVar);
+    return () => window.removeEventListener("resize", updateNavHeightVar);
+  }, []);
+
   return (
-    <header className="sticky top-0 left-0 right-0 z-[1000] bg-white shadow-sm">
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-[1000] bg-white shadow-sm">
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
         <div className="w-full max-w-[1280px] mx-auto">
           <div className="py-4 xl:py-6">
@@ -109,7 +200,7 @@ export function MainNav() {
                 <Image
                   width={320}
                   height={52}
-                  src="https://planmylux.s3.eu-west-2.amazonaws.com/logo.svg"
+                  src="https://planmylux.s3.eu-west-2.amazonaws.com/uploads/media-library/homepage/logo-nav.png"
                   className="w-[220px] md:w-[280px] lg:w-[320px] h-auto"
                   alt="Logo"
                   sizes="(max-width:640px) 140px, (max-width:1024px) 220px, 320px"
@@ -137,14 +228,27 @@ export function MainNav() {
               `}>
                 <ul className="flex flex-col xl:flex-row xl:items-center gap-1 xl:gap-2 items-center">
                   <li className="relative group w-full xl:w-auto">
-                    <button onClick={() => toggleDropdown('deals')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
+                    <div
+                      onMouseEnter={() => handleDropdownMouseEnter('deals')}
+                      onMouseLeave={handleDropdownMouseLeave}
+                      className="w-full xl:w-auto"
+                    >
+                    <button
+                      onClick={() => toggleDropdown('deals')}
+                      className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors"
+                    >
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Deals & Offers</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'deals' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                         <path d="M3.0624 5.93937L7.43052 11.0369C7.50093 11.119 7.58827 11.1849 7.68655 11.2301C7.78483 11.2753 7.89173 11.2987 7.9999 11.2987C8.10807 11.2987 8.21497 11.2753 8.31325 11.2301C8.41153 11.1849 8.49887 11.119 8.56927 11.0369L12.9374 5.93937C13.3543 5.45281 13.0086 4.70125 12.368 4.70125H3.63053C2.9899 4.70125 2.64428 5.45281 3.0624 5.93937Z" fill="#595858" />
                       </svg>
                     </button>
                   
-                    <MegaMenu isOpen={openDropdown === 'deals'}>
+                    <MegaMenu
+                      isOpen={openDropdown === 'deals'}
+                      onRequestClose={handleMegaMenuLinkClick}
+                      onMouseEnter={clearHoverCloseTimeout}
+                      onMouseLeave={handleDropdownMouseLeave}
+                    >
                       <div className="flex flex-col items-center xl:items-stretch xl:flex-row xl:justify-between w-full gap-4 xl:gap-0">
                         {/* Latest Offers */}
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
@@ -185,17 +289,31 @@ export function MainNav() {
                         </div>
                       </div>
                     </MegaMenu>
+                    </div>
                   </li>
 
                   <li className="relative group w-full xl:w-auto">
-                    <button onClick={() => toggleDropdown('holiday')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
+                    <div
+                      onMouseEnter={() => handleDropdownMouseEnter('holiday')}
+                      onMouseLeave={handleDropdownMouseLeave}
+                      className="w-full xl:w-auto"
+                    >
+                    <button
+                      onClick={() => toggleDropdown('holiday')}
+                      className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors"
+                    >
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Holiday Styles</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'holiday' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                         <path d="M3.0624 5.93937L7.43052 11.0369C7.50093 11.119 7.58827 11.1849 7.68655 11.2301C7.78483 11.2753 7.89173 11.2987 7.9999 11.2987C8.10807 11.2987 8.21497 11.2753 8.31325 11.2301C8.41153 11.1849 8.49887 11.119 8.56927 11.0369L12.9374 5.93937C13.3543 5.45281 13.0086 4.70125 12.368 4.70125H3.63053C2.9899 4.70125 2.64428 5.45281 3.0624 5.93937Z" fill="#595858" />
                       </svg>
                     </button>
                     
-                    <MegaMenu isOpen={openDropdown === 'holiday'}>
+                    <MegaMenu
+                      isOpen={openDropdown === 'holiday'}
+                      onRequestClose={handleMegaMenuLinkClick}
+                      onMouseEnter={clearHoverCloseTimeout}
+                      onMouseLeave={handleDropdownMouseLeave}
+                    >
                       <div className="flex flex-col items-center xl:items-stretch xl:flex-row xl:justify-between w-full gap-4 xl:gap-0">
                         {/* Holiday Styles */}
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
@@ -236,17 +354,31 @@ export function MainNav() {
                         </div>
                       </div>
                     </MegaMenu>
+                    </div>
                   </li>
 
                   <li className="relative group w-full xl:w-auto">
-                    <button onClick={() => toggleDropdown('destinations')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
+                    <div
+                      onMouseEnter={() => handleDropdownMouseEnter('destinations')}
+                      onMouseLeave={handleDropdownMouseLeave}
+                      className="w-full xl:w-auto"
+                    >
+                    <button
+                      onClick={() => toggleDropdown('destinations')}
+                      className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors"
+                    >
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Destinations</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'destinations' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                         <path d="M3.0624 5.93937L7.43052 11.0369C7.50093 11.119 7.58827 11.1849 7.68655 11.2301C7.78483 11.2753 7.89173 11.2987 7.9999 11.2987C8.10807 11.2987 8.21497 11.2753 8.31325 11.2301C8.41153 11.1849 8.49887 11.119 8.56927 11.0369L12.9374 5.93937C13.3543 5.45281 13.0086 4.70125 12.368 4.70125H3.63053C2.9899 4.70125 2.64428 5.45281 3.0624 5.93937Z" fill="#595858" />
                       </svg>
                     </button>
                     
-                    <MegaMenu isOpen={openDropdown === 'destinations'}>
+                    <MegaMenu
+                      isOpen={openDropdown === 'destinations'}
+                      onRequestClose={handleMegaMenuLinkClick}
+                      onMouseEnter={clearHoverCloseTimeout}
+                      onMouseLeave={handleDropdownMouseLeave}
+                    >
                       <div className="w-full">
                         <p className="text-[0.95rem] font-bold mb-3 text-[#595858] text-center xl:text-left">Our Destinations</p>
                         <div className="flex gap-4 overflow-x-auto pb-2 justify-center xl:justify-start xl:grid xl:grid-cols-4 xl:gap-8 xl:overflow-visible xl:pb-0">
@@ -307,17 +439,31 @@ export function MainNav() {
                         </div>
                       </div>
                     </MegaMenu>
+                    </div>
                   </li>
 
                   <li className="relative group w-full xl:w-auto">
-                    <button onClick={() => toggleDropdown('support')} className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors">
+                    <div
+                      onMouseEnter={() => handleDropdownMouseEnter('support')}
+                      onMouseLeave={handleDropdownMouseLeave}
+                      className="w-full xl:w-auto"
+                    >
+                    <button
+                      onClick={() => toggleDropdown('support')}
+                      className="flex items-center justify-center xl:justify-start py-2 px-3 gap-1 w-full xl:w-auto cursor-pointer bg-transparent border-none hover:text-pml-primary transition-colors"
+                    >
                       <span className="font-['Montserrat'] font-medium text-base text-[#4C4C4C]">Support</span>
                       <svg className={`w-4 h-4 text-[#595858] transition-transform duration-300 ${openDropdown === 'support' ? 'rotate-180' : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                         <path d="M3.0624 5.93937L7.43052 11.0369C7.50093 11.119 7.58827 11.1849 7.68655 11.2301C7.78483 11.2753 7.89173 11.2987 7.9999 11.2987C8.10807 11.2987 8.21497 11.2753 8.31325 11.2301C8.41153 11.1849 8.49887 11.119 8.56927 11.0369L12.9374 5.93937C13.3543 5.45281 13.0086 4.70125 12.368 4.70125H3.63053C2.9899 4.70125 2.64428 5.45281 3.0624 5.93937Z" fill="#595858" />
                       </svg>
                     </button>
                     
-                    <MegaMenu isOpen={openDropdown === 'support'}>
+                    <MegaMenu
+                      isOpen={openDropdown === 'support'}
+                      onRequestClose={handleMegaMenuLinkClick}
+                      onMouseEnter={clearHoverCloseTimeout}
+                      onMouseLeave={handleDropdownMouseLeave}
+                    >
                       <div className="grid grid-cols-2 gap-4 xl:flex xl:flex-row xl:justify-between w-full xl:gap-0">
                         {/* Help & Support */}
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6">
@@ -355,11 +501,14 @@ export function MainNav() {
                         </div>
                       </div>
                     </MegaMenu>
+                    </div>
                   </li>
                 </ul>
                 <div className="mt-4 xl:mt-0 border-t xl:border-t-0 pt-4 xl:pt-0">
                   <a href="tel:02037400744" className="flex items-center justify-center xl:justify-start gap-2 py-2 hover:opacity-80 transition-opacity">
-                    <Phone className="w-5 h-5 text-pml-primary" />
+                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M22.0505 10.5542L22.0354 10.5573V8.89424C22.0354 4.27154 18.1138 0.509766 13.2936 0.509766H10.7878C5.96758 0.509766 2.04749 4.27004 2.04749 8.89424V10.5648C2.0098 10.5648 1.97211 10.5527 1.93291 10.5527C0.866943 10.5527 0 11.4423 0 12.5384V16.5897C0 17.6873 0.866943 18.5708 1.93291 18.5708C2.02639 18.5708 2.12137 18.5542 2.21184 18.5422C3.08481 21.1521 6.25405 23.1649 10.1862 23.5388C10.6054 24.0921 10.7863 24.4902 12.0694 24.4902C13.7158 24.4902 14.9536 23.8418 14.9536 23.0412C14.9536 22.2421 13.7158 21.5923 12.0694 21.5923C10.7968 21.5923 10.6204 21.9843 10.1937 22.5301C6.64305 22.1758 3.80701 20.4042 3.12853 18.1366C3.80249 18.1366 4.35884 17.2199 4.35884 16.5882V16.4042H4.36789V8.80679C4.36789 4.96661 6.65661 3.35183 10.7878 3.35183H13.2936C17.4142 3.35183 19.5401 4.91384 19.5401 8.82337V16.4223H19.5613V16.5882C19.5613 17.6858 20.6951 18.4291 21.7716 18.4291C22.8481 18.4291 24 17.6858 24 16.5882V12.5369C23.9985 11.4438 23.127 10.5542 22.0505 10.5542Z" fill="#CB2187" />
+                    </svg>
                     <span className="font-['Montserrat'] font-semibold text-lg text-pml-primary">020 3740 0744</span>
                   </a>
                 </div>

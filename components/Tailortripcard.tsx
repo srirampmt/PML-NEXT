@@ -1,5 +1,9 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
+import EnquiryModal from "./hotels/EnquiryModal";
+import React from "react";
+
 export default function Tailortripcard() {
   const steps = [
     {
@@ -127,72 +131,102 @@ export default function Tailortripcard() {
       text: "Book your trip",
     },
   ];
+  const [isEnquiryOpen, setIsEnquiryOpen] = React.useState(false);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pageRoute = React.useMemo(() => {
+    const queryString = searchParams?.toString();
+    return `${pathname || ''}${queryString ? `?${queryString}` : ''}`;
+  }, [pathname, searchParams]);
 
+  const handleEnquireNow = () => {
+    setIsEnquiryOpen(true);
+  };
+
+  const handleCloseEnquiry = () => {
+    setIsEnquiryOpen(false);
+  };
   return (
-    <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']" >
-      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[20px] md:py-[80px] lg:py-[80px]">
-        <div className="w-full max-w-[1280px] mx-auto relative h-[664px]">
-          {/* Background Image with Overlay */}
-          <div className="absolute inset-0 rounded-[4px] overflow-hidden">
-            <img
-              src="/assets/images/tailortripcard.png"
-              alt="Travel background"
-              className="w-full h-full object-cover rounded-[4px]"
-            />
-            <div className="absolute inset-0 bg-black/20 rounded-[4px]"></div>
-          </div>
+    <>
+      <EnquiryModal
+        open={isEnquiryOpen}
+        onClose={handleCloseEnquiry}
+        initialValues={{
+          destination: "",
+          resort: "",
+          quoteRef: "",
+          dealdata: null,
+          source: `Tailore-Make-Your-Trip ${!pageRoute || pageRoute === "/" ? "homepage" : pageRoute}`,
+        }}
+      />
+      <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] font-['Montserrat']" >
+        <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[20px] md:py-[80px] lg:py-[80px]">
+          <div className="w-full max-w-[1280px] mx-auto relative h-[664px]">
+            {/* Background Image with Overlay */}
+            <div className="absolute inset-0 rounded-[4px] overflow-hidden">
+              <img
+                src="/assets/images/tailortripcard.png"
+                alt="Travel background"
+                className="w-full h-full object-cover rounded-[4px]"
+              />
+              <div className="absolute inset-0 bg-black/20 rounded-[4px]"></div>
+            </div>
 
-          {/* Content Container */}
-          <div className="relative max-w-[992px] mx-auto py-[32px] px-[16px] lg:px-8 h-[664px] flex items-center">
-            {/* Card with backdrop blur */}
-            <div className="bg-white/40 rounded-[16px] py-[32px] px-[16px] border border-white/30">
-              {/* Header */}
-              <div className="text-center mb-[12px]">
-                <h2 className="text-[24px] md:text-[48px] lg:text-[48px] font-extrabold text-white mb-6 drop-shadow-lg">
-                  Tailor-Make Your Trip
-                </h2>
-                <div className="flex justify-center">
-                  <div className="flex items-center justify-between text-center gap-4 mb-8 max-w-[775px]">
-                    <div className="h-[2px] w-16 md:w-40 bg-white/60"></div>
-                    <h3 className="text-[14px] md:text-[18px] lg:text-[32px] font-semibold text-white">
-                      How it works
-                    </h3>
-                    <div className="h-[2px] w-16 md:w-40 bg-white/60"></div>
-                  </div>
-                </div>
-                <p className="text-white text-[12px] md:text-[16px] lg:text-[16px] leading-relaxed max-w-4xl mx-auto drop-shadow-md hidden md:block">
-                  We&apos;re firm believers that planning a holiday should feel exciting, not overwhelming. We&apos;re here to make it
-                  personal, thoughtful and completely stress-free. We&apos;ll get to know you properly, design a trip that&apos;s perfect for you,
-                  and support you every step of the way.
-                </p>
-              </div>
-
-              {/* Steps Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6 mb-[16px]">
-                {steps.map((step, index) => (
-                  <div key={index} className="flex flex-col items-center text-center">
-                    {/* Icon */}
-                    <div className="mb-4">
-                      {step.icon}
+            {/* Content Container */}
+            <div className="relative max-w-[992px] mx-auto py-[32px] h-[664px] flex items-center">
+              {/* Card with backdrop blur */}
+              <div className="bg-white/40 rounded-[16px] py-[32px] px-[16px] border border-white/30">
+                {/* Header */}
+                <div className="text-center mb-[12px]">
+                  <h2 className="text-[24px] md:text-[48px] lg:text-[48px] font-extrabold text-white mb-6 drop-shadow-lg">
+                    Tailor-Make Your Trip
+                  </h2>
+                  <div className="flex justify-center">
+                    <div className="flex items-center justify-between text-center gap-4 mb-8 max-w-[775px]">
+                      <div className="h-[2px] w-16 md:w-40 bg-white/60"></div>
+                      <h3 className="text-[14px] md:text-[18px] lg:text-[32px] font-semibold text-white">
+                        How it works
+                      </h3>
+                      <div className="h-[2px] w-16 md:w-40 bg-white/60"></div>
                     </div>
-                    {/* Text */}
-                    <p className="text-white text-[16px] md:text-[18px] font-medium drop-shadow-md">
-                      {step.number} {step.text}
-                    </p>
                   </div>
-                ))}
-              </div>
+                  <p className="text-white text-[12px] md:text-[16px] lg:text-[16px] leading-relaxed max-w-4xl mx-auto drop-shadow-md hidden md:block">
+                    We&apos;re firm believers that planning a holiday should feel exciting, not overwhelming. We&apos;re here to make it
+                    personal, thoughtful and completely stress-free. We&apos;ll get to know you properly, design a trip that&apos;s perfect for you,
+                    and support you every step of the way.
+                  </p>
+                </div>
 
-              {/* CTA Button */}
-              <div className="text-center">
-                <button className="bg-[#4c4c4c] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold ">
-                  Let&apos;s Start Planning
-                </button>
+                {/* Steps Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6 mb-[16px]">
+                  {steps.map((step, index) => (
+                    <div key={index} className="flex flex-col items-center text-center">
+                      {/* Icon */}
+                      <div className="mb-4">
+                        {step.icon}
+                      </div>
+                      {/* Text */}
+                      <p className="text-white text-[16px] md:text-[18px] font-medium drop-shadow-md">
+                        {step.number} {step.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA Button */}
+                <div className="text-center">
+                  <button
+                    onClick={handleEnquireNow}
+                    className="bg-[#666666] hover:bg-[#4C4C4C] text-white px-10 py-3.5 rounded-[8px] text-[16px] md:text-[18px] font-semibold transition-colors duration-200"
+                  >
+                    Let&apos;s Start Planning
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

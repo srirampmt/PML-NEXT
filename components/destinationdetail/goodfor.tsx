@@ -11,33 +11,44 @@ interface GoodForItem {
   description: string;
 }
 
-const goodForItems: GoodForItem[] = [
-  {
-    title: "Golden beaches",
-    description: "Soft sands clear waters and beautiful coastal settings"
-  },
-  {
-    title: "Stylish resorts",
-    description: "Within its staunch fortifications, Handpicked four and five star stays with brilliant value"
-  },
-  {
-    title: "Island charm",
-    description: "Vibrant towns scenic views and warm Mediterranean energy"
-  },
-  {
-    title: "Great value",
-    description: "Exclusive offers upgrades and added touches every week"
-  }
-];
 
-export default function GoodFor() {
+type GoodForProps = {
+  destinationName?: string;
+  title_1?: string;
+  title_2?: string;
+  title_3?: string;
+  title_4?: string;
+  description_1?: string;
+  description_2?: string;
+  description_3?: string;
+  description_4?: string;
+};
+
+
+export default function GoodFor({
+  destinationName,
+  title_1,
+  title_2,
+  title_3,
+  title_4,
+  description_1,
+  description_2,
+  description_3,
+  description_4,
+}: GoodForProps) {
+  const goodForItems: GoodForItem[] = [
+    { title: title_1 ?? '', description: description_1 ?? '' },
+    { title: title_2 ?? '', description: description_2 ?? '' },
+    { title: title_3 ?? '', description: description_3 ?? '' },
+    { title: title_4 ?? '', description: description_4 ?? '' },
+  ].filter((item) => item.title.trim() || item.description.trim());
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] ">
         <div className="w-full max-w-[1280px] mx-auto bg-[#FBE3F1] rounded-[8px] p-6 ">
           {/* Title */}
-          <h2 className="text-[#1a1a1a] text-[16px] md:text-[24px] lg:text-[24px] font-bold md:font-semibold mb-2 md:mb-4 leading-[32px]">
-            [Destination] - Perfect for
+          <h2 className="uppercase text-[#1a1a1a] text-[16px] md:text-[24px] lg:text-[24px] font-bold md:font-semibold mb-2 md:mb-4 leading-[32px]">
+            {destinationName ? `${destinationName} - Perfect for` : 'Perfect for'}
           </h2>
 
           {/* Grid */}

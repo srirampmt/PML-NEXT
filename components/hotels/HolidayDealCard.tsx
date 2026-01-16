@@ -1,271 +1,126 @@
-import {
-  MapPin,
-  Utensils,
-  Clock,
-  Check,
-  Phone,
-  MessageSquare,
-  Send,
-  Dot,
-  ChevronDown,
-} from "lucide-react";
+"use client";
 
-// --- INTERFACES ---
+import DOMPurify from "dompurify";
+import { Phone } from "lucide-react";
 
-interface ContactInfo {
-  phoneNumber: string;
-  isAvailable24_7: boolean;
-  limitedAvailabilityMessage: string;
-}
+import styles from "./hotelRichText.module.css";
 
 interface HolidayDealCardProps {
-  badges: string[];
-  location: string;
-  hotelName: string;
-  rating: number; // Max 5
-  description: string;
-  aboutDeal: string;
-  inclusions: string[];
-  whyWeLoveIt: string[];
-  contact: ContactInfo;
-  ctaText?: string;
+  aboutTheDeal: string;
+  whyWeLoveThisHotel: string;
+  aboutTheHotel: string;
 }
 
-// --- HELPER COMPONENT ---
-
-const StarRating = ({ rating = 5 }: { rating: number }) => {
-  const stars = Array(5)
-    .fill(null)
-    .map((_, i) => (
-      <span key={i} className={`text-xl ${i < rating ? "text-[#595858]" : "text-gray-500"}`} >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clipPath="url(#clip0_1_3173)">
-            <path d="M16 6.18179L10.1863 5.79957L7.99681 0.299072L5.80734 5.79957L0 6.18179L4.45419 9.96385L2.99256 15.701L7.99681 12.5379L13.0011 15.701L11.5395 9.96385L16 6.18179Z" fill="#595858"/>
-          </g>
-          <defs>
-            <clipPath id="clip0_1_3173">
-              <rect width="16" height="16" fill="white"/>
-            </clipPath>
-          </defs>
-        </svg>
-      </span>
-    ));
-  return <div className="flex space-x-0.5">{stars}</div>;
-};
-
-// --- MAIN COMPONENT ---
-
 export default function HolidayDealCard({
-  badges,
-  location,
-  hotelName,
-  rating,
-  description,
-  aboutDeal,
-  inclusions,
-  whyWeLoveIt,
-  contact,
-  ctaText = "Read more",
+  aboutTheDeal,
+  whyWeLoveThisHotel,
+  aboutTheHotel,
 }: HolidayDealCardProps) {
+  const renderRichText = (html: string) => {
+    const safe = DOMPurify.sanitize(html, {
+      USE_PROFILES: { html: true },
+    });
+
+    return (
+      <div
+        className={`${styles.hotelRichText} text-sm md:text-base`}
+        dangerouslySetInnerHTML={{ __html: safe }}
+      />
+    );
+  };
+
   return (
     <div className="w-full md:max-w-4xl lg:max-w-4xl mx-auto rounded-none text-[#595858] font-['Montserrat']">
-      {/* --- Top Badges & Header --- */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        {badges.map((badge, index) => (
-          <div
-            key={index}
-            className={` text-[12px] leading-[140%] p-[8px]  flex items-center gap-1 font-semibold ${
-              index === 0
-                ? "bg-[#CB2187] text-white"
-                : "bg-[#E8E5E5] text-[#595858]"
-            }`}
-          >
-            {badge}
-          </div>
-        ))}
-      </div>
-
-      <div className="mb-6 max-w-3xl">
-        <div className="flex items-center gap-1 text-[14px] text-[#4C4C4C] leading-[22px] tracking-[0.01em] font-normal mb-1">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 10 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.66668 0C2.09352 0 0 2.09352 0 4.66668C0 5.43914 0.193129 6.20504 0.560273 6.88436L4.41148 13.8496C4.46275 13.9425 4.56045 14 4.66668 14C4.77291 14 4.87061 13.9425 4.92188 13.8496L8.7745 6.88207C9.14022 6.20504 9.33335 5.43911 9.33335 4.66665C9.33335 2.09352 7.23983 0 4.66668 0ZM4.66668 7C3.3801 7 2.33335 5.95325 2.33335 4.66668C2.33335 3.3801 3.3801 2.33335 4.66668 2.33335C5.95325 2.33335 7 3.3801 7 4.66668C7 5.95325 5.95325 7 4.66668 7Z"
-              fill="#595858"
-            />
-          </svg>
-
-          {location}
-        </div>
-
-        <h1 className="text-[16px] md:text-[24px] font-semibold leading-[32px] mb-1">{hotelName}</h1>
-        <StarRating rating={rating} />
-
-        <p className="text-[14px] md:text-[16px] font-medium leading-[24px] mt-2">{description}</p>
-      </div>
-
-      {/* --- About The Deal Section --- */}
       <div className="mb-8 max-w-[751px]">
-        <h2 className="text-[16px] sm:text-[20px] font-bold text-pml-primary leading-[30px] ">
+        <h2 className="text-[16px] sm:text-[20px] font-bold text-pml-primary leading-[30px]">
           About The Deal
         </h2>
-        <p className="text-[14px] md:text-[16px] leading-[24px] font-normal">{aboutDeal}</p>
+        {renderRichText(aboutTheDeal)}
       </div>
 
-      {/* --- What&apos;s Included Section --- */}
       <div className="mb-8 max-w-[751px]">
-        <h3 className="text-[16px] font-semibold leading-[24px] mb-1">What&apos;s Included</h3>
-        <ul className="space-y-1 text-[14px] md:text-[16px] leading-[140%] font-normal">
-          {inclusions.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <Dot size={20} />
-              {item}
-            </li>
-          ))}
-        </ul>
-        <button className="flex items-center text-[14px] text-[#595858] font-medium leading-[140%] gap-[4px] mt-[4px] underline ">
-          {ctaText}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.50002 5.50003C2.50002 5.37216 2.54889 5.24416 2.64651 5.14653C2.84189 4.95116 3.15827 4.95116 3.35352 5.14653L8.00002 9.79303L12.6465 5.14653C12.8419 4.95116 13.1583 4.95116 13.3535 5.14653C13.5488 5.34191 13.5489 5.65828 13.3535 5.85353L8.35352 10.8535C8.15814 11.0489 7.84177 11.0489 7.64652 10.8535L2.64651 5.85353C2.54889 5.75591 2.50002 5.62791 2.50002 5.50003Z" fill="#595858"/>
-          </svg>
-        </button>
-      </div>
-
-      {/* --- Why we love this hotel Section --- */}
-      <div className="max-w-3xl pb-[10px]">
         <h3 className="text-[16px] text-pml-primary leading-[24px] font-semibold mb-[6px]">
           Why we love this hotel
         </h3>
-        <ul className="grid grid-cols-1 gap-y-2 gap-x-6   ">
-          {whyWeLoveIt.map((item, index) => (
-            <li key={index} className="flex items-center gap-[4px] text-[16px] leading-[24px]">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.5553 14.4298C5.50166 14.4298 5.44896 14.4158 5.40241 14.3891C5.35587 14.3625 5.3171 14.3241 5.28995 14.2779C4.13982 12.3185 1.07505 8.14831 1.04422 8.10641C1.00043 8.04689 0.979527 7.97359 0.985324 7.89993C0.99112 7.82626 1.02323 7.75715 1.07579 7.70521L2.01789 6.77428C2.06907 6.72371 2.13636 6.69267 2.20805 6.68656C2.27975 6.68046 2.35132 6.69967 2.41032 6.74087L5.49115 8.89213C7.53939 6.26087 9.44284 4.44496 10.6939 3.37499C12.0962 2.17551 12.9878 1.63653 13.0251 1.61407C13.0729 1.58536 13.1276 1.57019 13.1834 1.57019H14.7075C14.7698 1.57018 14.8307 1.58913 14.8821 1.62453C14.9335 1.65993 14.9729 1.7101 14.9951 1.7684C15.0173 1.8267 15.0212 1.89037 15.0064 1.95096C14.9916 2.01156 14.9587 2.06622 14.9121 2.1077C12.6527 4.12001 10.3036 7.31733 8.73093 9.64511C7.0213 12.1754 5.83447 14.2537 5.82268 14.2744C5.79597 14.3213 5.75739 14.3603 5.71081 14.3876C5.66423 14.4149 5.6113 14.4294 5.55733 14.4298L5.5553 14.4298Z"
-                  fill="#595858"
-                />
-              </svg>
-              {item}
-            </li>
-          ))}
-        </ul>
+        {renderRichText(whyWeLoveThisHotel)}
       </div>
 
-      {/* --- Contact / CTA Footer --- */}
-      <div className="max-w-[578px] pt-6 flex md:items-start justify-between gap-4">
-        {/* Contact Info (Left Side) */}
-        <div className="w-[50px] md:w-[100px] h-[50px] md:h-[100px] overflow-hidden rounded-md">
+      {/* CTA */}
+      <div className="max-w-[751px]">
+        <div className="flex flex-row items-start p-0 gap-4 w-full max-w-[568px] h-auto md:h-[100px]">
           <img
             src="/assets/images/contact.png"
-            alt="Contact Icon"
-            className="w-full h-full object-cover"
+            alt=""
+            className="w-[100px] h-[100px] object-cover flex-none"
           />
-        </div>
-        <div className="flex-1 text-sm ">
-          {contact.isAvailable24_7 && (
-            <p className="text-[#4C4C4C] font-semibold text-[14px] leading-[140%] mb-2">
+
+          <div className="flex flex-col items-start p-0 gap-2 w-full max-w-[452px] h-auto md:h-[76px]">
+            <div className="hidden md:block text-[#595858] font-semibold text-[14px] leading-[140%]">
               Our team are available 24 hours, 7 days
-            </p>
-          )}
+            </div>
+            <div className="hidden md:block text-[#595858] font-normal text-[14px] leading-[140%]">
+              Hurry this deal has limited availability - call our helpful team now
+            </div>
 
-          {contact.limitedAvailabilityMessage && (
-            <p className="hidden md:block text-[#4C4C4C] font-normal text-[14px] leading-[22px] tracking-[0.01em] mb-3">
-              {contact.limitedAvailabilityMessage}
-            </p>
-          )}
+            <div className="flex flex-col md:flex-row items-start p-0 gap-2 w-full max-w-[372px] h-auto md:h-[20px] text-[#595858]">
+              <a
+                href="tel:02081231234"
+                className="flex flex-row items-center p-0 gap-1 h-[20px] font-medium text-[14px] leading-[140%]"
+              >
+                <Phone className="w-[14px] h-[14px]" />
+                020 8123 1234
+              </a>
 
-          <div className="flex flex-wrap gap-4 hidden md:block">
-            {/* Phone CTA */}
-            <a href={`tel:${contact.phoneNumber.replace(/\s/g, "")}`} className="flex items-center font-semibold text-[#4C4C4C] leading-[140%] transition-colors gap-1" >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_1_3247)">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M12.3907 10.9234L11.132 12.1821C11.0975 12.2181 11.0675 12.2391 11.024 12.2631C9.24613 13.2203 5.83448 11.432 4.26667 9.78014C4.25015 9.76215 4.23664 9.74864 4.22016 9.73213C2.56829 8.16432 0.77993 4.75267 1.73713 2.9748C1.76113 2.9313 1.78213 2.90278 1.81815 2.8683L3.07689 1.60805C3.16991 1.51503 3.27343 1.47303 3.40244 1.47303H3.41294C3.54797 1.47453 3.65299 1.52255 3.74451 1.62156L5.36783 3.37391C5.53886 3.55695 5.53285 3.839 5.35582 4.01605L4.30711 5.06477C4.01155 5.36183 3.88252 5.75339 3.94404 6.16749C4.07455 7.03915 4.51265 7.85831 5.2838 8.66999C5.30032 8.6865 5.3138 8.70149 5.33031 8.7165C6.14198 9.48765 6.95964 9.92575 7.83131 10.0563C8.24688 10.1178 8.63847 9.98875 8.93553 9.69168L9.98274 8.64447C10.1598 8.46745 10.4418 8.46143 10.6264 8.63097L12.3787 10.2543C12.4777 10.3458 12.5242 10.4508 12.5272 10.5859C12.5303 10.7208 12.4867 10.8274 12.3907 10.9234ZM12.9398 9.64813L11.1875 8.02481C10.6774 7.5522 9.89122 7.56721 9.39912 8.05932L8.3504 9.10803C8.24089 9.21754 8.10734 9.26108 7.95433 9.23854C7.2552 9.13352 6.58457 8.76747 5.89893 8.11633C5.89291 8.11185 5.88843 8.10583 5.88241 8.09981C5.23278 7.41567 4.8667 6.74354 4.7617 6.04592C4.7392 5.89287 4.7827 5.75935 4.89224 5.64834L5.94095 4.60113C6.43306 4.10902 6.44807 3.32286 5.97396 2.81126L4.35215 1.05891C4.10761 0.796353 3.78804 0.652333 3.42946 0.646317C3.0709 0.640329 2.74682 0.769337 2.49179 1.0244L1.23302 2.28317C1.1415 2.37469 1.07098 2.46922 1.00948 2.58324C0.71693 3.12484 0.599899 3.78647 0.661422 4.54562C0.713922 5.20124 0.896961 5.91838 1.20603 6.67455C1.76264 8.03982 2.67633 9.40808 3.65001 10.3323C3.6575 10.3383 3.66202 10.3428 3.668 10.3488C4.5922 11.3225 5.95895 12.2377 7.32422 12.7943C8.08186 13.1018 8.7975 13.2849 9.45315 13.3389C9.58369 13.3494 9.71119 13.3539 9.83572 13.3539C10.4373 13.3539 10.9669 13.2324 11.4155 12.9908C11.5296 12.9293 11.6256 12.8588 11.7171 12.7673L12.9758 11.507C13.2294 11.2535 13.3599 10.9294 13.3539 10.5708C13.3464 10.2107 13.2039 9.89266 12.9398 9.64813Z" fill="#595858"/>
-                </g>
-                <defs>
-                  <clipPath id="clip0_1_3247">
-                    <rect width="14" height="14" fill="white"/>
-                  </clipPath>
-                </defs>
-              </svg>
-              {contact.phoneNumber}
-            </a>
-            {/* Chat CTA */}
-            <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 15C3.9265 15 3.8525 14.9835 3.783 14.9505C3.6105 14.867 3.5 14.6925 3.5 14.5V12H2C1.173 12 0.5 11.327 0.5 10.5V2.5C0.5 1.673 1.173 1 2 1H14C14.827 1 15.5 1.673 15.5 2.5V10.5C15.5 11.327 14.827 12 14 12H7.9255L4.3125 14.8905C4.222 14.963 4.1115 15 4 15ZM2 2C1.724 2 1.5 2.2245 1.5 2.5V10.5C1.5 10.7755 1.724 11 2 11H4C4.2765 11 4.5 11.2235 4.5 11.5V13.46L7.4375 11.1095C7.5265 11.0385 7.636 11 7.75 11H14C14.276 11 14.5 10.7755 14.5 10.5V2.5C14.5 2.2245 14.276 2 14 2H2Z" fill="#595858"/>
-                <path d="M12 6H4C3.7235 6 3.5 5.776 3.5 5.5C3.5 5.224 3.7235 5 4 5H12C12.2765 5 12.5 5.224 12.5 5.5C12.5 5.776 12.2765 6 12 6Z" fill="#595858"/>
-                <path d="M8 8H4C3.7235 8 3.5 7.776 3.5 7.5C3.5 7.224 3.7235 7 4 7H8C8.2765 7 8.5 7.224 8.5 7.5C8.5 7.776 8.2765 8 8 8Z" fill="#595858"/>
-              </svg>
-              chat online
-            </button>
-            {/* Whatsapp CTA */}
-            <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_1_3261)">
-                  <path d="M11.6714 9.53795L11.6654 9.58795C10.1994 8.85728 10.0461 8.75995 9.85676 9.04395C9.72543 9.24062 9.34276 9.68662 9.22743 9.81862C9.11076 9.94862 8.99476 9.95862 8.79676 9.86862C8.59676 9.76862 7.95476 9.55862 7.19476 8.87862C6.60276 8.34862 6.20543 7.69862 6.08809 7.49862C5.89276 7.16128 6.30143 7.11328 6.67343 6.40928C6.74009 6.26928 6.70609 6.15928 6.65676 6.05995C6.60676 5.95995 6.20876 4.97995 6.04209 4.58928C5.88209 4.19995 5.71743 4.24928 5.59409 4.24928C5.21009 4.21595 4.92943 4.22128 4.68209 4.47862C3.60609 5.66128 3.87743 6.88128 4.79809 8.17862C6.60743 10.5466 7.57143 10.9826 9.33409 11.588C9.81009 11.7393 10.2441 11.718 10.5874 11.6686C10.9701 11.608 11.7654 11.188 11.9314 10.718C12.1014 10.248 12.1014 9.85795 12.0514 9.76795C12.0021 9.67795 11.8714 9.62795 11.6714 9.53795Z" fill="#595858"/>
-                  <path d="M13.68 2.29938C8.554 -2.65596 0.0706667 0.938044 0.0673333 7.92871C0.0673333 9.32605 0.433333 10.6887 1.13067 11.892L0 16L4.22333 14.8987C9.49333 17.7454 15.9973 13.9654 16 7.93271C16 5.81538 15.1733 3.82271 13.67 2.32538L13.68 2.29938ZM14.668 7.91071C14.664 12.9994 9.078 16.1774 4.66 13.58L4.42 13.4374L1.92 14.0874L2.59 11.6574L2.43067 11.4074C-0.318667 7.03071 2.84 1.31071 8.048 1.31071C9.81733 1.31071 11.478 2.00071 12.7287 3.25071C13.9787 4.49004 14.668 6.15071 14.668 7.91071Z" fill="#595858"/>
-                </g>
-                <defs>
-                  <clipPath id="clip0_1_3261">
-                    <rect width="16" height="16" fill="white"/>
-                  </clipPath>
-                </defs>
-              </svg>
-              send a whatsapp
-            </button>
+              <a
+                href="#"
+                className="flex flex-row items-center p-0 gap-1 h-[20px] font-medium text-[14px] leading-[140%] underline"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 23 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.25 21C5.13975 21 5.02875 20.9753 4.9245 20.9257C4.66575 20.8005 4.5 20.5387 4.5 20.25V16.5H2.25C1.0095 16.5 0 15.4905 0 14.25V2.25C0 1.0095 1.0095 0 2.25 0H20.25C21.4905 0 22.5 1.0095 22.5 2.25V14.25C22.5 15.4905 21.4905 16.5 20.25 16.5H11.1383L5.71875 20.8358C5.583 20.9445 5.41725 21 5.25 21ZM2.25 1.5C1.836 1.5 1.5 1.83675 1.5 2.25V14.25C1.5 14.6632 1.836 15 2.25 15H5.25C5.66475 15 6 15.3352 6 15.75V18.69L10.4062 15.1642C10.5398 15.0577 10.704 15 10.875 15H20.25C20.664 15 21 14.6632 21 14.25V2.25C21 1.83675 20.664 1.5 20.25 1.5H2.25Z"
+                    fill="#595858"
+                  />
+                  <path
+                    d="M17.25 7.5H5.25C4.83525 7.5 4.5 7.164 4.5 6.75C4.5 6.336 4.83525 6 5.25 6H17.25C17.6648 6 18 6.336 18 6.75C18 7.164 17.6648 7.5 17.25 7.5Z"
+                    fill="#595858"
+                  />
+                  <path
+                    d="M11.25 10.5H5.25C4.83525 10.5 4.5 10.164 4.5 9.75C4.5 9.336 4.83525 9 5.25 9H11.25C11.6648 9 12 9.336 12 9.75C12 10.164 11.6648 10.5 11.25 10.5Z"
+                    fill="#595858"
+                  />
+                </svg>
+                chat online
+              </a>
+
+              <a
+                href="https://wa.me/442081231234?text=Hello%20there" target="_blank" rel="noopener noreferrer"
+                className="flex flex-row items-center p-0 gap-1 h-[20px] font-medium text-[14px] leading-[140%] underline"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4 fill-current text-[#595858]"
+                  aria-hidden="true"
+                >
+                  <path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c7.905 4.27 17.661-1.4 17.665-10.449 0-3.176-1.24-6.165-3.495-8.402ZM22.002 11.866c-.006 7.633-8.385 12.4-15.012 8.504l-.36-.214-3.75.975 1.005-3.645-.239-.375C-.478 10.546 4.26 1.966 12.072 1.966c2.654 0 5.145 1.035 7.021 2.91 1.875 1.859 2.909 4.35 2.909 6.99Z" />
+                  <path d="M17.507 14.307c-2.199-1.096-2.429-1.242-2.713-.816-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.293-.506.32-.578.878-1.634.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.576-.05-.997-.042-1.368.344-1.614 1.774-1.207 3.604.174 5.55 2.714 3.552 4.16 4.206 6.804 5.114.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345Z" />
+                </svg>
+                send a whatsapp
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-wrap gap-4 block md:hidden items-center mt-[10px]">
-        {/* Phone CTA */}
-        <a href={`tel:${contact.phoneNumber.replace(/\s/g, "")}`} className="flex items-center font-semibold text-[#4C4C4C] leading-[140%] transition-colors gap-1" >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_1_3247)">
-              <path fillRule="evenodd" clipRule="evenodd" d="M12.3907 10.9234L11.132 12.1821C11.0975 12.2181 11.0675 12.2391 11.024 12.2631C9.24613 13.2203 5.83448 11.432 4.26667 9.78014C4.25015 9.76215 4.23664 9.74864 4.22016 9.73213C2.56829 8.16432 0.77993 4.75267 1.73713 2.9748C1.76113 2.9313 1.78213 2.90278 1.81815 2.8683L3.07689 1.60805C3.16991 1.51503 3.27343 1.47303 3.40244 1.47303H3.41294C3.54797 1.47453 3.65299 1.52255 3.74451 1.62156L5.36783 3.37391C5.53886 3.55695 5.53285 3.839 5.35582 4.01605L4.30711 5.06477C4.01155 5.36183 3.88252 5.75339 3.94404 6.16749C4.07455 7.03915 4.51265 7.85831 5.2838 8.66999C5.30032 8.6865 5.3138 8.70149 5.33031 8.7165C6.14198 9.48765 6.95964 9.92575 7.83131 10.0563C8.24688 10.1178 8.63847 9.98875 8.93553 9.69168L9.98274 8.64447C10.1598 8.46745 10.4418 8.46143 10.6264 8.63097L12.3787 10.2543C12.4777 10.3458 12.5242 10.4508 12.5272 10.5859C12.5303 10.7208 12.4867 10.8274 12.3907 10.9234ZM12.9398 9.64813L11.1875 8.02481C10.6774 7.5522 9.89122 7.56721 9.39912 8.05932L8.3504 9.10803C8.24089 9.21754 8.10734 9.26108 7.95433 9.23854C7.2552 9.13352 6.58457 8.76747 5.89893 8.11633C5.89291 8.11185 5.88843 8.10583 5.88241 8.09981C5.23278 7.41567 4.8667 6.74354 4.7617 6.04592C4.7392 5.89287 4.7827 5.75935 4.89224 5.64834L5.94095 4.60113C6.43306 4.10902 6.44807 3.32286 5.97396 2.81126L4.35215 1.05891C4.10761 0.796353 3.78804 0.652333 3.42946 0.646317C3.0709 0.640329 2.74682 0.769337 2.49179 1.0244L1.23302 2.28317C1.1415 2.37469 1.07098 2.46922 1.00948 2.58324C0.71693 3.12484 0.599899 3.78647 0.661422 4.54562C0.713922 5.20124 0.896961 5.91838 1.20603 6.67455C1.76264 8.03982 2.67633 9.40808 3.65001 10.3323C3.6575 10.3383 3.66202 10.3428 3.668 10.3488C4.5922 11.3225 5.95895 12.2377 7.32422 12.7943C8.08186 13.1018 8.7975 13.2849 9.45315 13.3389C9.58369 13.3494 9.71119 13.3539 9.83572 13.3539C10.4373 13.3539 10.9669 13.2324 11.4155 12.9908C11.5296 12.9293 11.6256 12.8588 11.7171 12.7673L12.9758 11.507C13.2294 11.2535 13.3599 10.9294 13.3539 10.5708C13.3464 10.2107 13.2039 9.89266 12.9398 9.64813Z" fill="#595858"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_1_3247">
-                <rect width="14" height="14" fill="white"/>
-              </clipPath>
-            </defs>
-          </svg>
-          {contact.phoneNumber}
-        </a>
-        {/* Chat CTA */}
-        <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 15C3.9265 15 3.8525 14.9835 3.783 14.9505C3.6105 14.867 3.5 14.6925 3.5 14.5V12H2C1.173 12 0.5 11.327 0.5 10.5V2.5C0.5 1.673 1.173 1 2 1H14C14.827 1 15.5 1.673 15.5 2.5V10.5C15.5 11.327 14.827 12 14 12H7.9255L4.3125 14.8905C4.222 14.963 4.1115 15 4 15ZM2 2C1.724 2 1.5 2.2245 1.5 2.5V10.5C1.5 10.7755 1.724 11 2 11H4C4.2765 11 4.5 11.2235 4.5 11.5V13.46L7.4375 11.1095C7.5265 11.0385 7.636 11 7.75 11H14C14.276 11 14.5 10.7755 14.5 10.5V2.5C14.5 2.2245 14.276 2 14 2H2Z" fill="#595858"/>
-            <path d="M12 6H4C3.7235 6 3.5 5.776 3.5 5.5C3.5 5.224 3.7235 5 4 5H12C12.2765 5 12.5 5.224 12.5 5.5C12.5 5.776 12.2765 6 12 6Z" fill="#595858"/>
-            <path d="M8 8H4C3.7235 8 3.5 7.776 3.5 7.5C3.5 7.224 3.7235 7 4 7H8C8.2765 7 8.5 7.224 8.5 7.5C8.5 7.776 8.2765 8 8 8Z" fill="#595858"/>
-          </svg>
-          chat online
-        </button>
-        {/* Whatsapp CTA */}
-        <button className="flex items-center font-normal hover:text-[#4C4C4C] text-[14px] leading-[22px] tracking-[0.01em] underline gap-1">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_1_3261)">
-              <path d="M11.6714 9.53795L11.6654 9.58795C10.1994 8.85728 10.0461 8.75995 9.85676 9.04395C9.72543 9.24062 9.34276 9.68662 9.22743 9.81862C9.11076 9.94862 8.99476 9.95862 8.79676 9.86862C8.59676 9.76862 7.95476 9.55862 7.19476 8.87862C6.60276 8.34862 6.20543 7.69862 6.08809 7.49862C5.89276 7.16128 6.30143 7.11328 6.67343 6.40928C6.74009 6.26928 6.70609 6.15928 6.65676 6.05995C6.60676 5.95995 6.20876 4.97995 6.04209 4.58928C5.88209 4.19995 5.71743 4.24928 5.59409 4.24928C5.21009 4.21595 4.92943 4.22128 4.68209 4.47862C3.60609 5.66128 3.87743 6.88128 4.79809 8.17862C6.60743 10.5466 7.57143 10.9826 9.33409 11.588C9.81009 11.7393 10.2441 11.718 10.5874 11.6686C10.9701 11.608 11.7654 11.188 11.9314 10.718C12.1014 10.248 12.1014 9.85795 12.0514 9.76795C12.0021 9.67795 11.8714 9.62795 11.6714 9.53795Z" fill="#595858"/>
-              <path d="M13.68 2.29938C8.554 -2.65596 0.0706667 0.938044 0.0673333 7.92871C0.0673333 9.32605 0.433333 10.6887 1.13067 11.892L0 16L4.22333 14.8987C9.49333 17.7454 15.9973 13.9654 16 7.93271C16 5.81538 15.1733 3.82271 13.67 2.32538L13.68 2.29938ZM14.668 7.91071C14.664 12.9994 9.078 16.1774 4.66 13.58L4.42 13.4374L1.92 14.0874L2.59 11.6574L2.43067 11.4074C-0.318667 7.03071 2.84 1.31071 8.048 1.31071C9.81733 1.31071 11.478 2.00071 12.7287 3.25071C13.9787 4.49004 14.668 6.15071 14.668 7.91071Z" fill="#595858"/>
-            </g>
-            <defs>
-              <clipPath id="clip0_1_3261">
-                <rect width="16" height="16" fill="white"/>
-              </clipPath>
-            </defs>
-          </svg>
-          send a whatsapp
-        </button>
+        <div className="block md:hidden text-[#595858] font-semibold text-[14px] leading-[140%]">
+          Our team are available 24 hours, 7 days
+        </div>
+        <div className="block md:hidden text-[#595858] font-normal text-[14px] leading-[140%]">
+          Hurry this deal has limited availability - call our helpful team now
+        </div>
       </div>
     </div>
   );

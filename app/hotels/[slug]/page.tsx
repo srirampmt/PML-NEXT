@@ -1,347 +1,841 @@
 "use client";
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import FlightSummary from "@/components/hotels/FlightSummary";
 import HolidayCalendar from "@/components/hotels/HolidayCalendar";
 import HolidayDealCard from "@/components/hotels/HolidayDealCard";
+import EnquiryModal from "@/components/hotels/EnquiryModal";
 import HotelBanner from "@/components/hotels/HotelBanner";
 import HotelDetailsTabs from "@/components/hotels/HotelDetailsTabs";
+import OfferHeader from "@/components/hotels/OfferHeader";
 import ShareOffer from "@/components/hotels/ShareOffer";
+import ContactAndTrending from "@/components/hotels/ContactAndTrending";
 import Trustsection from "@/components/Trustsection";
+import { HotelPageResponse, HotelDeal, DealsByDate } from "@/types/hotel";
+import {
+  processDealsByDate,
+  formatDateTime,
+  getTripSummary,
+  getPricePerPerson,
+  extractFilterOptions,
+  prepareFilterOptionsForDisplay,
+  prepareFilterOptionsWithIds,
+  getBoardBasisText,
+  formatPrice,
+  getEffectivePrice,
+  formatAirport,
+  formatAirline,
+  formatNights,
+} from "@/lib/hotel-utils";
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const asHtmlList = (items: unknown) => {
+  if (!Array.isArray(items)) return "";
+  const listItems = items
+    .map((item) => `<li>${escapeHtml(String(item ?? ""))}</li>`)
+    .join("");
+  return `<ul>${listItems}</ul>`;
+};
+
+type SearchFilters = {
+  departure: string;
+  boardBasis: string;
+  duration: string;
+};
+
+type PageSnapshot = {
+  hotelData: HotelPageResponse;
+  dealsByDate: DealsByDate;
+  selectedDate: string;
+  selectedDeal: HotelDeal | null;
+  noDealsMessage: string;
+};
+
+const buildFilterKey = (filters: SearchFilters) =>
+  `dep=${filters.departure || ""}|bb=${filters.boardBasis || ""}|dur=${filters.duration || ""}`;
 
 export default function Home() {
   const { slug } = useParams<{ slug: string }>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  
+  // State management
+  const [hotelData, setHotelData] = useState<HotelPageResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [dealsByDate, setDealsByDate] = useState<DealsByDate>({});
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedDeal, setSelectedDeal] = useState<HotelDeal | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [noDealsMessage, setNoDealsMessage] = useState<string>("");
+  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [currentFilters, setCurrentFilters] = useState({
+    departure: "",
+    boardBasis: "",
+    duration: "",
+  });
+  const [currentFiltersDisplay, setCurrentFiltersDisplay] = useState({
+    departure: "",
+    boardBasis: "",
+    duration: "",
+  });
+  console.log(selectedDeal)
+  // Always keep the latest filter IDs available to callbacks (avoids stale closure values)
+  const currentFiltersRef = useRef(currentFilters);
+  useEffect(() => {
+    currentFiltersRef.current = currentFilters;
+  }, [currentFilters]);
+
+  // Also track the latest visible dropdown selections
+  const currentFiltersDisplayRef = useRef(currentFiltersDisplay);
+  useEffect(() => {
+    currentFiltersDisplayRef.current = currentFiltersDisplay;
+  }, [currentFiltersDisplay]);
+
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inFlightAbortRef = useRef<AbortController | null>(null);
+  const lastRequestIdRef = useRef(0);
+  const initialSnapshotRef = useRef<PageSnapshot | null>(null);
+  const searchCacheRef = useRef<Map<string, PageSnapshot>>(new Map());
+  const lastAppliedFilterKeyRef = useRef<string>("");
 
   const handleBookNow = () => {
     alert("Booking holiday!");
   };
 
+  const handleEnquireNow = () => {
+    setIsEnquiryOpen(true);
+  };
+
+  const handleCloseEnquiry = () => {
+    setIsEnquiryOpen(false);
+  };
+
+  // Fetch initial hotel data
   useEffect(() => {
     if (!slug) return;
 
-    const fetchFlights = async () => {
+    // Reset per-slug state refs (important when navigating between slugs)
+    initialSnapshotRef.current = null;
+    searchCacheRef.current.clear();
+    lastAppliedFilterKeyRef.current = "";
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    if (inFlightAbortRef.current) inFlightAbortRef.current.abort();
+
+    const fetchHotelData = async () => {
       try {
-        console.log("Sending request to:", `/api/hotels/${slug}`);
-        const startTime = Date.now();
-        console.log("time of execution start:", new Date(startTime).toISOString());
+        console.log("Fetching hotel data for:", slug);
         const response = await fetch(`/api/hotels/${slug}`);
-        console.log("Response status:", response.status);
-        console.log("Response headers:", response.headers);
         
-        const data = await response.json();
-        const endTime = Date.now();
-        console.log("time of execution end:", new Date(endTime).toISOString());
-        const delta = endTime - startTime;
-        console.log("execution time delta:", delta, "ms");
-        console.log("Response data:", data);
-        console.log("Full response:", response);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data: HotelPageResponse = await response.json();
+        console.log("Hotel data received:", data);
+
+        const defaultDeal = (data as any)?.api_data?.default_deal as HotelDeal | null | undefined;
+        const results = (data as any)?.api_data?.api_deals?.Results as HotelDeal[] | null | undefined;
+
+        if (!defaultDeal?.hotel?.checkInDate) {
+          // If we ended up here due to stale/invalid URL state (e.g. repeated "update" flows
+          // then browser Back), reset to the clean base route with no query params.
+          if (typeof window !== "undefined" && window.location.search) {
+            window.location.replace(`/hotels/${slug}`);
+            return;
+          }
+
+          setHotelData(data);
+          setDealsByDate({});
+          setSelectedDate("");
+          setSelectedDeal(null);
+          setNoDealsMessage(
+            "We couldn’t find any offers that match your current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll create the perfect travel plan tailored just for you."
+          );
+          setLoading(false);
+          return;
+        }
+        
+        // Process deals by date
+        const processed = processDealsByDate(
+          defaultDeal,
+          results
+        );
+
+        // Set initial selected date and deal
+        const initialDate = defaultDeal.hotel.checkInDate;
+
+        setHotelData(data);
+        setDealsByDate(processed);
+        setSelectedDate(initialDate);
+        setSelectedDeal(defaultDeal);
+        setNoDealsMessage("");
+
+        // Set initial filters
+        const customData = defaultDeal.customPricing?.custom_search_data;
+        if (customData) {
+          setCurrentFilters({
+            departure: customData.departure_airports[0]?.id || "",
+            boardBasis: customData.board_basis_multiple[0]?.id || "",
+            duration: customData.duration[0] || "",
+          });
+        }
+
+        // Capture the initial (base URL, no query) state snapshot once.
+        // This is used when user presses Back and query params are cleared.
+        if (!initialSnapshotRef.current) {
+          initialSnapshotRef.current = {
+            hotelData: data,
+            dealsByDate: processed,
+            selectedDate: initialDate,
+            selectedDeal: defaultDeal,
+            noDealsMessage: "",
+          };
+        }
+        
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching hotel data:", error);
+        setLoading(false);
       }
     };
 
-    fetchFlights();
+    fetchHotelData();
   }, [slug]);
 
-  const palmDealData = {
-    badges: [
-      "LIMITED TIME OFFER: ENDS 14/03/24",
-      "ULTRA ALL INCLUSIVE",
-      "FLEXIBLE DURATIONS",
-    ],
-    location: "Dubai, UAE",
-    hotelName: "Dukes The Palm, a Royal Hideaway Hotel",
-    rating: 5,
-    description:
-      '"Dukes The Palm, a Royal Hideaway Hotel on Palm Jumeirah combines a world of British charm with cosmopolitan grandeur. Guests can relax in the lazy river or participate in a variety of water sports on the beach."',
-    aboutDeal:
-      "With this deal you can spend a week relaxing on a tropical island surrounded by a vibrant coral reef, complete with a secluded beach villa to retreat to. We couldn't find the hotel alone for less than £900 per person when we researched the offer—so this half-price deal with return flights, speedboat transfers, and meals is packed with value at £1199 per person",
-    inclusions: [
-      "Return flights, with 20kg checked baggage",
-      "Return speedboat transfers",
-      "Seven nights at Eriyadu Island Resort Maldives, in a Deluxe Beachfront Villa with Private Walkout Patio",
-      "All-Inclusive board, covering all meals, drinks, and snacks",
-      "A 30-minute jet lag massage per person, per stay",
-      "One sunset cruise per person, per stay",
-      "25% off spa treatments",
-    ],
-    whyWeLoveIt: [
-      "Unlimited waterpark entry",
-      "TripAdvisor Travellers Choice Award",
-      "Luxury resort hotel",
-      "First-class facilities",
-      "Beachfront location",
-      "Free WiFi throughout",
-    ],
-    contact: {
-      phoneNumber: "020 8123 1234",
-      isAvailable24_7: true,
-      limitedAvailabilityMessage:
-        "Hurry this deal has limited availability - call our helpful team now",
+  const restoreSnapshot = useCallback((snapshot: PageSnapshot) => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    if (inFlightAbortRef.current) inFlightAbortRef.current.abort();
+    setIsSearching(false);
+    setHotelData(snapshot.hotelData);
+    setDealsByDate(snapshot.dealsByDate);
+    setSelectedDate(snapshot.selectedDate);
+    setSelectedDeal(snapshot.selectedDeal);
+    setNoDealsMessage(snapshot.noDealsMessage);
+  }, []);
+
+  const performDynamicSearch = useCallback(
+    async (filters: SearchFilters, filterKey: string) => {
+      const requestId = ++lastRequestIdRef.current;
+
+      // Cancel any previous in-flight request (prevents stale overwrites)
+      if (inFlightAbortRef.current) inFlightAbortRef.current.abort();
+      const controller = new AbortController();
+      inFlightAbortRef.current = controller;
+
+      setIsSearching(true);
+      setNoDealsMessage("");
+
+      try {
+        const response = await fetch(`/api/hotels/${slug}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          signal: controller.signal,
+          body: JSON.stringify({
+            hotelKey: hotelData?.page.hotelKey,
+            departure: filters.departure,
+            boardBasis: filters.boardBasis,
+            duration: filters.duration,
+            adults: 2,
+            children: 0,
+          }),
+        });
+
+        const responseText = await response.text();
+        const contentType = response.headers.get("content-type") || "";
+        let result: any = null;
+        if (responseText) {
+          try {
+            result = JSON.parse(responseText);
+          } catch {
+            console.error("Dynamic search returned non-JSON body", {
+              status: response.status,
+              contentType,
+              bodyPreview: responseText.slice(0, 300),
+            });
+            return;
+          }
+        }
+
+        if (!response.ok) {
+          console.error("Dynamic search request failed", {
+            status: response.status,
+            contentType,
+            body: result ?? responseText,
+          });
+          const snapshot: PageSnapshot | null = hotelData
+            ? {
+                hotelData,
+                dealsByDate: {},
+                selectedDate: "",
+                selectedDeal: null,
+                noDealsMessage: "Search failed. Please try again.",
+              }
+            : null;
+          if (snapshot) {
+            searchCacheRef.current.set(filterKey, snapshot);
+            restoreSnapshot(snapshot);
+          } else {
+            setNoDealsMessage("Search failed. Please try again.");
+          }
+          return;
+        }
+
+        // Ignore stale responses
+        if (requestId !== lastRequestIdRef.current) return;
+
+        // Backend can return 200 with { success: false, error: "No deals found..." }
+        const backendSuccess = result?.data?.success;
+        if (backendSuccess === false) {
+          const message = result?.data?.error || "We couldn’t find any offers that match your current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll create the perfect travel plan tailored just for you.";
+
+          const snapshot: PageSnapshot | null = hotelData
+            ? {
+                hotelData,
+                dealsByDate: {},
+                selectedDate: "",
+                selectedDeal: null,
+                noDealsMessage: message,
+              }
+            : null;
+
+          if (snapshot) {
+            searchCacheRef.current.set(filterKey, snapshot);
+            restoreSnapshot(snapshot);
+          } else {
+            setNoDealsMessage(message);
+            setDealsByDate({});
+            setSelectedDeal(null);
+            setSelectedDate("");
+          }
+          return;
+        }
+
+        const apiData =
+          result?.data?.api_data ?? result?.data?.data?.api_data ?? result?.api_data;
+
+        const results =
+          apiData?.api_deals?.Results ??
+          result?.data?.api_deals?.Results ??
+          result?.data?.data?.api_deals?.Results ??
+          result?.api_deals?.Results;
+
+        const defaultDeal =
+          apiData?.default_deal ??
+          result?.data?.default_deal ??
+          result?.data?.data?.default_deal ??
+          result?.default_deal;
+
+        const successFlag =
+          typeof result?.success === "boolean"
+            ? result.success
+            : typeof result?.data?.success === "boolean"
+            ? result.data.success
+            : true;
+
+        if (!successFlag || !apiData || !Array.isArray(results) || !defaultDeal) {
+          console.error("Dynamic search response missing expected data", {
+            status: response.status,
+            contentType,
+            body: result,
+          });
+          setNoDealsMessage("We couldn’t find any offers that match your current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll create the perfect travel plan tailored just for you.");
+          return;
+        }
+
+        const newDeals = processDealsByDate(defaultDeal, results);
+        const firstDate = Object.keys(newDeals)[0] || "";
+        const nextSelectedDeal = firstDate ? newDeals[firstDate]?.deal ?? null : null;
+
+        let updatedHotelData: HotelPageResponse | null = null;
+        setHotelData((prev) => {
+          updatedHotelData = prev ? { ...prev, api_data: apiData } : prev;
+          return updatedHotelData;
+        });
+        setDealsByDate(newDeals);
+        setSelectedDate(firstDate);
+        setSelectedDeal(nextSelectedDeal);
+        setNoDealsMessage("");
+
+        if (updatedHotelData) {
+          const snapshot: PageSnapshot = {
+            hotelData: updatedHotelData,
+            dealsByDate: newDeals,
+            selectedDate: firstDate,
+            selectedDeal: nextSelectedDeal,
+            noDealsMessage: "",
+          };
+          searchCacheRef.current.set(filterKey, snapshot);
+        }
+      } catch (error) {
+        if ((error as any)?.name !== "AbortError") {
+          console.error("Error during dynamic search:", error);
+          setNoDealsMessage("Search failed. Please try again.");
+        }
+      } finally {
+        if (requestId === lastRequestIdRef.current) {
+          setIsSearching(false);
+        }
+      }
     },
-    ctaText: "Read more",
-  };
+    [hotelData, restoreSnapshot, slug]
+  );
 
-  const mockPriceData = [
-    // December 2025
-    { date: "2025-12-01", price: 1999 },
-    { date: "2025-12-02", price: 1999 },
-    { date: "2025-12-03", price: 1999 },
-    { date: "2025-12-04", price: 1999 },
-    { date: "2025-12-05", price: 1999 },
-    { date: "2025-12-06", price: 1999 },
-    { date: "2025-12-07", price: 1999 },
-    { date: "2025-12-08", price: 1999 },
-    { date: "2025-12-09", price: 1999 },
-    { date: "2025-12-10", price: 1999 },
-    { date: "2025-12-11", price: 1999 }, // Selected in image
-    { date: "2025-12-12", price: 1999 },
-    { date: "2025-12-13", price: 1999 },
-    { date: "2025-12-14", price: 1999 },
-    { date: "2025-12-15", price: 1999 },
-    { date: "2025-12-16", price: 1999 },
-    { date: "2025-12-17", price: 1999 },
-    { date: "2025-12-18", price: 1999 },
-    { date: "2025-12-19", price: 1999 },
-    { date: "2025-12-20", price: 1999 }, // Highlighted in image
-    { date: "2025-12-21", price: 1999 },
-    { date: "2025-12-22", price: 1999 },
-    { date: "2025-12-23", price: 1999 },
-    { date: "2025-12-24", price: 1999 },
-    // ... and so on for other months
-  ];
-  const airports = ["Any airport", "London (LHR)", "Manchester (MAN)"];
-  const boardBases = ["All Inclusive", "Half Board", "Full Board"];
-  const durations = ["5 nights", "7 nights", "10 nights", "14 nights"];
-  const initialDate = "2025-12-11";
+  // URL-driven search:
+  // - Backend search ONLY happens in response to URL query param changes
+  // - When query params are cleared, restore initial snapshot without backend
+  useEffect(() => {
+    if (!slug) return;
+    if (loading) return;
+    if (!hotelData) return;
+
+    const filtersFromUrl: SearchFilters = {
+      departure: searchParams.get("departure") || "",
+      boardBasis: searchParams.get("boardBasis") || "",
+      duration: searchParams.get("duration") || "",
+    };
+
+    const hasAnyFilter =
+      Boolean(filtersFromUrl.departure) ||
+      Boolean(filtersFromUrl.boardBasis) ||
+      Boolean(filtersFromUrl.duration);
+
+    if (!hasAnyFilter) {
+      if (lastAppliedFilterKeyRef.current !== "") {
+        lastAppliedFilterKeyRef.current = "";
+      }
+      if (initialSnapshotRef.current) {
+        restoreSnapshot(initialSnapshotRef.current);
+      }
+      return;
+    }
+
+    const filterKey = buildFilterKey(filtersFromUrl);
+    if (filterKey === lastAppliedFilterKeyRef.current) return;
+    lastAppliedFilterKeyRef.current = filterKey;
+
+    // Keep internal filter IDs aligned with the URL (display labels are handled by selectedDeal sync)
+    setCurrentFilters(filtersFromUrl);
+
+    const cached = searchCacheRef.current.get(filterKey);
+    if (cached) {
+      restoreSnapshot(cached);
+      return;
+    }
+
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    searchTimeoutRef.current = setTimeout(() => {
+      void performDynamicSearch(filtersFromUrl, filterKey);
+    }, 600);
+  }, [slug, searchParams, hotelData, loading, performDynamicSearch, restoreSnapshot]);
+
+  // Prepare filter options with IDs (memoized to use in callbacks)
+  const filterOptionsWithIds = useMemo(() => {
+    return selectedDeal ? prepareFilterOptionsWithIds(selectedDeal) : {
+      airports: [],
+      boardBases: [],
+      durations: [],
+    };
+  }, [selectedDeal]);
+
+  const dealDisplayFilters = useMemo(() => {
+    if (!selectedDeal) return { departure: "", boardBasis: "", duration: "" };
+
+    const departureLabel = selectedDeal.flight?.departureAirportCode
+      ? formatAirport(selectedDeal.flight.departureAirportCode)
+      : "";
+
+    const boardBasisLabel = selectedDeal.hotel?.boardBasis
+      ? getBoardBasisText(selectedDeal.hotel.boardBasis)
+      : "";
+
+    const durationLabel = selectedDeal.hotel?.duration
+      ? formatNights(selectedDeal.hotel.duration)
+      : "";
+
+    return {
+      departure: departureLabel,
+      boardBasis: boardBasisLabel,
+      duration: durationLabel,
+    };
+  }, [selectedDeal]);
   
-  const overviewText = `
-The King Evelthon Beach Hotel & Resort is a wonderful beachfront hotel in sunny
-Paphos that offers a memorable stay to its guests, nestled closely on the
-Chlorakas Bay within lush landscaped grounds. Boasting its very own water park,
-kids’ club, spa, and a la carte restaurants, this resort provides world-class
-amenities and friendly, unobtrusive hospitality throughout your stay.
-`;
+  // Handle date selection from calendar
+  const handleDateSelection = useCallback((date: string) => {
+    const deal = dealsByDate[date];
+    if (deal) {
+      setSelectedDate(date);
+      setSelectedDeal(deal.deal);
+      setNoDealsMessage("");
+    }
+  }, [dealsByDate]);
 
-  const amenitiesText = `
-Guests can enjoy both indoor and outdoor swimming pools, a relaxing spa offering
-massages and therapies, fitness facilities, tennis courts, and mini football
-fields. Families will love the water park and kids’ club, while adults can unwind
-in peaceful lounge areas or by the poolside.
-`;
+  // Keep dropdown filters in sync with the currently selected deal
+  useEffect(() => {
+    if (!selectedDeal) return;
+    const customData = selectedDeal.customPricing?.custom_search_data;
+    if (!customData) {
+      setCurrentFiltersDisplay({
+        departure: dealDisplayFilters.departure,
+        boardBasis: dealDisplayFilters.boardBasis,
+        duration: dealDisplayFilters.duration,
+      });
+      return;
+    }
 
-  const foodText = `
-The hotel features two main restaurants, including indoor and outdoor seating,
-serving a variety of international and regional cuisines prepared with fresh
-ingredients. There are also three bars including a terrace bar, pool snack bar,
-and a cosy lounge bar.
-`;
+    // Prefer IDs that correspond to the currently selected deal (matches what the user sees)
+    const dealDepartureLabel = dealDisplayFilters.departure;
+    const matchedDeparture = customData.departure_airports?.find(
+      (airport: any) =>
+        String(airport.id) === String(selectedDeal.flight?.departureAirportCode) ||
+        formatAirport(airport.id) === dealDepartureLabel
+    );
+    const departureId = matchedDeparture?.id || customData.departure_airports?.[0]?.id || "";
 
-  const allInclusivePoints = [
-    "Breakfast buffet (07:00 – 10:00)",
-    "Late breakfast at the continental restaurant (10:00 – 11:00)",
-    "Lunch buffet (12:30 – 14:30)",
-    "Afternoon tea at the lobby bar (16:30 – 17:30)",
-    "Dinner buffet (18:30 – 21:30)",
-    "À la carte dinner once per stay (18:30 – 22:00)",
-    "Locally produced alcoholic and non-alcoholic drinks at selected bars",
-  ];
+    const dealBoardCode = selectedDeal.hotel?.boardBasis;
+    const matchedBoardBasis = customData.board_basis_multiple?.find(
+      (basis: any) => basis.code === dealBoardCode
+    );
+    const boardBasisId = matchedBoardBasis?.id || customData.board_basis_multiple?.[0]?.id || "";
 
-  const roomsText = `
-The well-appointed guest rooms feature parquet flooring, furnished balconies or
-terraces with sea or garden views, flat-screen satellite TV, air conditioning,
-mini fridge, hairdryer, and complimentary toiletries.
-`;
+    const dealDuration = selectedDeal.hotel?.duration;
+    const matchedDuration = customData.duration?.find(
+      (d: string) => String(d) === String(dealDuration)
+    );
+    const durationId = matchedDuration || customData.duration?.[0] || "";
 
-  const locationData = {
-    description: `
-The hotel is located on the Chlorakas Bay in Paphos Town, just a short distance
-from popular tourist attractions and sandy beaches. Paphos International Airport
-is approximately 20 minutes away.
-  `,
-    distances: [
-      "Seafront access via steps from rocks",
-      "800m from nearest shops, bars and restaurants",
-      "3km from the beach",
-      "3km from Paphos resort centre",
-      "8km from Coral Bay resort centre",
-      "Approximate transfer time: 50 minutes",
-    ],
-    mapEmbedUrl: "https://www.google.com/maps?q=Paphos%20Cyprus&output=embed",
+    setCurrentFilters({
+      departure: departureId,
+      boardBasis: boardBasisId,
+      duration: durationId,
+    });
+
+    // Provide fallbacks for display labels in case deal fields are missing
+    const fallbackDepartureId = customData.departure_airports?.[0]?.id;
+    const fallbackBoardCode = customData.board_basis_multiple?.[0]?.code;
+    const fallbackDuration = customData.duration?.[0];
+
+    setCurrentFiltersDisplay({
+      departure:
+        dealDisplayFilters.departure ||
+        (fallbackDepartureId ? formatAirport(fallbackDepartureId) : ""),
+      boardBasis:
+        dealDisplayFilters.boardBasis ||
+        (fallbackBoardCode ? getBoardBasisText(fallbackBoardCode) : ""),
+      duration:
+        dealDisplayFilters.duration || (fallbackDuration ? formatNights(fallbackDuration) : ""),
+    });
+  }, [selectedDeal, dealDisplayFilters]);
+  
+  // Handle filter changes with debouncing
+  const handleFilterChange = useCallback(
+    async (filterType: "departure" | "boardBasis" | "duration", displayValue: string) => {
+      // Don't allow search if custom pricing is active
+      if (selectedDeal?.customPricing?.hasCustomPrice) {
+        return;
+      }
+
+      // Update visible dropdowns immediately (prevents reverting while debounced search runs)
+      setCurrentFiltersDisplay((prev) => ({
+        ...prev,
+        [filterType]: displayValue,
+      }));
+
+      const nextDisplay = {
+        ...currentFiltersDisplayRef.current,
+        [filterType]: displayValue,
+      };
+      currentFiltersDisplayRef.current = nextDisplay;
+
+      const mapDisplayToId = (
+        kind: "departure" | "boardBasis" | "duration",
+        label: string
+      ) => {
+        if (!label) return "";
+        if (kind === "departure") {
+          return filterOptionsWithIds.airports.find((a) => a.label === label)?.id || label;
+        }
+        if (kind === "boardBasis") {
+          return filterOptionsWithIds.boardBases.find((b) => b.label === label)?.id || label;
+        }
+        return filterOptionsWithIds.durations.find((d) => d.label === label)?.id || label;
+      };
+
+      const newFilters = {
+        departure: mapDisplayToId("departure", nextDisplay.departure),
+        boardBasis: mapDisplayToId("boardBasis", nextDisplay.boardBasis),
+        duration: mapDisplayToId("duration", nextDisplay.duration),
+      };
+      currentFiltersRef.current = newFilters;
+      setCurrentFilters(newFilters);
+
+      // Manual dropdown changes update URL (creates browser history entries).
+      // The backend search runs ONLY from the URL watcher effect above.
+      const nextParams = new URLSearchParams(searchParams.toString());
+      if (newFilters.departure) nextParams.set("departure", newFilters.departure);
+      else nextParams.delete("departure");
+      if (newFilters.boardBasis) nextParams.set("boardBasis", newFilters.boardBasis);
+      else nextParams.delete("boardBasis");
+      if (newFilters.duration) nextParams.set("duration", newFilters.duration);
+      else nextParams.delete("duration");
+
+      const query = nextParams.toString();
+      router.push(query ? `/hotels/${slug}?${query}` : `/hotels/${slug}`, { scroll: false });
+    },
+    [slug, selectedDeal, filterOptionsWithIds, router, searchParams]
+  );
+
+  // Cleanup pending debounce + in-flight request on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+      if (inFlightAbortRef.current) inFlightAbortRef.current.abort();
+    };
+  }, []);
+  
+  // Loading state
+  if (loading || !hotelData) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pml-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading hotel details...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Extract data for components
+  const page = hotelData.page;
+  const filterOptions = selectedDeal ? extractFilterOptions(selectedDeal) : null;
+  
+  // Prepare filter dropdown options with proper display names
+  const displayFilters = selectedDeal ? prepareFilterOptionsForDisplay(selectedDeal) : {
+    airports: [],
+    boardBases: [],
+    durations: [],
   };
 
-  const facilitiesList = [
-    "Rivayat restaurant",
-    "Tamimi restaurant",
-    "Azur restaurant",
-    "Vue bar",
-    "The Oberoi Spa",
-    "Fitness centre",
-    "Yoga studio",
-    "Clay tennis court",
-    "Swimming pool",
-    "Kids’ club",
-    "Library",
-    "Cooking classes",
-    "Shuttle service",
-    "Laundry service",
-    "Valet parking",
-    "Wi-Fi",
-    "Check-in: 3pm / Check-out: 12pm",
-  ];
+  
+  // Prepare price data for calendar
+  const priceData = Object.entries(dealsByDate).map(([date, processed]) => ({
+    date,
+    price: processed.price,
+  }));
+  
+  // Prepare flight details for FlightSummary
+  let outboundFlightDetails = null;
+  let inboundFlightDetails = null;
+  if (selectedDeal) {
+    const outbound = formatDateTime(selectedDeal.flight.outboundDepartureDate);
+    const outboundArrival = formatDateTime(selectedDeal.flight.outboundArrivalDate);
+    const inbound = formatDateTime(selectedDeal.flight.inboundDepartureDate);
+    const inboundArrival = formatDateTime(selectedDeal.flight.inboundArrivalDate);
+    
+    outboundFlightDetails = {
+      flightNumber: `${formatAirline(selectedDeal.flight.outboundFlightSupplier)} - ${selectedDeal.flight.outboundFlightNumber}`,
+      departureCode: `${formatAirport(selectedDeal.flight.departureAirportCode)} (${selectedDeal.flight.departureAirportCode})`,
+      arrivalCode: `${formatAirport(selectedDeal.flight.arrivalAirportCode)} (${selectedDeal.flight.arrivalAirportCode})`,
+      departureDate: outbound.date,
+      departureTime: outbound.time,
+      arrivalDate: outboundArrival.date,
+      arrivalTime: outboundArrival.time,
+    };
+    
+    inboundFlightDetails = {
+      flightNumber: `${formatAirline(selectedDeal.flight.inboundFlightSupplier)} - ${selectedDeal.flight.inboundFlightNumber}`,
+      departureCode: `${formatAirport(selectedDeal.flight.arrivalAirportCode)} (${selectedDeal.flight.arrivalAirportCode})`,
+      arrivalCode: `${formatAirport(selectedDeal.flight.departureAirportCode)} (${selectedDeal.flight.departureAirportCode})`,
+      departureDate: inbound.date,
+      departureTime: inbound.time,
+      arrivalDate: inboundArrival.date,
+      arrivalTime: inboundArrival.time,
+    };
+  }
+
+  
 
   const reviewsData = {
-    rating: 4.5,
-    total: 4090,
-    updatedAt: "01/01/2024",
+    rating: page.trip_advisor_reviews_rating,
+    total: page.trip_advisor_rating,
+    updatedAt: page.trip_advisor_reviews_last_updated_date,
   };
 
-  const finePrintData = [
-    "Prices are per person based on two people sharing and subject to availability.",
-    "Prices are correct at time of publishing and may change at any time.",
-    "Offers operate on a first come, first served basis.",
-    "Optional extras are payable locally unless stated otherwise.",
-    "Flight times are confirmed with the final booking documentation.",
-    "Premium support package is not included unless stated.",
-    "Refunds are processed within 7–10 business days where applicable.",
-  ];
+  const handleCtaClick = () => {
+    const calendarEl = document.getElementById("holiday-calendar");
+    if (!calendarEl) return;
+    calendarEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <div className="min-h-screen bg-white relative">
+      <EnquiryModal
+        open={isEnquiryOpen}
+        onClose={handleCloseEnquiry}
+        initialValues={{
+          destination: hotelData.page.location,
+          resort: selectedDeal?.hotel?.hotelName || hotelData.page.hotel_name,
+          quoteRef: selectedDeal?.quoteReference,
+          dealdata: selectedDeal,
+          source: `Deal Page - ${hotelData.page.hotel_name}`,
+        }}
+      />
       <main className="mx-auto bg-white px-4 md:px-10">
         <HotelBanner
-          location="DUBAI - THE PALM ISLAND"
-          title="Deluxe Dubai Break including meals, drinks, transfers and FREE Excursion"
-          subtitle="Exclusive offer to Plan My Luxe - Hurry Limited Seats and Availability - Selling Fast!!!"
+          location={page.location}
+          title={page.offer_header}
+          subtitle={page.info_paragraph || "Exclusive offer to Plan My Luxe - Hurry Limited Seats and Availability - Selling Fast!!!"}
           priceLabel="Price starting from"
-          price="299"
+          price={selectedDeal ? Math.round(getEffectivePrice(selectedDeal)).toString() : page.starting_price}
           ctaText="View Options"
-          images={[
-            "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "https://images.unsplash.com/photo-1657349226767-66c983d7df39?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            "https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          ]}
-          badgeText="Prices include FREE Attraction Entry"
+          images={page.pictures.filter(img => img.trim()).slice(0, 3)}
+          badgeText={page.offer_on_card || page.tag_list[0]}
         />
 
+        {/* Badges + Header + Share (single row below banner) */}
+        <div className="mx-auto max-w-[1280px] pt-[16px] pb-[8px]">
+          <ShareOffer
+            copyText="https://planmyluxe.com/offers/paphos-holiday"
+            variant="headerRow"
+          />
+        </div>
+
         <div className="mx-auto max-w-[1280px] py-[16px] ">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-[1fr_360px] gap-6">
             {/* Left column */}
             <div className="w-full space-y-6">
-              <HolidayDealCard {...palmDealData} />
-              <div className="flex gap-2 lg:block justify-between">
+              <OfferHeader
+                badges={page.tag_list}
+                location={page.location}
+                hotelName={page.hotel_name}
+                rating={Number(page.property_rating) || 0}
+                description={page.headline_review}
+              />
+              <HolidayDealCard
+                aboutTheDeal={page.about_the_deal}
+                whyWeLoveThisHotel={page.why_we_love_this_hotel}
+                aboutTheHotel={page.about_the_hotel}
+              />
+              <div id="holiday-calendar" className="flex gap-2 lg:block justify-between scroll-mt-24">
                 <HolidayCalendar
-                  availableAirports={airports}
-                  availableBoardBases={boardBases}
-                  availableDurations={durations}
-                  initialPrices={mockPriceData}
-                  initialDepartureDate={initialDate}
-                  nights={7}
+                  availableAirports={displayFilters.airports}
+                  availableBoardBases={displayFilters.boardBases}
+                  availableDurations={displayFilters.durations}
+                  selectedAirport={
+                    currentFiltersDisplay.departure || displayFilters.airports[0] || ""
+                  }
+                  selectedBoardBasis={
+                    currentFiltersDisplay.boardBasis || displayFilters.boardBases[0] || ""
+                  }
+                  selectedDuration={
+                    currentFiltersDisplay.duration || displayFilters.durations[0] || ""
+                  }
+                  initialPrices={priceData}
+                  initialDepartureDate={selectedDate}
+                  defaultDate={hotelData.api_data.default_deal.hotel.checkInDate}
+                  nights={selectedDeal?.hotel.duration || 7}
+                  onDateSelect={handleDateSelection}
+                  onFilterChange={handleFilterChange}
+                  onEnquire={handleEnquireNow}
+                  isSearching={isSearching}
+                  hideFilters={selectedDeal?.customPricing?.hasCustomPrice || false}
+                  noDealsMessage={noDealsMessage || undefined}
                 />
-                <div className="hidden md:block lg:hidden">
-                  <FlightSummary
-                    nights={14}
-                    outboundFlight={{
-                      flightNumber: "WIZ/U2 - W95313",
-                      departureCode: "LTN",
-                      arrivalCode: "HRG",
-                      departureDate: "Thu, 15 Jan",
-                      departureTime: "08:10",
-                      arrivalDate: "Thu, 15 Jan",
-                      arrivalTime: "16:35",
-                    }}
-                    inboundFlight={{
-                      flightNumber: "WIZ/U2 - W95313",
-                      departureCode: "HRG",
-                      arrivalCode: "LTN",
-                      departureDate: "Thu, 15 Jan",
-                      departureTime: "08:10",
-                      arrivalDate: "Thu, 15 Jan",
-                      arrivalTime: "16:35",
-                    }}
-                    isAllInclusive={true}
-                    includes={["Hand luggage for each passenger"]}
-                    transfers={false}
-                    pricePerPerson="£4,099"
-                    quoteRef="ABC123456"
-                    ctaText="Book Now"
-                    atolProtected={true}
-                    onBookNow={handleBookNow}
-                  />
-                </div>
               </div>
             </div>
 
-            {/* Right column - remove items-start from grid, add it here */}
-            <aside className="w-full block md:hidden lg:block">
-              <ShareOffer
-                copyText="https://planmyluxe.com/offers/paphos-holiday"
-                className="hidden md:flex"
-              />
-              <div className="lg:sticky lg:top-24 space-y-4">
-                <FlightSummary
-                  nights={14}
-                  outboundFlight={{
-                    flightNumber: "WIZ/U2 - W95313",
-                    departureCode: "LTN",
-                    arrivalCode: "HRG",
-                    departureDate: "Thu, 15 Jan",
-                    departureTime: "08:10",
-                    arrivalDate: "Thu, 15 Jan",
-                    arrivalTime: "16:35",
-                  }}
-                  inboundFlight={{
-                    flightNumber: "WIZ/U2 - W95313",
-                    departureCode: "HRG",
-                    arrivalCode: "LTN",
-                    departureDate: "Thu, 15 Jan",
-                    departureTime: "08:10",
-                    arrivalDate: "Thu, 15 Jan",
-                    arrivalTime: "16:35",
-                  }}
-                  isAllInclusive={true}
-                  includes={["Hand luggage for each passenger"]}
-                  transfers={false}
-                  pricePerPerson="£4,099"
-                  quoteRef="ABC123456"
-                  ctaText="Book Now"
-                  atolProtected={true}
-                  onBookNow={handleBookNow}
-                />
+            {/* Right column */}
+              <aside className="w-full">
+              <div
+                className="space-y-4 sticky self-start"
+                style={{ top: "calc(var(--main-nav-height, 0px) + 16px)" }}
+              >
+                  <div className="hidden md:block">
+                    <ContactAndTrending />
+                  </div>
+                {noDealsMessage ? (
+                  <FlightSummary
+                    emptyStateMessage={noDealsMessage}
+                    onBookNow={handleEnquireNow}
+                  />
+                ) : (
+                  selectedDeal && (
+                  <FlightSummary selectedDeal={selectedDeal} onBookNow={handleEnquireNow} />
+                  )
+                )}
+                  <div className="md:hidden">
+                    <ContactAndTrending />
+                  </div>
               </div>
             </aside>
           </div>
         </div>
 
         <HotelDetailsTabs
-          overview={overviewText}
-          amenities={amenitiesText}
-          foodAndDrink={foodText}
-          allInclusive={allInclusivePoints}
-          rooms={roomsText}
-          location={locationData}
-          facilities={facilitiesList}
+          overview={page.about_the_hotel}
+          location={[page.hotel_cordinates,page.location_detail]}
+          facilities={
+            Array.isArray(page.facilities)
+              ? asHtmlList(page.facilities)
+              : String(page.facilities ?? "")
+          }
           reviews={reviewsData}
-          finePrint={finePrintData}
+          finePrint={page.fine_print}
         />
 
         <div className="fixed inset-x-0 bottom-0 px-5 py-2 w-full bg-white justify-between z-50 md:hidden flex items-center gap-4">
-          <div className="text-[#4c4c4c] text-[12px] md:text-[13px]">
-            <div className="mb-1">Price Starting From</div>
-            <div className="text-[#CB2187] text-[24px] md:text-[28px] font-bold">
-              <span className="text-[#4c4c4c] text-[12px]">£</span> 499 <span className="text-[#4c4c4c] text-[12px]">pp</span>
+          {noDealsMessage ? (
+            <div className="text-[#4c4c4c] text-[12px] md:text-[13px]">
+              <div className="mb-1 font-semibold">No deals found</div>
+              {/* <div className="text-[12px] text-[#4c4c4c]">{noDealsMessage}</div> */}
             </div>
-          </div>
+          ) : (
+            <div className="text-[#4c4c4c] text-[12px] md:text-[13px]">
+              <div className="mb-1">Price Starting From</div>
+              <div className="text-[#CB2187] text-[24px] md:text-[28px] font-bold">
+                <span className="text-[#4c4c4c] text-[12px]">£</span>{" "}
+                {selectedDeal ? Math.round(getEffectivePrice(selectedDeal) / 2) : page.starting_price}{" "}
+                <span className="text-[#4c4c4c] text-[12px]">pp</span>
+              </div>
+            </div>
+          )}
 
-          <button className="bg-[#CB2187] text-white text-[13px] md:text-[16px] font-semibold px-5 py-2 md:px-6 md:py-3 rounded-[10px]">
-            View Options
-          </button>
+          {noDealsMessage ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (!slug) return;
+                router.push(`/hotels/${slug}`);
+              }}
+              className="shrink-0 whitespace-nowrap bg-[#595858] hover:bg-[#4C4C4C] text-white font-semibold py-3 px-6 rounded-[8px] transition-all duration-200 text-[16px]"
+            >
+              Back
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleCtaClick}
+              className="bg-[#CB2187] text-white text-[13px] md:text-[16px] font-semibold px-5 py-2 md:px-6 md:py-3 rounded-[10px]"
+            >
+              View Options
+            </button>
+          )}
         </div>
         <div className="bg-gradient-to-br from-[#1a9b9e] via-[#2ab5b8] to-[#5bc9cc] w-full py-[36px] md:py-[70px] md:pb-24 lg:pb-[80px] relative z-0">
           <div
             className="absolute top-0 bottom-0  bg-cover bg-center bg-no-repeat pointer-events-none"
             style={{
-              backgroundImage: "url('https://planmylux.s3.eu-west-2.amazonaws.com/static/images/escapedestinations.png')",
+              backgroundImage: "url('https://planmylux.s3.eu-west-2.amazonaws.com/uploads/media-library/homepage/destination-carousel-bg.png')",
               width: '100vw',
               left: '50%',
               transform: 'translateX(-50%)',
@@ -351,7 +845,7 @@ is approximately 20 minutes away.
           </div>
           <div className="mx-auto max-w-[1280px]">
             <div className="rounded-[8px] overflow-hidden relative">
-              <img src="https://planmylux.s3.eu-west-2.amazonaws.com/static/images/toptrending20.jpg" className="sm:block hidden w-full h-[208px] object-cover" />
+              <img src="https://planmylux.s3.eu-west-2.amazonaws.com/uploads/media-library/homepage/home-ad.jpg" className="sm:block hidden w-full h-[208px] object-cover" />
               <div className="w-full h-[160px] object-cover bg-[#92D8CC] sm:hidden"></div>
               <div className="absolute inset-0 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-3 sm:gap-5 px-6 md:px-12">
                 <div className="flex flex-row items-center gap-5">
@@ -365,7 +859,7 @@ is approximately 20 minutes away.
                     <div className="text-white text-lg md:text-2xl font-bold mt-1">
                       TRENDING TOP 20
                     </div>
-                    <a href="#" className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-[11px] sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
+                    <a href="#" className="mt-4 bg-[#CB2187] text-white hover:text-pml-primary border-2 border-[#CB2187] hover:border-2 hover:border-[#CB2187] px-2 md:px-6 py-2 rounded-[8px] text-[11px] sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
                       Find Your Perfect Deal
                     </a>
                   </div>

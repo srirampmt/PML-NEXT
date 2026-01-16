@@ -13,7 +13,17 @@ interface Coupon {
   subtitle: string;
   image: string;
   buttonText?: string;
+  bullet1?: string;
+  bullet2?: string;
 }
+
+type OfferCard = {
+  banner_title?: string;
+  banner_image?: string;
+  offer_card_title?: string;
+  offer_card_content_1?: string;
+  offer_card_content_2?: string;
+};
 
 const coupons: Coupon[] = [
   {
@@ -21,28 +31,48 @@ const coupons: Coupon[] = [
     subtitle: "",
     image: "/assets/images/coupon-1.png",
     buttonText: "Discover Now",
+    bullet1: "£50 off Adult-Only Holidays when you spend £500 or more",
+    bullet2: "£100 off Adult-Only Holidays when you spend £800 or more",
   },
   {
     title: "SUMMER 2026 SALE NOW ON",
     subtitle: "",
     image: "/assets/images/coupon-2.png",
     buttonText: "Discover Now",
+    bullet1: "£50 off Adult-Only Holidays when you spend £500 or more",
+    bullet2: "£100 off Adult-Only Holidays when you spend £800 or more",
   },
   {
     title: "WINTER SALE CHRISTMAS MARKET TRIPS",
     subtitle: "",
     image: "/assets/images/coupon-3.png",
     buttonText: "Discover Now",
+    bullet1: "£50 off Adult-Only Holidays when you spend £500 or more",
+    bullet2: "£100 off Adult-Only Holidays when you spend £800 or more",
   },
   {
     title: "LAST MINUTE XMAS & NEW YEAR HOLIDAYS",
     subtitle: "",
     image: "/assets/images/coupon-4.png",
     buttonText: "Discover Now",
+    bullet1: "£50 off Adult-Only Holidays when you spend £500 or more",
+    bullet2: "£100 off Adult-Only Holidays when you spend £800 or more",
   },
 ];
 
-export default function Coupons() {
+export default function Coupons({ offercards }: { offercards?: OfferCard[] }) {
+  const resolvedCoupons: Coupon[] =
+    offercards && offercards.length > 0
+      ? offercards.map((card) => ({
+          title: card.offer_card_title || card.banner_title || "",
+          subtitle: "",
+          image: card.banner_image || "/assets/images/coupon-1.png",
+          buttonText: "Discover Now",
+          bullet1: card.offer_card_content_1 || "",
+          bullet2: card.offer_card_content_2 || "",
+        }))
+      : coupons;
+
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] overflow-hidden">
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-0 md:py-10 ">
@@ -58,11 +88,13 @@ export default function Coupons() {
                 className="w-full"
               >
                 <CarouselContent className="-ml-4">
-                  {coupons.map((coupon, index) => (
+                  {resolvedCoupons.map((coupon, index) => (
                     <CarouselItem
                       key={index}
                       className={`pl-4 basis-[80%] md:basis-[85%] lg:basis-[85%] ${
-                        index === coupons.length - 1 ? 'pr-4 md:pr-[250px]' : ''
+                        index === resolvedCoupons.length - 1
+                          ? "pr-4 md:pr-[250px]"
+                          : ""
                       }`}
                     >
                       <div className="relative h-[400px] md:h-[520px] lg:h-[520px] rounded-[16px] overflow-hidden">
@@ -101,13 +133,11 @@ export default function Coupons() {
                                 <div className="flex justify-between text-white text-[14px] sm:text-[18px] md:text-[24px] lg:text-[28px] xl:text-[32px] font-bold leading-snug">
                                     <span className="max-w-[280px] sm:max-w-[350px] md:max-w-[420px] lg:max-w-[480px] flex items-start">
                                         <span className="inline-block mr-2 sm:mr-3 md:mr-4 flex-shrink-0">•</span>
-                                        <span>£50 off Adult-Only Holidays when you spend £500
-                                        or more</span>
+                                  <span>{coupon.bullet1 || ""}</span>
                                     </span>
                                     <span className="max-w-[280px] sm:max-w-[350px] md:max-w-[420px] lg:max-w-[480px] flex items-start">
                                         <span className="inline-block mr-2 sm:mr-3 md:mr-4 flex-shrink-0">•</span>
-                                        <span>£100 off Adult-Only Holidays when you spend £800
-                                        or more</span>
+                                  <span>{coupon.bullet2 || ""}</span>
                                     </span>
                                 </div>
                                 {/* Bottom Right Button */}

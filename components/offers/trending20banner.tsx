@@ -1,11 +1,23 @@
-export default function trendingbanner() {
+type Trending20bannerProps = {
+  card_image?: string;
+  add_title?: string;
+  add_subtitle?: string;
+  add_link?: string;
+};
+
+export default function Trending20banner({
+  card_image,
+  add_title,
+  add_subtitle,
+  add_link,
+}: Trending20bannerProps) {
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
         <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-0 md:py-20">
           <div className="w-full max-w-[1280px] mx-auto">
       <div className="rounded-[8px] overflow-hidden relative">
         <img
-          src="/assets/images/trending-offer.png"
+          src={card_image || "/assets/images/trending-offer.png"}
           className="sm:block hidden w-full h-[208px] object-cover"
         />
 
@@ -27,12 +39,12 @@ export default function trendingbanner() {
             </svg>
             <div className="flex flex-col justify-center items-start">
               <div className="text-white text-[12px] md:text-[14px] font-medium leading-[140%] tracking-[0.01em]">
-                DISCOVER EXCLUSIVES
+                {add_title || "DISCOVER EXCLUSIVES"}
               </div>
               <div className="text-white text-[16px] md:text-[24px] leading-[140%] font-bold">
-                TRENDING TOP 20
+                {add_subtitle || "TRENDING TOP 20"}
               </div>
-              <a href="#" className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
+              <a href={add_link || "#"} className="mt-4 bg-[#CB2187] text-white px-2 md:px-6 py-2 rounded-[8px] text-xs sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
                 Find Your Perfect Deal
               </a>
             </div>

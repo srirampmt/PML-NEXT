@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import NewsletterModal from "./NewsletterModal";
 import {
   Carousel,
   CarouselContent,
@@ -121,8 +123,11 @@ const features: FeatureItem[] = [
 ];
 
 export function Features() {
+  const [open, setOpen] = useState(false);
+
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-[#EDEDED] font-['Montserrat']">
+      <NewsletterModal open={open} onClose={() => setOpen(false)} />
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-[28px] md:py-[28px] lg:py-[28px]">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Section Title */}
@@ -182,12 +187,13 @@ export function Features() {
             >
               Learn more about us
             </Link>
-            <Link
-              href="/signup"
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
               className="font-['Montserrat'] bg-[#666666] text-white text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-medium px-[16px] sm:px-[20px] md:px-[26px] lg:px-[32px] py-[8px] sm:py-[10px] md:py-[12px] lg:py-[12px] rounded-[8px] hover:bg-[#333333] transition-colors whitespace-nowrap"
             >
               Signup & Save
-            </Link>
+            </button>
           </div>
         </div>
       </div>

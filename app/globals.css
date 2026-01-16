@@ -4,10 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--main-nav-height: 76px;
+}
+
 /* Ensure Montserrat is used across the app */
 html, body {
 	font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-	overflow-x: hidden;
+	/* overflow-x:hidden on html/body can break position:sticky in some browsers */
+	overflow-x: clip;
+}
+
+@supports not (overflow-x: clip) {
+	html, body {
+		overflow-x: hidden;
+	}
 }
 
 /* Hide scrollbar for carousel/horizontal scroll */

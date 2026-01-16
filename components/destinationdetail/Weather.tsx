@@ -75,7 +75,29 @@ const weatherMonths: WeatherMonth[] = [
   },
 ];
 
-export default function Weather() {
+type WeatherProps = {
+  Weather_title?: string;
+  Weather_subtitle?: string;
+  season_card_image_1?: string;
+  season_card_title_1?: string;
+  season_card_description_1?: string;
+  season_card_image_2?: string;
+  season_card_title_2?: string;
+  season_card_description_2?: string;
+  season_card_image_3?: string;
+  season_card_title_3?: string;
+  season_card_description_3?: string;
+  season_card_image_4?: string;
+  season_card_title_4?: string;
+  season_card_description_4?: string;
+};
+
+export default function Weather({ Weather_title, Weather_subtitle }: WeatherProps) {
+  const title = Weather_title || "What to expect from Mallorcas weather";
+  const subtitle =
+    Weather_subtitle ||
+    "Mallorca enjoys warm sunshine long summers and mild pleasant winters creating ideal conditions for beach days coastal walks and relaxed outdoor living. Temperatures rise through the spring and stay consistently high through late summer with clear skies gentle breezes and bright Mediterranean light. Autumn brings softer warmth and quieter days while winter remains comfortable with cool evenings and plenty of blue sky moments.";
+
   return (
     <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat']">
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] pb-10">
@@ -83,10 +105,10 @@ export default function Weather() {
           {/* Title Section */}
           <div className="mb-8 md:mb-10 lg:mb-12 max-w-[843px]">
             <h2 className="text-[#7C7C7C] text-[28px] md:text-[48px] lg:text-[48px] font-semibold leading-[60px] mb-4 max-w-[626px]">
-              What to expect from Mallorcas weather
+              {title}
             </h2>
             <p className="text-[#7C7C7C] text-[16px] lg:text-[18px] leading-[28px] max-w-[850px]">
-              Mallorca enjoys warm sunshine long summers and mild pleasant winters creating ideal conditions for beach days coastal walks and relaxed outdoor living. Temperatures rise through the spring and stay consistently high through late summer with clear skies gentle breezes and bright Mediterranean light. Autumn brings softer warmth and quieter days while winter remains comfortable with cool evenings and plenty of blue sky moments.
+              {subtitle}
             </p>
           </div>
 

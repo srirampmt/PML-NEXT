@@ -1,77 +1,100 @@
+import { HotelDeal } from "@/types/hotel";
 import {
-  Plane,
-  Utensils,
-  Briefcase,
-  Bus,
-  Phone,
-  MessageSquare,
-  Mail,
-} from "lucide-react";
-import Link from "next/link";
+  formatAirline,
+  formatAirport,
+  formatDateTime,
+  getBoardBasisText,
+  getEffectivePrice,
+  getPricePerPerson,
+} from "@/lib/hotel-utils";
+import { useParams, useRouter } from "next/navigation";
+import { Phone } from "lucide-react";
 
-interface FlightDetails {
-  flightNumber: string;
-  departureCode: string;
-  arrivalCode: string;
-  departureDate: string;
-  departureTime: string;
-  arrivalDate: string;
-  arrivalTime: string;
-}
-
-interface HolidaySummaryProps {
-  nights: number;
-  outboundFlight: FlightDetails;
-  inboundFlight: FlightDetails;
-  isAllInclusive?: boolean;
-  includes?: string[];
-  transfers?: boolean;
-  pricePerPerson: string;
-  quoteRef: string;
-  ctaText?: string;
-  atolProtected?: boolean;
+type FlightSummaryProps = {
+  selectedDeal?: HotelDeal | null;
+  emptyStateMessage?: string;
   onBookNow?: () => void;
-}
+};
 
-// Renamed the export to match the primary function/file purpose for better React convention
-export default function HolidaySummary({
-  nights,
-  outboundFlight,
-  inboundFlight,
-  isAllInclusive = true,
-  includes = ["Hand luggage for each passenger"],
-  transfers = false,
-  pricePerPerson,
-  quoteRef,
-  ctaText = "Book Now",
-  atolProtected = true,
+export default function FlightSummary({
+  selectedDeal,
+  emptyStateMessage =
+    "We couldn’t find any offers that match your current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll create the perfect travel plan tailored just for you.",
   onBookNow,
-}: HolidaySummaryProps) {
-  return (
-    <>
+}: FlightSummaryProps) {
+  const router = useRouter();
+  const { slug } = useParams<{ slug: string | string[] }>();
+  const safeSlug = Array.isArray(slug) ? slug[0] : slug;
+
+  if (!selectedDeal) {
+    return (
       <div className="w-full md:max-w-[405px] h-fit bg-[#FFF7FC] rounded-[4px] font-['Montserrat']">
-        {/* Header - Changed gradient to pink theme for better visual consistency */}
         <div className="bg-[#595858] text-white px-3 py-4 rounded-t-[4px]">
-          {/* 2. FONT SIZE ADJUSTMENT: Ensure responsive font size on header */}
           <h2 className="text-[16px] md:text-[20px] font-semibold text-[#ffffff]">Holiday Summary</h2>
         </div>
 
-        {/* Content */}
         <div className="p-3 rounded-b-[4px]">
-          {/* Duration */}
-          <div className="mb-4">
-            <div className="text-[#242F40] font-normal text-[16px] mb-1">
-              Total Holiday Duration
+          <div className="min-h-[520px] flex items-center justify-center text-center px-4">
+            <div>
+              <div className="text-[#242F40] font-semibold text-[16px]">No deal found</div>
+              <div className="text-[#242F40] font-normal text-[14px] mt-1">We couldn’t find any offers that match your
+            current search, but don’t worry — our team is ready to help! Please call us or send an enquiry, and we’ll
+            create the perfect travel plan tailored just for you.</div>
+              <div className="mt-4 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={onBookNow}
+                  className="flex-1 bg-pml-primary hover:bg-pink-800 text-white font-semibold py-3 sm:py-2.5 rounded-[8px] transition-all duration-200 text-[16px]"
+                >
+                  Enquire Now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!safeSlug) return;
+                    router.push(`/hotels/${safeSlug}`);
+                  }}
+                  className="shrink-0 whitespace-nowrap bg-[#595858] hover:bg-[#4C4C4C] text-white font-semibold py-3 px-6 rounded-[8px] transition-all duration-200 text-[16px]"
+                >
+                  Back
+                </button>
+              </div>
             </div>
-            {/* 2. FONT SIZE ADJUSTMENT: Smaller on mobile, larger on larger screens */}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const outbound = formatDateTime(selectedDeal.flight.outboundDepartureDate);
+  const outboundArrival = formatDateTime(selectedDeal.flight.outboundArrivalDate);
+  const inbound = formatDateTime(selectedDeal.flight.inboundDepartureDate);
+  const inboundArrival = formatDateTime(selectedDeal.flight.inboundArrivalDate);
+
+  const outboundFlightNumber = `${formatAirline(selectedDeal.flight.outboundFlightSupplier)} - ${selectedDeal.flight.outboundFlightNumber}`;
+  const inboundFlightNumber = `${formatAirline(selectedDeal.flight.inboundFlightSupplier)} - ${selectedDeal.flight.inboundFlightNumber}`;
+
+  const departureCode = `${formatAirport(selectedDeal.flight.departureAirportCode)}`;
+  const arrivalCode = `${formatAirport(selectedDeal.flight.arrivalAirportCode)}`;
+
+  const pricePerPerson = getPricePerPerson(getEffectivePrice(selectedDeal));
+
+  return (
+      <div className="w-full md:max-w-[405px] h-fit bg-[#FFF7FC] rounded-[4px] font-['Montserrat']">
+        <div className="bg-[#595858] text-white px-3 py-4 rounded-t-[4px]">
+          <h2 className="text-[16px] md:text-[20px] font-semibold text-[#ffffff]">Holiday Summary</h2>
+        </div>
+
+        <div className="p-3 rounded-b-[4px]">
+          <div className="mb-4">
+            <div className="text-[#242F40] font-normal text-[16px] mb-1">Total Holiday Duration</div>
             <div className="text-[16px] md:text-[24px] font-medium text-[#242F40]">
-              {nights} nights
+              {selectedDeal.hotel.duration} nights
             </div>
           </div>
 
-          <div className="border-t border-[1px] border-[#9F9F9F] mb-5"></div>
+          <div className="border-t border-[1px] border-[#9F9F9F] mb-5" />
 
-          {/* Outbound Flight */}
           <div className="mb-5">
             <div className="flex items-start gap-3 mb-2">
               <div className="mt-[3px]">
@@ -81,30 +104,20 @@ export default function HolidaySummary({
               </div>
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                  <span className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                    Outbound flight:
-                  </span>
-                  <span className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                    {outboundFlight.flightNumber}
-                  </span>
+                  <span className="font-semibold text-[#393939] text-[14px] leading-[24px]">Outbound flight:</span>
+                  <span className="text-[14px] text-[#393939] leading-[24px] font-normal">{outboundFlightNumber}</span>
                 </div>
-                {/* FLIGHT DETAILS LAYOUT: Use smaller font for time/date on mobile */}
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                      {outboundFlight.departureCode}
-                    </div>
+                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">{departureCode}</div>
                     <div className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                      {outboundFlight.departureDate},{" "}
-                      {outboundFlight.departureTime}
+                      {outbound.date}, {outbound.time}
                     </div>
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                      {outboundFlight.arrivalCode}
-                    </div>
+                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">{arrivalCode}</div>
                     <div className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                      {outboundFlight.arrivalDate}, {outboundFlight.arrivalTime}
+                      {outboundArrival.date}, {outboundArrival.time}
                     </div>
                   </div>
                 </div>
@@ -112,10 +125,8 @@ export default function HolidaySummary({
             </div>
           </div>
 
-          {/* Inbound Flight */}
           <div className="mb-5">
             <div className="flex items-start gap-3 mb-3">
-              {/* Added flex-shrink-0 to keep the icon from squishing */}
               <div className="mt-[3px]">
                 <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M3.70495 15.83L3.91666 5.7616C3.91666 5.47948 3.74061 5.10933 3.51085 4.93284L2.73536 4.36859C2.7173 4.36859 2.7173 4.35099 2.7173 4.35099L0.742445 2.90517C0.72484 2.88711 0.689631 2.86996 0.672026 2.85236C0.0725727 2.34092 -0.280416 1.14157 0.283829 0.471695C0.848072 -0.198176 2.08264 -0.0925492 2.69969 0.401277L5.34487 2.62305C5.55658 2.79909 5.96193 2.88756 6.24405 2.81715L15.9242 0.190024C16.2064 0.119155 16.5941 0.207177 16.8058 0.418882L17.5818 1.15917C17.7935 1.35327 17.7578 1.61779 17.4937 1.75908L9.82362 5.79681C9.57671 5.93809 9.5415 6.18501 9.75275 6.37911L13.6849 9.64089H13.8085L17.6874 9.19988C17.8287 9.18227 17.9876 9.28835 18.0228 9.41203L18.3225 10.3636C18.3577 10.5049 18.3044 10.6638 18.1636 10.7337L15.4661 12.1448C15.3424 12.2152 15.2015 12.3741 15.1839 12.5149L14.4784 15.4774C14.4432 15.6183 14.3024 15.7239 14.1611 15.7063L13.1734 15.6535C13.1008 15.6501 13.0315 15.6221 12.977 15.574C12.9225 15.5259 12.8861 15.4606 12.8737 15.389L12.3627 11.5097C12.3627 11.4745 12.3447 11.4216 12.3271 11.3864L10.0173 9.71176C9.99966 9.71176 9.99966 9.69371 9.98206 9.69371L8.1837 8.38917C7.95439 8.21268 7.70748 8.3183 7.63706 8.58327L5.57418 16.9937C5.50331 17.2758 5.2564 17.3638 5.00994 17.223L4.11031 16.6407C3.88145 16.4827 3.68735 16.1121 3.70495 15.83Z" fill="#595858"/>
@@ -124,128 +135,114 @@ export default function HolidaySummary({
 
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                  <span className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                    Inbound flight:
-                  </span>
-                  <span className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                    {inboundFlight.flightNumber}
-                  </span>
+                  <span className="font-semibold text-[#393939] text-[14px] leading-[24px]">Inbound flight:</span>
+                  <span className="text-[14px] text-[#393939] leading-[24px] font-normal">{inboundFlightNumber}</span>
                 </div>
-                {/* FLIGHT DETAILS LAYOUT: Use smaller font for time/date on mobile */}
                 <div className="flex justify-between items-start text-sm sm:text-base">
                   <div>
-                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                      {inboundFlight.departureCode}
-                    </div>
+                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">{arrivalCode}</div>
                     <div className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                      {inboundFlight.departureDate},{" "}
-                      {inboundFlight.departureTime}
+                      {inbound.date}, {inbound.time}
                     </div>
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">
-                      {inboundFlight.arrivalCode}
-                    </div>
+                    <div className="font-semibold text-[#393939] text-[14px] leading-[24px]">{departureCode}</div>
                     <div className="text-[14px] text-[#393939] leading-[24px] font-normal">
-                      {inboundFlight.arrivalDate}, {inboundFlight.arrivalTime}
+                      {inboundArrival.date}, {inboundArrival.time}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* All Inclusive Badge */}
-          {isAllInclusive && (
-            <div className="flex items-center gap-2 mb-4">
-              <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.6563 0L16.6553 15.0137C16.9241 15.4561 17.2022 15.6261 17.4354 15.625C17.6668 15.6239 17.9419 15.4518 18.2055 15.0227L17.4857 7.3543L17.4773 7.2609L17.5349 7.18644C18.362 6.12516 18.6511 4.2916 18.4151 2.74074C18.2971 1.96527 18.0502 1.2634 17.7044 0.767226C17.4144 0.351133 17.0684 0.0857031 16.6564 0H16.6563ZM2.11043 0.000156313L2.1098 2.6223L1.61918 2.62168V0.000312477H1.06039L1.06047 2.6218H0.569141V0.000312477H4.70109e-09V4.03266C-3.90578e-05 4.47863 0.243359 4.72594 0.626563 4.87883L0.785156 4.94219L0.781641 5.11289C0.703516 8.41641 0.626289 11.7199 0.54875 15.0234C0.815938 15.4605 1.09039 15.6261 1.31891 15.625C1.54742 15.6239 1.82164 15.454 2.08543 15.0222C1.995 11.7196 1.90457 8.41687 1.8143 5.11422L1.80961 4.94234L1.96871 4.87961C2.37199 4.71922 2.6343 4.44703 2.6343 4.03289V0.000156313H2.11043ZM9.25055 1.52344C7.58258 1.52344 5.98294 2.18603 4.80351 3.36546C3.62408 4.54489 2.96148 6.14454 2.96148 7.8125C2.96148 9.48046 3.62408 11.0801 4.80351 12.2595C5.98294 13.439 7.58258 14.1016 9.25055 14.1016C10.9185 14.1016 12.5182 13.439 13.6976 12.2595C14.877 11.0801 15.5396 9.48046 15.5396 7.8125C15.5396 6.14454 14.877 4.54489 13.6976 3.36546C12.5182 2.18603 10.9185 1.52344 9.25055 1.52344Z" fill="#595858"/>
-              </svg>
-              <span className="text-[#393939] text-[14px] leading-[24px] font-normal">
-                All Inclusive
-              </span>
-            </div>
-          )}
-
-          <div className="border-t border-[1px] border-[#9F9F9F] mb-5"></div>
-
-          {/* Includes/Transfers */}
-          <div className="space-y-3 mb-4">
-            {includes.map((item, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.86 15.6211L9.85073 14.6119C9.75967 14.5166 9.64585 14.4689 9.50927 14.4689C9.37269 14.4689 9.25986 14.5176 9.17079 14.6149C9.07179 14.7059 9.02229 14.8198 9.02229 14.9566C9.02229 15.0933 9.07179 15.2069 9.17079 15.2973L10.313 16.4397C10.4705 16.5991 10.6542 16.6788 10.8641 16.6788C11.074 16.6788 11.2568 16.5991 11.4125 16.4397L13.7924 14.0369C13.8914 13.9459 13.9409 13.832 13.9409 13.6955C13.9409 13.559 13.8914 13.4453 13.7924 13.3542C13.7013 13.2571 13.5875 13.2085 13.4509 13.2085C13.3144 13.2085 13.2015 13.2561 13.1125 13.3515L10.86 15.6211ZM3.07381 15.9117V6.63735H1.56131V15.9117H3.07381ZM1.56131 17.4785C1.13965 17.4785 0.774048 17.3232 0.464521 17.0124C0.15484 16.7017 0 16.3348 0 15.9117V6.63735C0 6.21569 0.15484 5.85009 0.464521 5.54056C0.774048 5.23088 1.13965 5.07604 1.56131 5.07604H7.90235V1.375H6.59908C6.40429 1.375 6.24097 1.30869 6.10913 1.17608C5.97743 1.04363 5.91158 0.879389 5.91158 0.683375C5.91158 0.487514 5.97743 0.324653 6.10913 0.194792C6.24097 0.0649306 6.40429 0 6.59908 0H8.68289C8.90289 0 9.0889 0.0750141 9.24092 0.225042C9.39308 0.37507 9.46917 0.560313 9.46917 0.780771V8.99387C9.46917 9.25406 9.38797 9.44923 9.22556 9.5794C9.06331 9.70941 8.88487 9.77442 8.69023 9.77442C8.49544 9.77442 8.31539 9.70941 8.15008 9.5794C7.98493 9.44923 7.90235 9.25406 7.90235 8.99387V6.63735H4.44881V16.1693H5.17825C5.32813 16.1693 5.45256 16.2198 5.55156 16.3208C5.65041 16.4218 5.69983 16.547 5.69983 16.6964C5.69983 16.9214 5.62482 17.1081 5.47479 17.2563C5.32476 17.4044 5.13952 17.4785 4.91906 17.4785H1.56131ZM11.4815 10.5655C12.7097 10.5655 13.7573 10.9999 14.6243 11.8688C15.4911 12.7375 15.9246 13.7859 15.9246 15.0141C15.9246 16.2423 15.4911 17.2899 14.6243 18.1569C13.7573 19.0237 12.7087 19.4572 11.4787 19.4572C10.2524 19.4572 9.20486 19.0237 8.33617 18.1569C7.46732 17.2899 7.0329 16.2413 7.0329 15.0113C7.0329 13.785 7.46732 12.7375 8.33617 11.8688C9.20486 10.9999 10.2533 10.5655 11.4815 10.5655Z" fill="#595858"/>
-                </svg>
-                <span className="text-[14px] font-normal leading-[24px] text-[#393939]">{item}</span>
+            {!!selectedDeal.hotel.boardBasis && (
+              <div className="mt-2 flex items-center gap-1 text-[#393939] text-[14px] leading-[24px] font-normal">
+                <span className="p-1 inline-flex items-center justify-center w-7 h-7">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.4063 2.1875L17.4053 17.2012C17.6741 17.6436 17.9522 17.8136 18.1854 17.8125C18.4168 17.8114 18.6919 17.6393 18.9555 17.2102L18.2357 9.5418L18.2273 9.4484L18.2849 9.37394C19.112 8.31266 19.4011 6.4791 19.1651 4.92824C19.0471 4.15277 18.8002 3.4509 18.4544 2.95473C18.1644 2.53863 17.8184 2.2732 17.4064 2.1875H17.4063ZM2.86043 2.18766L2.8598 4.8098L2.36918 4.80918V2.18781H1.81039L1.81047 4.8093H1.31914V2.18781H0.75V6.22016C0.749961 6.66613 0.993359 6.91344 1.37656 7.06633L1.53516 7.12969L1.53164 7.30039C1.45352 10.6039 1.37629 13.9074 1.29875 17.2109C1.56594 17.648 1.84039 17.8136 2.06891 17.8125C2.29742 17.8114 2.57164 17.6415 2.83543 17.2097C2.745 13.9071 2.65457 10.6044 2.5643 7.30172L2.55961 7.12984L2.71871 7.06711C3.12199 6.90672 3.3843 6.63453 3.3843 6.22039V2.18766H2.86043ZM10.0005 3.71094C8.33258 3.71094 6.73294 4.37353 5.55351 5.55296C4.37408 6.73239 3.71148 8.33204 3.71148 10C3.71148 11.668 4.37408 13.2676 5.55351 14.447C6.73294 15.6265 8.33258 16.2891 10.0005 16.2891C11.6685 16.2891 13.2682 15.6265 14.4476 14.447C15.627 13.2676 16.2896 11.668 16.2896 10C16.2896 8.33204 15.627 6.73239 14.4476 5.55296C13.2682 4.37353 11.6685 3.71094 10.0005 3.71094Z" fill="#595858"/>
+                  </svg>
+                </span>
+                <span>{getBoardBasisText(selectedDeal.hotel.boardBasis)}</span>
               </div>
-            ))}
-            <div className="flex items-start gap-3">
-              <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.42108 0C3.76841 0 0 0.526333 0 4.21051V14.7368C0 15.6684 0.410527 16.4947 1.05262 17.0737V18.9474C1.05262 19.5263 1.5263 20 2.10523 20H3.1579C3.74211 20 4.21051 19.5263 4.21051 18.9474V17.8948H12.6316V18.9474C12.6316 19.5263 13.1 20 13.6842 20H14.7368C15.3158 20 15.7894 19.5263 15.7894 18.9474V17.0737C16.4315 16.4948 16.8421 15.6684 16.8421 14.7369V4.21051C16.8421 0.526333 13.0737 0 8.42108 0ZM3.68423 15.7895C2.81053 15.7895 2.10528 15.0842 2.10528 14.2105C2.10528 13.3368 2.81053 12.6316 3.68423 12.6316C4.55793 12.6316 5.26318 13.3368 5.26318 14.2105C5.26318 15.0842 4.55788 15.7895 3.68423 15.7895ZM13.1579 15.7895C12.2842 15.7895 11.579 15.0842 11.579 14.2105C11.579 13.3368 12.2842 12.6316 13.1579 12.6316C14.0316 12.6316 14.7369 13.3368 14.7369 14.2105C14.7369 15.0842 14.0316 15.7895 13.1579 15.7895ZM14.7369 9.47369H2.10528V4.21051H14.7369V9.47369Z" fill="#595858"/>
-              </svg>
-              <span className="text-[14px] font-normal leading-[24px] text-[#393939]">
-                Transfers {transfers ? "included" : "not included"}
-              </span>
-            </div>
+            )}
           </div>
 
-          <div className="border-t border-[1px] border-[#9F9F9F] mb-5"></div>
+          <div className="border-t border-[1px] border-[#9F9F9F] mb-5" />
 
-          {/* Price */}
-          {/* PRICE LAYOUT: Ensure price is legible on small screens. Reduced price text size slightly. */}
           <div className="text-[16px] text-[#242F40] font-normal mb-4 flex justify-between items-center">
             <span>
               Price Per Person From
               <br />
               <span>(incl. Flights)</span>
             </span>
-            <div className="text-[16px] md:text-[32px] font-semibold text-[#242F40]">
-              {pricePerPerson}
-            </div>
+            <div className="text-[16px] md:text-[32px] font-semibold text-[#242F40]">{pricePerPerson}</div>
           </div>
 
-          {/* Quote Reference */}
           <div className="flex justify-between items-center mb-6 text-[16px] text-[#242F40] font-normal">
             <span className="">Quote Ref:</span>
-            <span className="text-[16px] tracking-[0.02em] font-bold text-[#242F40]">{quoteRef}</span>
+            <span className="text-[16px] tracking-[0.02em] font-bold text-[#242F40]">{selectedDeal.quoteReference}</span>
           </div>
 
-          {/* CTA Button */}
           <button
             onClick={onBookNow}
             className="w-full bg-pml-primary hover:bg-pink-800 text-white font-semibold py-3 sm:py-2.5 rounded-[8px] transition-all duration-200 text-[16px]"
           >
-            {ctaText}
+            Book Now
           </button>
+          {/* ATOL Card */}
+          <div className="flex flex-col items-center mt-2 py-2 gap-[10px] w-full max-w-[385px]">
+            <div className="flex flex-col items-center justify-center w-full h-[68px] bg-white rounded-[8px]">
+              <div className="flex flex-row justify-center items-center p-0 w-full max-w-[339px] h-[52px]">
+                <div className="flex flex-col items-center p-2 w-[52px] h-[52px]">
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-[#393939]"
+                    aria-hidden="true"
+                  >
+                    <g clipPath="url(#clip0_atol)">
+                      <path
+                        d="M16.7015 13.6654C16.7015 13.6654 13.9297 13.609 12.5703 10.9013C10.6459 7.11958 14.6077 5.08789 14.6077 5.08789L18.1174 5.70761L16.7015 13.6654Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M8.09961 14.5672L8.66456 14.6799L8.49508 14.1729L8.09961 14.5672ZM12.9088 14.8489C12.7393 14.7926 12.5698 14.8489 12.4568 14.8489C12.3438 14.9052 12.2308 15.0179 12.2308 15.1306C12.2308 15.2433 12.2308 15.356 12.3438 15.4686C12.4568 15.5813 12.5698 15.6376 12.7958 15.6376C12.9653 15.694 13.1348 15.6376 13.2478 15.6376C13.3608 15.5813 13.4737 15.4686 13.4737 15.356C13.4737 15.2433 13.4737 15.1306 13.3608 15.0179C13.2478 14.9616 13.0783 14.9052 12.9088 14.8489Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M11.1574 12.1973C8.83753 9.7712 8.83753 6.95078 10.2535 4.35219L8.32907 4.01416L6.17871 16.1444L15.9101 17.8381L16.5315 14.2254C16.6445 14.2254 13.4772 14.6198 11.1574 12.1937V12.1973ZM8.89403 15.1867L8.78104 14.905L7.9336 14.736L7.70762 14.9613L7.19916 14.8487L8.21608 13.8346L8.78104 13.9473L9.40249 15.2466L8.89403 15.1902V15.1867ZM11.6093 14.6797L10.9314 14.567L10.7619 15.5247L10.2535 15.412L10.4229 14.4543L9.74499 14.3416L9.80149 14.1163L11.6694 14.4543L11.6129 14.6797H11.6093ZM13.9292 15.4684C13.8727 15.6937 13.7597 15.8064 13.4772 15.8628C13.3077 15.9191 13.0253 15.9191 12.6863 15.8628C12.3473 15.8064 12.1213 15.6937 11.9518 15.5811C11.7259 15.412 11.6694 15.243 11.6694 15.0177C11.7259 14.7923 11.8389 14.6797 12.1213 14.6233C12.2908 14.567 12.5733 14.567 12.9123 14.6233C13.2512 14.6797 13.4772 14.7923 13.6467 14.905C13.8727 15.074 13.9857 15.243 13.9292 15.4684ZM15.8536 16.4261L14.2117 16.1444L14.4376 14.9578L14.9461 15.0705L14.7201 15.9719L15.8536 16.1973V16.4226V16.4261Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M10.0812 23.0882C3.96905 22.0143 -0.10216 16.2044 0.971254 10.1093C2.04467 4.01426 7.8743 -0.0456031 13.9864 1.02482C20.0985 2.09524 24.1733 7.90862 23.0963 14.0037C22.0229 20.0424 16.1933 24.1621 10.0812 23.0882ZM0.180317 9.94031C-0.953124 16.4297 3.40409 22.6938 9.91167 23.8206C16.4192 24.9509 22.7008 20.6058 23.8308 14.1164C23.9437 13.4403 24.0002 12.7044 24.0002 12.0283C24.0567 6.2713 19.982 1.25017 14.1559 0.179749C7.59182 -0.950533 1.36672 3.39454 0.180317 9.94031Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M3.00855 14.2289C3.00855 14.2852 3.06504 14.3979 3.12154 14.4542C3.23453 14.6796 3.46051 14.6796 3.68649 14.6232C3.96897 14.5669 4.13846 14.3415 4.08196 14.1725L4.02547 13.9472L3.00855 14.2289ZM1.70562 14.6232C1.70562 14.5105 1.64912 14.4542 1.64912 14.3415C1.64912 14.2289 1.59263 14.1725 1.53613 14.0598L3.96897 13.3838L4.25145 14.2852C4.36444 14.7922 4.25145 15.0739 3.85598 15.1866C3.23453 15.3556 2.95205 14.9613 2.78257 14.2852L1.70915 14.6232H1.70562ZM3.85598 16.4296C4.02547 16.7676 4.25145 16.8803 4.59042 16.6549C4.64692 16.6549 4.70341 16.5986 4.75991 16.5422C4.98589 16.3169 4.8164 16.0915 4.70341 15.9225L3.85598 16.4296ZM4.64692 15.3591L5.04239 16.0352C5.15538 16.2042 5.26837 16.4296 5.26837 16.5986C5.26837 16.8239 5.21187 16.9929 4.98589 17.162C4.64692 17.331 4.36444 17.2746 4.13846 16.9929C3.91248 17.331 3.74299 17.7253 3.5735 18.0634L3.46051 18.2887C3.40402 18.176 3.34752 18.0634 3.29102 18.007C3.23453 17.8944 3.17803 17.838 3.12154 17.7253L3.5735 16.9366C3.5735 16.8803 3.68649 16.6549 3.74299 16.5422L2.72607 17.1056C2.66957 17.0493 2.66957 16.9366 2.61308 16.8803C2.55658 16.8239 2.50009 16.7113 2.44359 16.6549L4.65045 15.3556L4.64692 15.3591ZM5.21187 18.5739C4.8729 18.912 4.70341 19.4753 5.15538 19.8169C5.60734 20.2113 6.1723 19.9296 6.5713 19.4789C6.91027 19.1408 7.07976 18.5775 6.68429 18.1796C6.23232 17.8979 5.78036 17.9542 5.21187 18.5739ZM4.98589 19.9859C4.36444 19.4789 4.25145 18.7429 4.8164 18.1232C5.32486 17.5598 6.11933 17.5035 6.79728 18.0669C7.58821 18.7429 7.30574 19.5352 6.96676 19.9296C6.4583 20.4929 5.66384 20.6056 4.98589 19.9859ZM8.09667 21.8486C8.04018 21.7922 7.92719 21.7359 7.87069 21.7359C7.8142 21.6796 7.70121 21.6796 7.58821 21.6232L8.49214 19.5352C8.26616 19.4225 8.04018 19.3662 7.8142 19.3098C7.8142 19.2535 7.87069 19.1972 7.87069 19.1972C7.87069 19.1408 7.92719 19.0845 7.92719 19.0282L9.68208 19.7606C9.68208 19.8169 9.62558 19.8732 9.62558 19.8732C9.62558 19.9296 9.56909 19.9859 9.56909 20.0422C9.3996 19.9296 9.17362 19.8169 9.00413 19.7606L8.10021 21.8486M11.437 20.0986C11.437 20.1549 11.3805 20.2113 11.3805 20.2676V20.4366C11.1545 20.3803 10.9285 20.3239 10.533 20.2676L10.4201 21.0563L10.8155 21.1127C10.985 21.1127 11.1545 21.169 11.2675 21.169C11.2675 21.2253 11.211 21.2817 11.211 21.338V21.507C11.098 21.4507 10.9285 21.4507 10.759 21.3944L10.3636 21.2253L10.2506 22.1831C10.646 22.2394 10.872 22.2394 11.098 22.2958C11.098 22.3521 11.0415 22.4084 11.0415 22.4648V22.6338L9.62558 22.4084L10.0211 19.926L11.437 20.0951M14.0958 22.0141L14.0393 22.3521C13.8133 22.4648 13.5873 22.5775 13.3049 22.5775C12.5139 22.6338 11.8889 22.2394 11.7759 21.4472C11.663 20.4894 12.2844 19.9789 13.0789 19.9225C13.3049 19.9225 13.6438 19.9225 13.8698 20.0352C13.8698 20.1479 13.8133 20.3169 13.8133 20.4296H13.7568C13.5873 20.2606 13.3614 20.1479 13.1354 20.1479C12.5139 20.2042 12.3444 20.8239 12.4009 21.3345C12.4574 21.9542 12.7964 22.3486 13.3614 22.2922C13.6438 22.3486 13.8698 22.1796 14.0958 22.0105M16.1897 21.7852C16.0767 21.7852 16.0202 21.8415 15.9072 21.8415C15.7942 21.8979 15.7377 21.8979 15.6812 21.9542L14.8338 19.8662C14.6078 19.9789 14.3818 20.0915 14.2123 20.1479C14.2123 20.0915 14.2123 20.0352 14.1558 19.9789C14.1558 19.9225 14.0993 19.8662 14.0993 19.8662L15.8542 19.1901C15.8542 19.2465 15.8542 19.3028 15.9107 19.3591C15.9107 19.4155 15.9672 19.4718 15.9672 19.4718C15.7412 19.5282 15.5152 19.5845 15.3458 19.6408L16.1932 21.7852M17.3266 18.1725C17.3266 18.2289 17.3831 18.2852 17.3831 18.2852L17.4961 18.3979C17.2701 18.5106 17.1006 18.6232 16.7617 18.8486L17.2136 19.4683L17.5526 19.2429C17.6656 19.1303 17.7786 19.0739 17.8916 18.9613C17.8916 19.0176 17.9481 19.0739 17.9481 19.0739L18.0611 19.1866C17.9481 19.2429 17.7786 19.2993 17.6656 19.412L17.3266 19.6373L17.8916 20.426C18.1741 20.2007 18.4 20.0317 18.5695 19.919C18.5695 19.9753 18.626 20.0317 18.626 20.0317L18.739 20.1444L17.6056 20.9331L16.1332 18.9014L17.3231 18.169M19.8689 18.8451L20.0384 18.6197C20.3774 18.2253 20.3774 17.7746 19.6994 17.2077C19.1345 16.757 18.739 16.8697 18.3965 17.2641L18.1705 17.5458L19.8689 18.8451ZM18.5095 16.8697C19.018 16.25 19.6429 16.3627 20.1514 16.757C20.8294 17.2641 20.8294 18.0563 20.3774 18.6197L19.7559 19.4084L17.7186 17.8838L18.5095 16.8697Z"
+                        fill="currentColor"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_atol">
+                        <rect width="24" height="24" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
 
-          {/* ATOL Protection */}
-          {atolProtected && (
-            <div className="flex justify-center p-3 items-center gap-3 mt-3 bg-white rounded-[8px]">
-              {/* ATOL icon SVG remains the same size for branding consistency */}
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M24.9637 20.4457C24.9637 20.4457 20.8552 20.394 18.8156 16.3305C15.9963 10.7167 21.8587 7.69946 21.8587 7.69946L27.063 8.62534L24.9637 20.4457Z" fill="#393939"/>
-                <path d="M15.0952 34.4543C6.01537 32.8534 -0.0686341 24.165 1.53112 15.0885C3.13312 6.01317 11.8226 -0.0697038 20.9036 1.53117C29.9824 3.13205 36.0664 11.8182 34.4666 20.8958C32.8657 29.9712 24.1751 36.0552 15.0952 34.4543ZM0.395991 14.8905C-1.31401 24.5925 5.18962 33.8783 14.8961 35.5905C24.6037 37.3005 33.8929 31.1884 35.6051 21.4853C35.7874 20.4413 35.8785 19.0114 35.8785 17.9843C35.8785 9.48042 29.7664 1.9238 21.105 0.397171C11.3985 -1.31508 2.10824 5.18742 0.395991 14.8905Z" fill="#393939"/>
-                <path d="M4.60056 21.5595C4.63769 21.6765 4.67594 21.7969 4.73444 21.9015C4.92569 22.2233 5.26544 22.2694 5.59169 22.1805C6.02144 22.0624 6.24419 21.7665 6.16769 21.4887L6.07769 21.1557L4.60056 21.5595ZM2.69594 22.0804C2.67006 21.942 2.64981 21.8059 2.61269 21.6709C2.57669 21.537 2.52381 21.4077 2.47656 21.2772L6.14744 20.2748L6.50631 21.591C6.70994 22.3347 6.51981 22.8173 5.91456 22.9838C4.96169 23.2437 4.56794 22.6035 4.30581 21.6394L2.69594 22.0793V22.0804Z" fill="#393939"/>
-                <path d="M5.92983 24.858C6.17845 25.389 6.5632 25.497 7.05483 25.2078C7.12345 25.1685 7.19095 25.1212 7.28095 25.0413C7.63308 24.7331 7.38445 24.3967 7.21233 24.1031L5.92983 24.8568V24.858ZM7.05033 23.2357L7.64883 24.255C7.78158 24.4811 7.9942 24.8231 8.0077 25.0863C8.02345 25.4418 7.89295 25.713 7.5667 25.9031C7.0987 26.1798 6.62508 26.0527 6.26845 25.6623C5.96358 26.1967 5.69808 26.7502 5.4202 27.2992L5.23233 27.6581C5.15808 27.5096 5.08833 27.3588 5.00283 27.2103C4.91845 27.0663 4.81945 26.9313 4.72608 26.7918L5.39658 25.6331C5.4832 25.4857 5.62495 25.2236 5.74533 25.0098L5.72508 24.9783L4.18945 25.8806C4.1287 25.7546 4.07245 25.6275 4.0027 25.5071C3.93183 25.3878 3.84633 25.2776 3.76758 25.1628L7.0492 23.2368L7.05033 23.2357Z" fill="#393939"/>
-                <path d="M7.9344 28.1137C7.45965 28.656 7.20203 29.4468 7.82865 29.9958C8.47103 30.5595 9.32153 30.168 9.92903 29.4761C10.3993 28.9372 10.6895 28.1013 10.064 27.5512C9.48353 27.0438 8.7534 27.1777 7.9344 28.1137ZM7.58678 30.2276C6.6654 29.4198 6.51803 28.3342 7.34828 27.3858C8.07503 26.5556 9.26865 26.4127 10.3082 27.324C11.4984 28.3646 11.1148 29.511 10.5523 30.1623C9.84353 30.9791 8.61053 31.1253 7.58678 30.2276Z" fill="#393939"/>
-                <path d="M12.2374 33.0177C12.1147 32.9524 11.9944 32.8816 11.8672 32.8276C11.739 32.7702 11.6062 32.7308 11.4746 32.6869L12.8291 29.5561C12.468 29.3997 12.1316 29.2973 11.8515 29.2186C11.892 29.1499 11.9381 29.0858 11.9707 29.0104C12.0022 28.9373 12.018 28.8619 12.0394 28.7843L14.6606 29.9183C14.619 29.9858 14.574 30.0511 14.5425 30.1231C14.5087 30.1984 14.4941 30.2783 14.4739 30.3514C14.1892 30.1861 13.9035 30.0218 13.5941 29.8868L12.2385 33.0188L12.2374 33.0177Z" fill="#393939"/>
-                <path d="M17.3062 30.3783C17.2814 30.4515 17.2522 30.5313 17.2387 30.609C17.2252 30.6866 17.2274 30.771 17.2252 30.8475C16.8978 30.7473 16.5333 30.6405 15.9742 30.5572L15.7751 31.7328L16.3432 31.8296C16.5896 31.8712 16.8168 31.8881 17.0238 31.8937C17.0002 31.9691 16.9698 32.049 16.9563 32.1232C16.9428 32.2008 16.9462 32.2863 16.9428 32.364C16.7459 32.3021 16.5254 32.2425 16.2791 32.2008L15.7109 32.1041L15.4758 33.4923C16.0338 33.5801 16.4107 33.6172 16.7504 33.6296C16.7268 33.705 16.6964 33.7848 16.6829 33.8613C16.6694 33.9367 16.6728 34.0211 16.6694 34.101L14.5859 33.7466L15.2193 30.0228L17.3028 30.3761L17.3062 30.3783Z" fill="#393939"/>
-                <path d="M21.2792 33.2943L21.2038 33.7803C20.8899 33.984 20.504 34.0897 20.1339 34.1246C18.9504 34.2382 17.9874 33.5958 17.8772 32.4663C17.7377 31.023 18.668 30.2715 19.8695 30.1533C20.2352 30.1196 20.6863 30.1691 21.0227 30.3153C20.9923 30.5066 20.9765 30.699 20.9529 30.897L20.8742 30.9037C20.6402 30.6258 20.2667 30.4492 19.9089 30.4852C18.992 30.5741 18.7063 31.4876 18.785 32.301C18.8762 33.2448 19.4049 33.8613 20.2543 33.7781C20.5985 33.7466 20.9777 33.5295 21.2027 33.2685L21.2792 33.2943Z" fill="#393939"/>
-                <path d="M24.1571 32.5462C24.0255 32.5856 23.8916 32.6205 23.7645 32.6711C23.6373 32.7217 23.5158 32.7881 23.391 32.8477L22.1602 29.7067C21.7968 29.8485 21.4886 30.0116 21.2377 30.1511C21.2197 30.0757 21.2051 29.997 21.1758 29.9205C21.1488 29.8496 21.1061 29.7843 21.0645 29.7157L23.6958 28.6841C23.7127 28.7595 23.7273 28.836 23.7543 28.908C23.7836 28.9856 23.8286 29.0508 23.8668 29.1161C23.5507 29.1993 23.2357 29.2803 22.9252 29.403L24.156 32.5451L24.1571 32.5462Z" fill="#393939"/>
-                <path d="M25.8741 27.1631C25.9101 27.2317 25.9461 27.3094 25.9877 27.3701C26.0316 27.4331 26.0946 27.4916 26.1452 27.5479C25.8471 27.7042 25.5174 27.8842 25.0674 28.215L25.7458 29.1791L26.2116 28.8506C26.4118 28.7077 26.5839 28.5604 26.7347 28.4209C26.7696 28.4895 26.8044 28.566 26.8483 28.629C26.8922 28.692 26.9529 28.7482 27.0069 28.8056C26.8247 28.9001 26.6267 29.0115 26.4276 29.1544L25.9607 29.484L26.7639 30.6225C27.2184 30.2951 27.5053 30.0577 27.7551 29.8271C27.7911 29.898 27.8237 29.9745 27.8687 30.0352C27.9137 30.0994 27.9744 30.1567 28.0262 30.2141L26.3184 31.4179L24.1641 28.3669L25.8718 27.162L25.8741 27.1631Z" fill="#393939"/>
-                <path d="M29.6127 28.2274L29.9007 27.8607C30.3698 27.2667 30.4305 26.5815 29.4225 25.7839C28.6125 25.1438 27.9927 25.2743 27.5123 25.8818L27.1782 26.3037L29.6115 28.2263L29.6127 28.2274ZM27.582 25.281C28.3459 24.3867 29.2853 24.5149 29.9929 25.074C30.9649 25.8435 31.0009 26.9832 30.3034 27.864L29.3517 29.07L26.4199 26.7514L27.582 25.281Z" fill="#393939"/>
-                <path d="M11.9131 21.978L12.8018 22.1366L12.4891 21.3649L11.9131 21.978Z" fill="#393939"/>
-                <path d="M16.692 18.2993C13.2641 14.7195 13.2371 10.4659 15.3881 6.57451L12.5328 6.06714L9.3457 24.1571L23.8492 26.7098L24.8088 21.3053C24.8088 21.3041 20.121 21.879 16.6908 18.3004L16.692 18.2993ZM13.1111 22.878L12.9513 22.4775L11.6587 22.2469L11.3583 22.5664L10.5933 22.4314L12.1537 20.889L12.9795 21.0341L13.9042 23.0186L13.1111 22.878ZM17.1431 22.0973L16.0968 21.9128L15.8392 23.3629L15.1046 23.2324L15.3622 21.7811L14.3115 21.5933L14.3677 21.2816L17.1982 21.7845L17.1431 22.0973ZM20.6835 23.3168C20.6272 23.6329 20.409 23.8444 20.0253 23.9501C19.7373 24.0413 19.3447 24.0413 18.8441 23.9535C18.3446 23.8646 17.9756 23.7296 17.736 23.544C17.4131 23.3145 17.2781 23.04 17.3332 22.7216C17.3906 22.3999 17.6122 22.1873 17.9947 22.0894C18.2838 21.9983 18.6776 21.9983 19.176 22.086C19.6743 22.1738 20.0467 22.3121 20.2852 22.4955C20.6081 22.7194 20.7397 22.9939 20.6835 23.3168ZM23.4015 24.705L20.94 24.2663L21.255 22.5034L21.984 22.6328L21.7263 24.0806L23.4566 24.3878L23.4015 24.7061V24.705Z" fill="#393939"/>
-                <path d="M19.1199 22.3987C18.8319 22.347 18.59 22.3605 18.3988 22.437C18.2075 22.5135 18.0928 22.6518 18.059 22.8498C18.023 23.0501 18.0826 23.2177 18.2356 23.3561C18.3886 23.4945 18.6091 23.589 18.8994 23.6418C19.1874 23.6925 19.4281 23.679 19.6171 23.6013C19.8073 23.5226 19.9186 23.3853 19.9535 23.1873C19.9884 22.9893 19.931 22.8206 19.7803 22.6822C19.6295 22.5438 19.4101 22.4482 19.1199 22.3987Z" fill="#393939"/>
-              </svg>
-              <p className="text-[16px] leading-[24px] font-normal text-[#393939]">
-                All holidays are ATOL protected!
-              </p>
+                <div className="flex flex-col items-start p-2 h-[40px] w-[270px] max-w-full min-w-0 md:min-w-[265.3px]">
+                  <span className="flex items-center w-full max-w-[254px] h-[24px] text-[#393939] text-[12px] md:text-[16px] leading-[24px] font-normal">
+                    All holidays are ATOL protected!
+                  </span>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
-      <div className="hidden md:flex w-full bg-white rounded-lg p-6 flex-col items-center text-center font-['Montserrat']">
+        <div className="w-full bg-white rounded-lg p-6 flex-col items-center text-center font-['Montserrat'] flex">
         <h3 className="text-[#595858] text-[16px] md:text-[24px] font-semibold mb-3">
           Our team are available 24 hours, 7 days
         </h3>
@@ -263,17 +260,36 @@ export default function HolidaySummary({
             020 8123 1234
           </a>
 
-          <a href="#" className="flex items-center justify-center hover:text-[#cb2187] gap-2 font-medium leding-[140%]" >
-            <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-2">
-              <path d="M5.25 21C5.13975 21 5.02875 20.9753 4.9245 20.9257C4.66575 20.8005 4.5 20.5387 4.5 20.25V16.5H2.25C1.0095 16.5 0 15.4905 0 14.25V2.25C0 1.0095 1.0095 0 2.25 0H20.25C21.4905 0 22.5 1.0095 22.5 2.25V14.25C22.5 15.4905 21.4905 16.5 20.25 16.5H11.1383L5.71875 20.8358C5.583 20.9445 5.41725 21 5.25 21ZM2.25 1.5C1.836 1.5 1.5 1.83675 1.5 2.25V14.25C1.5 14.6632 1.836 15 2.25 15H5.25C5.66475 15 6 15.3352 6 15.75V18.69L10.4062 15.1642C10.5398 15.0577 10.704 15 10.875 15H20.25C20.664 15 21 14.6632 21 14.25V2.25C21 1.83675 20.664 1.5 20.25 1.5H2.25Z" fill="#595858"/>
-              <path d="M17.25 7.5H5.25C4.83525 7.5 4.5 7.164 4.5 6.75C4.5 6.336 4.83525 6 5.25 6H17.25C17.6648 6 18 6.336 18 6.75C18 7.164 17.6648 7.5 17.25 7.5Z" fill="#595858"/>
-              <path d="M11.25 10.5H5.25C4.83525 10.5 4.5 10.164 4.5 9.75C4.5 9.336 4.83525 9 5.25 9H11.25C11.6648 9 12 9.336 12 9.75C12 10.164 11.6648 10.5 11.25 10.5Z" fill="#595858"/>
+          <a
+            href="#"
+            className="flex items-center justify-center hover:text-[#cb2187] gap-2 font-medium leding-[140%]"
+          >
+            <svg
+              width="23"
+              height="21"
+              viewBox="0 0 23 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="mt-2"
+            >
+              <path
+                d="M5.25 21C5.13975 21 5.02875 20.9753 4.9245 20.9257C4.66575 20.8005 4.5 20.5387 4.5 20.25V16.5H2.25C1.0095 16.5 0 15.4905 0 14.25V2.25C0 1.0095 1.0095 0 2.25 0H20.25C21.4905 0 22.5 1.0095 22.5 2.25V14.25C22.5 15.4905 21.4905 16.5 20.25 16.5H11.1383L5.71875 20.8358C5.583 20.9445 5.41725 21 5.25 21ZM2.25 1.5C1.836 1.5 1.5 1.83675 1.5 2.25V14.25C1.5 14.6632 1.836 15 2.25 15H5.25C5.66475 15 6 15.3352 6 15.75V18.69L10.4062 15.1642C10.5398 15.0577 10.704 15 10.875 15H20.25C20.664 15 21 14.6632 21 14.25V2.25C21 1.83675 20.664 1.5 20.25 1.5H2.25Z"
+                fill="#595858"
+              />
+              <path
+                d="M17.25 7.5H5.25C4.83525 7.5 4.5 7.164 4.5 6.75C4.5 6.336 4.83525 6 5.25 6H17.25C17.6648 6 18 6.336 18 6.75C18 7.164 17.6648 7.5 17.25 7.5Z"
+                fill="#595858"
+              />
+              <path
+                d="M11.25 10.5H5.25C4.83525 10.5 4.5 10.164 4.5 9.75C4.5 9.336 4.83525 9 5.25 9H11.25C11.6648 9 12 9.336 12 9.75C12 10.164 11.6648 10.5 11.25 10.5Z"
+                fill="#595858"
+              />
             </svg>
             chat online
           </a>
 
           <a
-            href="#"
+            href="https://wa.me/442081231234?text=Hello%20there" target="_blank" rel="noopener noreferrer"
             className="flex items-center justify-center hover:text-[#cb2187] font-medium leding-[140%]"
           >
             <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2 fill-current">
@@ -284,26 +300,6 @@ export default function HolidaySummary({
           </a>
         </div>
       </div>
-      <Link href="#" className="bg-pml-primary relative overflow-hidden rounded-[16px] p-[24px] sm:p-[28px] md:p-[32px] lg:p-[36px] h-[144px] sm:h-[164px] md:h-[185px] lg:h-[208px] flex flex-col justify-center items-center text-center">
-        {/* Background Icon */}
-        {/* {card.icon} */}
-        <svg viewBox="0 0 374 196" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full opacity-50 pointer-events-none">
-          <g opacity="0.4"><path d="M165.099 15.0549C191.573 20.568 208.739 30.361 217.252 44.4012C220.518 49.7873 221.127 55.3032 220.735 60.8919C220.315 66.8725 221.839 72.6622 226.678 78.1572C231.58 83.7249 240.917 88.3734 252.051 90.3914C246.266 85.3573 243.227 80.1059 244.758 74.6171C246.179 69.5184 248.961 64.5019 251.727 59.5387C253.02 57.2179 256.607 56.5892 260.394 57.8466C300.886 71.2918 328.154 89.3771 326.604 115.656C325.14 140.465 304.698 160.433 263.583 173.756C251.539 177.659 238.339 180.178 224.487 181.707C223.129 181.856 221.4 181.93 220.25 181.622C203.207 177.046 187.029 171.822 174.94 163.791C157.197 152.006 154.742 138.892 162.98 124.886C167.5 117.202 176.548 107.709 183.458 103.513C198.391 110.477 207.203 119.115 209.856 129.496C212.425 139.552 209.354 149.228 202.749 158.669C202.298 159.314 201.402 160.129 201.796 160.631C202.702 161.788 203.824 163.245 205.685 163.765C208.373 164.516 211.464 163.832 212.566 162.202C224.775 144.137 227.844 126.156 207.63 109.06C202.165 104.438 193.757 100.747 186.394 96.7852C183.558 95.2593 179.859 95.3964 177.337 97.1904C157.917 111.008 144.154 125.985 147.208 143.683C149.441 156.623 161.162 167.273 180.291 175.533C186.74 178.317 193.79 180.717 201.834 183.775C194.58 183.775 188.557 183.875 182.55 183.758C154.7 183.217 128.156 180.095 104.042 172.433C74.4409 163.027 56.8234 149.105 49.8981 131.523C40.6164 107.958 51.4514 86.9279 80.8316 68.5408C94.9054 59.7329 109.982 51.4737 127.82 44.6456C139.653 40.1157 143.598 32.5447 138.57 25.3073C136.552 22.4024 133.129 19.7744 130.752 16.9267C129.777 15.7578 128.748 13.9424 129.777 13.141C131.008 12.1828 134.638 11.3679 136.843 11.583C146.218 12.4981 155.45 13.8171 165.099 15.0549Z" fill="#DF8ABD"/></g>
-        </svg>
-
-        {/* Card Content */}
-        <div className="relative z-10 mt-8">
-          <span className="text-white text-[10px] sm:text-[11px] md:text-[12px] font-semibold tracking-[1.5px] leading-[1%] uppercase mb-[4px] sm:mb-[6px] md:mb-[8px] block">
-            DISCOVER EXCLUSIVES
-          </span>
-          <h3 className="text-white text-[18px] sm:text-[22px] md:text-[24px] lg:text-[24px] font-bold leading-[1.2] mb-[6px] sm:mb-[7px] md:mb-[8px] lg:mb-[10px]">
-            TRENDING TOP 20
-          </h3>
-          <span className="inline-block bg-[#f5d742] text-[#1a1a1a] text-[8px] sm:text-[10px] md:text-[14px] font-bold px-[14px] sm:px-[16px] md:px-[18px] lg:px-[20px] py-[6px] sm:py-[6px] md:py-[6px] lg:py-[6px] rounded-full">
-            Save upto 60%
-          </span>
-        </div>
-      </Link>
-    </>
+      </div>
   );
 }
