@@ -87,7 +87,7 @@ export default function Home() {
     boardBasis: "",
     duration: "",
   });
-  console.log(selectedDeal)
+  // console.log(selectedDeal)
   // Always keep the latest filter IDs available to callbacks (avoids stale closure values)
   const currentFiltersRef = useRef(currentFilters);
   useEffect(() => {
@@ -132,7 +132,7 @@ export default function Home() {
 
     const fetchHotelData = async () => {
       try {
-        console.log("Fetching hotel data for:", slug);
+        // console.log("Fetching hotel data for:", slug);
         const response = await fetch(`/api/hotels/${slug}`);
         
         if (!response.ok) {
@@ -140,7 +140,7 @@ export default function Home() {
         }
         
         const data: HotelPageResponse = await response.json();
-        console.log("Hotel data received:", data);
+        // console.log("Hotel data received:", data);
 
         const defaultDeal = (data as any)?.api_data?.default_deal as HotelDeal | null | undefined;
         const results = (data as any)?.api_data?.api_deals?.Results as HotelDeal[] | null | undefined;

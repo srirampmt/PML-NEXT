@@ -62,7 +62,7 @@ async function fetchExternalJson(url: string, options: FetchExternalOptions = {}
 	const apiKey = process.env.THIRDPARTY_API_KEY;
     const api_url = `${apiKey}${query}`;
 	
-    console.log("API URL:", api_url);
+    // console.log("API URL:", api_url);
 	const timeoutMs = options.timeoutMs ?? 15_000;
 	const controller = new AbortController();
 	const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -84,7 +84,7 @@ async function fetchExternalJson(url: string, options: FetchExternalOptions = {}
 			throw new Error(`Upstream error ${res.status}: ${body.slice(0, 500)}`);
 		}
 		const data = await res.json();
-        console.log("Fetched data:", data);
+        // console.log("Fetched data:", data);
 		return data;
 	} finally {
 		clearTimeout(timeoutId);

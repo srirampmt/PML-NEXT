@@ -65,7 +65,7 @@ const getDestinationResponse = cache(async (slug: string): Promise<DestinationRe
     } catch {
       // ignore
     }
-    console.log("Destination fetch failed", {
+    // console.log("Destination fetch failed", {
       url,
       status: res.status,
       statusText: res.statusText,
