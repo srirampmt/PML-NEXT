@@ -91,12 +91,12 @@ const getOfferTypeResponse = cache(async (slug: string): Promise<OfferTypeRespon
       } catch {
         // ignore
       }
-      // console.log("OfferType fetch failed", {
+      /* console.log("OfferType fetch failed", {
         url,
         status: res.status,
         statusText: res.statusText,
         body: bodyText?.slice(0, 500),
-      });
+      }); */
       return null;
     }
 

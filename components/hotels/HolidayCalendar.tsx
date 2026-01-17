@@ -136,6 +136,22 @@ export default function HolidayCalendar({
   const { slug } = useParams<{ slug: string | string[] }>();
   const safeSlug = Array.isArray(slug) ? slug[0] : slug;
 
+  // Ensure option lists are unique to avoid duplicate React keys (e.g. "East Midlands").
+  const airportOptions = useMemo(
+    () => Array.from(new Set((availableAirports || []).filter(Boolean))),
+    [availableAirports]
+  );
+
+  const boardBasisOptions = useMemo(
+    () => Array.from(new Set((availableBoardBases || []).filter(Boolean))),
+    [availableBoardBases]
+  );
+
+  const durationOptions = useMemo(
+    () => Array.from(new Set((availableDurations || []).filter(Boolean))),
+    [availableDurations]
+  );
+
   // --- STATE ---
   const today = useMemo(() => {
     const d = new Date();
@@ -155,13 +171,13 @@ export default function HolidayCalendar({
 
   // Filter states
   const [selectedAirport, setSelectedAirport] = useState(
-    selectedAirportProp || availableAirports[0] || ""
+    selectedAirportProp || airportOptions[0] || ""
   );
   const [selectedBoardBasis, setSelectedBoardBasis] = useState(
-    selectedBoardBasisProp || availableBoardBases[0] || ""
+    selectedBoardBasisProp || boardBasisOptions[0] || ""
   );
   const [selectedDuration, setSelectedDuration] = useState(
-    selectedDurationProp || availableDurations[0] || ""
+    selectedDurationProp || durationOptions[0] || ""
   );
 
   // Keep internal selected date/month in sync when parent changes selected date
@@ -176,34 +192,34 @@ export default function HolidayCalendar({
 
   // Keep dropdown selections synced with the selected deal's filter values
   useEffect(() => {
-    if (selectedAirportProp && availableAirports.includes(selectedAirportProp)) {
+    if (selectedAirportProp && airportOptions.includes(selectedAirportProp)) {
       setSelectedAirport(selectedAirportProp);
       return;
     }
-    if (!availableAirports.includes(selectedAirport)) {
-      setSelectedAirport(availableAirports[0] || "");
+    if (!airportOptions.includes(selectedAirport)) {
+      setSelectedAirport(airportOptions[0] || "");
     }
-  }, [selectedAirportProp, availableAirports, selectedAirport]);
+  }, [selectedAirportProp, airportOptions, selectedAirport]);
 
   useEffect(() => {
-    if (selectedBoardBasisProp && availableBoardBases.includes(selectedBoardBasisProp)) {
+    if (selectedBoardBasisProp && boardBasisOptions.includes(selectedBoardBasisProp)) {
       setSelectedBoardBasis(selectedBoardBasisProp);
       return;
     }
-    if (!availableBoardBases.includes(selectedBoardBasis)) {
-      setSelectedBoardBasis(availableBoardBases[0] || "");
+    if (!boardBasisOptions.includes(selectedBoardBasis)) {
+      setSelectedBoardBasis(boardBasisOptions[0] || "");
     }
-  }, [selectedBoardBasisProp, availableBoardBases, selectedBoardBasis]);
+  }, [selectedBoardBasisProp, boardBasisOptions, selectedBoardBasis]);
 
   useEffect(() => {
-    if (selectedDurationProp && availableDurations.includes(selectedDurationProp)) {
+    if (selectedDurationProp && durationOptions.includes(selectedDurationProp)) {
       setSelectedDuration(selectedDurationProp);
       return;
     }
-    if (!availableDurations.includes(selectedDuration)) {
-      setSelectedDuration(availableDurations[0] || "");
+    if (!durationOptions.includes(selectedDuration)) {
+      setSelectedDuration(durationOptions[0] || "");
     }
-  }, [selectedDurationProp, availableDurations, selectedDuration]);
+  }, [selectedDurationProp, durationOptions, selectedDuration]);
 
   // --- MEMOIZED DATA ---
   const priceMap = useMemo(() => getPriceMap(initialPrices), [initialPrices]);
@@ -303,7 +319,7 @@ export default function HolidayCalendar({
               onFilterChange?.("departure", e.target.value);
             }}
           >
-            {availableAirports.map((a) => (
+            {airportOptions.map((a) => (
               <option key={a}>{a}</option>
             ))}
           </select>
@@ -325,7 +341,7 @@ export default function HolidayCalendar({
               onFilterChange?.("boardBasis", e.target.value);
             }}
           >
-            {availableBoardBases.map((b) => (
+            {boardBasisOptions.map((b) => (
               <option key={b}>{b}</option>
             ))}
           </select>
@@ -347,7 +363,7 @@ export default function HolidayCalendar({
             }}
             disabled={isSearching}
           >
-            {availableDurations.map((d) => (
+            {durationOptions.map((d) => (
               <option key={d}>{d}</option>
             ))}
           </select>

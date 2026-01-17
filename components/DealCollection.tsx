@@ -277,9 +277,9 @@ export default function DealCollections(props: any) {
                           })}
                         </div>
 
-                        <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px]">
+                        <h3 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px]">
                           {deal.name}
-                        </h5>
+                        </h3>
 
                         <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px] rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] block truncate leading-[18px] tracking-[0.02em] w-full text-center">
                           {deal.info_paragraph ||
