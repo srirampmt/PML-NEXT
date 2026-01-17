@@ -8,7 +8,6 @@
 	--main-nav-height: 76px;
 }
 
-/* Ensure Montserrat is used across the app */
 html, body {
 	font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	/* overflow-x:hidden on html/body can break position:sticky in some browsers */
