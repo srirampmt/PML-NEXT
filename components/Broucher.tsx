@@ -32,7 +32,7 @@ export function Broucher() {
               </p>
 
               {/* Download Button */}
-              <button onClick={() => window.location.href = "/brochure"} className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] md:py-[12px] border-[1px] border-pml-primary rounded-[10px] bg-[#EFEFEF] hover:bg-pml-primary group transition-all duration-300">
+              <button onClick={() => window.open("https://accelerate-digital.paperturn-view.com/0-pml-brochure?pid=ODg8871976&p=3&v=6.4&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1", "_blank")} className="inline-flex items-center justify-center gap-[8px] sm:gap-[10px] px-[20px] sm:px-[24px] md:px-[28px] lg:px-[32px] xl:px-[40px] py-[10px] md:py-[12px] border-[1px] border-pml-primary rounded-[10px] bg-[#EFEFEF] hover:bg-pml-primary group transition-all duration-300">
                 <span className="font-['Montserrat'] text-pml-primary text-[14px] font-semibold uppercase tracking-[0.05em] group-hover:text-white transition-colors duration-300 leading-[22px]">
                   Download Now
                 </span>

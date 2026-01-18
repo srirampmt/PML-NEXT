@@ -402,7 +402,7 @@ const Footer = () => {
 
             {/* Footer Bottom */}
             <div className="pt-2 md:pt-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px]">
-              <span className='text-[14px] font-light'>© 2024 Plan My Tour Limited. All Rights Reserved.</span>
+              <span className='text-[14px] font-light'>© 2026 Plan My Tour Limited. All Rights Reserved.</span>
               <div className="flex items-center gap-2">
                 <Link href="/cookie-policy" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                   Cookie Policy

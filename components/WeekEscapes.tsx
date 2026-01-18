@@ -276,7 +276,6 @@ export default function WeekEscapes({
                         </>
                       );
                     })()}
-                    <CircleChevronRight className="ml-[4px] w-[18px] md:w-[24px]" />
                   </a>
                 </div>
               </div>

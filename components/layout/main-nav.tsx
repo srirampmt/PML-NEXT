@@ -52,11 +52,20 @@ interface ImageCardProps {
   imageSrc: string;
   text: string;
   alt: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }
 
-const ImageCard = ({ href, imageSrc, text, alt }: ImageCardProps) => {
+const ImageCard = ({ href, imageSrc, text, alt, target, rel }: ImageCardProps) => {
+  const safeRel = target === " _blank" ? (rel ?? "noopener noreferrer") : rel;
+
   return (
-    <Link href={href} className="block max-w-[420px] w-full no-underline">
+    <Link
+      href={href}
+      target={target}
+      rel={target === "_blank" ? (rel ?? "noopener noreferrer") : rel}
+      className="block max-w-[420px] w-full no-underline"
+    >
       <div className="rounded-[14px] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0)] relative">
         <div className="relative overflow-hidden">
           <img
@@ -253,12 +262,12 @@ export function MainNav() {
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
-                            <Link href="/offers/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
-                            <Link href="/offers/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
+                            <Link href="/offers/find-you-perfect-holiday" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Find your perfect holiday style</Link>
+                            <Link href="/offers/mitsis-hotel-group" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mitsis Hotel Group Offers</Link>
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/offers/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
-                            <Link href="/offers/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
-                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
+                            <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
+                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
                             <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -268,11 +277,11 @@ export function MainNav() {
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Our Holiday Styles</p>
                           <div className="flex flex-col gap-1">
                             <Link href="/holiday-styles/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
-                            <Link href="/holiday-styles/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
+                            <Link href="/holiday-styles/adult-only" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults Only Holidays</Link>
                             <Link href="/holiday-styles/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
-                            <Link href="/holiday-styles/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
-                            <Link href="/holiday-styles/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
-                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
+                            <Link href="/holiday-styles/beach-holidays" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
+                            <Link href="/holiday-styles/family-holidays" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
+                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi Centre Holidays</Link>
                             <Link href="/holiday-styles" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -319,11 +328,11 @@ export function MainNav() {
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Our Holiday Styles</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
                             <Link href="/holiday-styles/all-inclusive" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">All Inclusive Holidays</Link>
-                            <Link href="/holiday-styles/adults" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults‑Only Holidays</Link>
+                            <Link href="/holiday-styles/adult-only" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Adults Only Holidays</Link>
                             <Link href="/holiday-styles/city-breaks" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">City Breaks</Link>
-                            <Link href="/holiday-styles/beach" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
-                            <Link href="/holiday-styles/family" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
-                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi‑Centre Holidays</Link>
+                            <Link href="/holiday-styles/beach-holidays" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Beach Holidays</Link>
+                            <Link href="/holiday-styles/family-holidays" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Family Holidays</Link>
+                            <Link href="/holiday-styles/multi-centre" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Multi Centre Holidays</Link>
                             <Link href="/holiday-styles" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -331,13 +340,13 @@ export function MainNav() {
                         {/* Latest Offers - Desktop only */}
                         <div className="hidden xl:block xl:flex-[0_0_30%] xl:pl-6">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
-                          <div className="flex flex-col gap-1">
-                            <Link href="/offers/latest-special-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
-                            <Link href="/offers/christmas-markets" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
+                          <div className="flex flex-col gap-1 items-center xl:items-start">
+                            <Link href="/offers/find-you-perfect-holiday" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Find your perfect holiday style</Link>
+                            <Link href="/offers/mitsis-hotel-group" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mitsis Hotel Group Offers</Link>
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/offers/christmas-new-year" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
-                            <Link href="/offers/early-booking" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 – Early Deals</Link>
-                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
+                            <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
+                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
                             <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -389,7 +398,7 @@ export function MainNav() {
                             <Link href="/destinations/gran-canaria" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Gran Canaria</Link>
                             <Link href="/destinations/lanzarote" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Lanzarote</Link>
                             <Link href="/destinations/fuerteventura" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Fuerteventura</Link>
-                            <Link href="/destinations/mainland-spain" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mainland Spain</Link>
+                            <Link href="/destinations/spain" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mainland Spain</Link>
                             <Link href="/destinations/costa-blanca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa Blanca</Link>
                             <Link href="/destinations/costa-del-sol" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Costa del Sol</Link>
                             <Link href="/destinations/mallorca" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mallorca</Link>
@@ -424,7 +433,7 @@ export function MainNav() {
 
                           {/* Column 4 */}
                           <div className="flex flex-col gap-1 flex-shrink-0 min-w-[140px] xl:min-w-0">
-                            <Link href="/destinations/egypt-red-sea" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Egypt & Red Sea</Link>
+                            <Link href="/destinations/egypt" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Egypt & Red Sea</Link>
                             <Link href="/destinations/tunisia" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Tunisia</Link>
                             <Link href="/destinations/morocco" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Morocco</Link>
                             <Link href="/destinations/cape-verde" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Cape Verde</Link>
@@ -473,7 +482,7 @@ export function MainNav() {
                             <Link href="/support/faqs" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Frequently Asked Questions</Link>
                             <Link href="/support/group-bookings" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Group Bookings</Link>
                             <Link href="/support/changes" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Changes to Bookings</Link>
-                            <Link href="/support/payments" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Payment Options</Link>
+                            <Link href="/support/payment-options" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Payment Options</Link>
                           </div>
                         </div>
 
@@ -482,9 +491,9 @@ export function MainNav() {
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Useful Links</p>
                           <div className="flex flex-col gap-1">
                             <Link href="/support/about-us" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">About Us</Link>
-                            <Link href="/brochure" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Download our Brochure</Link>
+                            <Link target="_blank" href="https://accelerate-digital.paperturn-view.com/0-pml-brochure?pid=ODg8871976&p=3&v=6.4&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Download our Brochure</Link>
                             <Link href="/support/reviews" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Feedback & Reviews</Link>
-                            <Link href="/suppliers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Become a PlanMyLuxe Supplier</Link>
+                            <Link href="/support/suppliers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Become a PlanMyLuxe Supplier</Link>
                             <Link href="/careers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Interesting in Work for Us</Link>
                           </div>
                         </div>
@@ -492,7 +501,8 @@ export function MainNav() {
                         {/* Image Card - Desktop only */}
                         <div className="hidden xl:flex xl:flex-[0_0_36%] items-center justify-end">
                           <ImageCard
-                            href="/brochure"
+                            href="https://accelerate-digital.paperturn-view.com/0-pml-brochure?pid=ODg8871976&p=3&v=6.4&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1"
+                            target="_blank"
                             imageSrc="/assets/images/menu-image-3.png"
                             text="Download our latest brochure"
                             alt="Download our latest brochure"
