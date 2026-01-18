@@ -99,11 +99,9 @@ export default function SuppliersPage() {
   };
 
   return (
-    <div className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white">
-      <div className="mx-auto w-full max-w-[1140px] px-4 md:px-6">
-        <div className="py-10 md:py-14">
-          {/* Content blocks */}
-          <div className="space-y-10">
+    <section className="w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] relative bg-white font-['Montserrat'] my-2 md:my-8">
+      <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]">
+        <div className="w-full max-w-[1280px] mx-auto">
             <section className="space-y-3">
               <h4 className={`font-semibold text-[18px] md:text-[20px] ${textGrey}`}>
                 Join Us at PlanMyLuxe: Your Partner in Luxury Travel Solutions
@@ -180,10 +178,10 @@ export default function SuppliersPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
-                <div className="bg-white border border-[#e0e0e0] rounded-xl p-2 shadow-[0_2px_8px_rgba(0,0,0,0.1)] transition hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:-translate-y-[2px] w-full sm:w-[320px]">
+              <div className="flex flex-col items-center sm:flex-row sm:flex-wrap gap-4">
+                <div className="bg-white p-2  w-full sm:w-[320px]">
                   <img
-                    src="https://planmylux.s3.eu-west-2.amazonaws.com/Travelz-supplier-page.webp"
+                    src="/assets/images/travelzoo.jpg"
                     loading="lazy"
                     alt="Travelzoo Partner Logo"
                     className="w-full h-auto rounded-lg"
@@ -192,7 +190,7 @@ export default function SuppliersPage() {
 
                 <div className="bg-white border border-[#e0e0e0] rounded-xl p-2 shadow-[0_2px_8px_rgba(0,0,0,0.1)] transition hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:-translate-y-[2px] w-full sm:w-[320px]">
                   <img
-                    src="https://planmylux.s3.eu-west-2.amazonaws.com/cyprus-supplier-page.webp"
+                    src="/assets/images/travelzoo.png"
                     loading="lazy"
                     alt="Travelzoo Top 20 Feature"
                     className="w-full h-auto rounded-lg"
@@ -360,7 +358,7 @@ export default function SuppliersPage() {
             </section>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    // </div>
   );
 }

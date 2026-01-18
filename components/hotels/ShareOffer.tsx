@@ -12,20 +12,21 @@ import {
   Link,
   Check,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface ShareOfferProps {
-  copyText: string;
   className?: string;
   variant?: "button" | "headerRow";
 }
 
 export default function ShareOffer({
-  copyText,
   className = "",
   variant = "button",
 }: ShareOfferProps) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const pathname = usePathname();
+  const copyText = `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}`;
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(copyText);

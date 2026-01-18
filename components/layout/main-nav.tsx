@@ -477,11 +477,11 @@ export function MainNav() {
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Help & Support</p>
                           <div className="flex flex-col gap-1">
-                            <Link href="/support/travel-advice" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Latest Travel Advice</Link>
+                            <Link href="/support/payment-options" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Latest Travel Advice</Link>
                             <Link href="/support/contact-us" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Contact Us</Link>
                             <Link href="/support/faqs" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Frequently Asked Questions</Link>
-                            <Link href="/support/group-bookings" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Group Bookings</Link>
-                            <Link href="/support/changes" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Changes to Bookings</Link>
+                            <Link href="/support/groupbookings" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Group Bookings</Link>
+                            <Link href="/support/contact-us" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Changes to Bookings</Link>
                             <Link href="/support/payment-options" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Payment Options</Link>
                           </div>
                         </div>
@@ -492,9 +492,9 @@ export function MainNav() {
                           <div className="flex flex-col gap-1">
                             <Link href="/support/about-us" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">About Us</Link>
                             <Link target="_blank" href="https://accelerate-digital.paperturn-view.com/0-pml-brochure?pid=ODg8871976&p=3&v=6.4&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Download our Brochure</Link>
-                            <Link href="/support/reviews" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Feedback & Reviews</Link>
+                            <Link href="/" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Feedback & Reviews</Link>
                             <Link href="/support/suppliers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Become a PlanMyLuxe Supplier</Link>
-                            <Link href="/careers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Interesting in Work for Us</Link>
+                            <Link href="/support/suppliers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Interesting in Work for Us</Link>
                           </div>
                         </div>
 

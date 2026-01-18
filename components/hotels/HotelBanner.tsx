@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Image, Images, ImagesIcon, LayoutGrid, X } from "lucide-react";
+import { ImagesIcon, X } from "lucide-react";
 
 interface HotelBannerProps {
   location: string;
@@ -44,10 +44,6 @@ export default function HotelBanner({
     if (!calendarEl) return;
     calendarEl.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  const largeImage = images?.[0];
-  const rightTopImage = images?.[1];
-  const rightBottomImage = images?.[2];
 
   return (
     <>
@@ -98,27 +94,13 @@ export default function HotelBanner({
               {/* Large image - full width on mobile, left side on md+ */}
               <div className="relative">
                 {badgeText && (
-                  <div className="scale-75 top-0 -left-5 md:scale-100 absolute md:top-3 md:left-3 z-10 bg-[#4c4c4c] text-white text-[14px] px-[12px] py-[6px] rounded-md shadow-md border border-white leading-[140%] font-normal">
-                    <div className="flex gap-2">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clipPath="url(#clip0_1_3128)">
-                          <path d="M12.3887 8.38574H14.2635V12.875H12.3887V8.38574Z" fill="white"/>
-                          <path d="M8.83789 8.38574H10.7129V12.875H8.83789V8.38574Z" fill="white"/>
-                          <path d="M5.28711 8.38574H7.16211V12.875H5.28711V8.38574Z" fill="white"/>
-                          <path d="M1.7373 8.38574H3.61218V12.875H1.7373V8.38574Z" fill="white"/>
-                          <path d="M14.8888 6.97949V6.51074H1.1123V6.97949C1.1123 7.2384 1.32214 7.44824 1.58105 7.44824H14.42C14.6788 7.44824 14.8888 7.2384 14.8888 6.97949Z" fill="white"/>
-                          <path d="M15.5315 13.8125H0.469726C0.210815 13.8125 0.000976562 14.0223 0.000976562 14.2812V15.5312C0.000976562 15.7902 0.210815 16 0.469726 16H15.5315C15.7904 16 16.0002 15.7902 16.0002 15.5312V14.2812C16.0002 14.0223 15.7904 13.8125 15.5315 13.8125Z" fill="white"/>
-                          <path d="M0.468708 5.57324H15.5312C15.7409 5.57324 15.9251 5.43396 15.9822 5.23217C16.0393 5.03039 15.9555 4.81518 15.7769 4.70532L8.24568 0.06958C8.09505 -0.0231933 7.90498 -0.0231933 7.75423 0.06958L0.22298 4.70532C0.0443917 4.8153 -0.0393484 5.03039 0.0177804 5.23217C0.0749093 5.43396 0.259113 5.57324 0.468708 5.57324ZM7.68135 2.75708H8.31868C8.57759 2.75708 8.78743 2.96692 8.78743 3.22583C8.78743 3.48474 8.57759 3.69458 8.31868 3.69458H7.68135C7.42244 3.69458 7.2126 3.48474 7.2126 3.22583C7.2126 2.96692 7.42244 2.75708 7.68135 2.75708Z" fill="white"/>
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_1_3128">
-                            <rect width="16" height="16" fill="white"/>
-                          </clipPath>
-                        </defs>
-                      </svg>
-                      {badgeText}
-                    </div>
-                  </div>
+                  <img
+                    className="absolute top-3 left-3 z-10"
+                    src={badgeText}   // must be a valid image URL string
+                    width={300}
+                    height={20}
+                    alt="badge"
+                  />
                 )}
 
                 {thumbnail_1 && (
@@ -127,8 +109,6 @@ export default function HotelBanner({
                   />
                 )}
               </div>
-
-              {/* Two images - side by side on mobile, stacked on md+ */}
               <div className="grid grid-cols-2 md:grid-rows-2 md:grid-cols-1 gap-2 md:gap-4">
                 {/* Top/Left image */}
                 {thumbnail_2 && (

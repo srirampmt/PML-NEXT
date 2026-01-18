@@ -706,13 +706,13 @@ export default function Home() {
           thumbnail_2={page.thumbnail_2}
           thumbnail_3={page.thumbnail_3}
           images={page.pictures}
-          badgeText={page.offer_on_card || page.tag_list[0]}
+          badgeText={page.Banner_Image_chips}
         />
 
         {/* Badges + Header + Share (single row below banner) */}
         <div className="mx-auto max-w-[1280px] pt-[16px] pb-[8px]">
           <ShareOffer
-            copyText="https://planmyluxe.com/offers/paphos-holiday"
+            
             variant="headerRow"
           />
         </div>

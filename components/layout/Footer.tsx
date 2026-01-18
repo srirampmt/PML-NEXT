@@ -256,22 +256,22 @@ const Footer = () => {
                 </h3>
                 <ul className="space-y-2 ">
                   <li>
-                    <Link href="/travel-advice" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Latest Travel Advice
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/contact-us" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Contact Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/faqs" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/faqs" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Frequently Asked Questions
                     </Link>
                   </li>
                   <li>
-                    <Link href="/reviews" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Feedback & Reviews
                     </Link>
                   </li>
@@ -290,27 +290,27 @@ const Footer = () => {
                 </h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link href="/about" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/about-us" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/why-choose-us" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/about-us" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Why Choose Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/payment-options" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/payment-options" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Payment Options
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/contact-us" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Contact Us
                     </Link>
                   </li>
                   <li>
-                    <Link href="/careers" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/support/suppliers" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Work for us
                     </Link>
                   </li>
@@ -404,15 +404,15 @@ const Footer = () => {
             <div className="pt-2 md:pt-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px]">
               <span className='text-[14px] font-light'>© 2026 Plan My Tour Limited. All Rights Reserved.</span>
               <div className="flex items-center gap-2">
-                <Link href="/cookie-policy" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
+                <Link href="/" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                   Cookie Policy
                 </Link>
                 <span>•</span>
-                <Link href="/privacy-policy" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
+                <Link href="/" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                   Privacy Policy
                 </Link>
                 <span>•</span>
-                <Link href="/terms" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
+                <Link href="/" className="hover:text-[#cb2187] text-[12px] md:text-[14px] font-light transition-colors">
                   Terms & Conditions
                 </Link>
               </div>
