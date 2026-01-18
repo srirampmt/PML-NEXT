@@ -44,6 +44,19 @@ export default function HotelDetailsTabs(props: HotelDetailsTabsProps) {
     finePrint = "",
   } = props;
 
+  const parseRating = (value: unknown): number => {
+    if (typeof value === "number") return Number.isFinite(value) ? value : 0;
+    const raw = String(value ?? "").trim();
+    if (!raw) return 0;
+
+    // Accept formats like: "4.5", "4,5", "4.5/5", "Rating: 4.5 out of 5"
+    const match = raw.match(/(\d+(?:[\.,]\d+)?)/);
+    if (!match) return 0;
+    const normalized = match[1].replace(",", ".");
+    const num = Number.parseFloat(normalized);
+    return Number.isFinite(num) ? num : 0;
+  };
+
   const [activeTab, setActiveTab] = useState("details");
 
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -281,11 +294,20 @@ export default function HotelDetailsTabs(props: HotelDetailsTabsProps) {
         </p>
         <div className="flex items-center gap-3 mb-[12px]">
           <div className="flex gap-1">
-            {Array.from({
-              length: Math.max(0, Math.min(5, Math.round(Number(reviews.rating) || 0))),
-            }).map((_, i) => (
-              <svg key={i} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" fill="#00AF87"/>
+            {(() => {
+              const rating = parseRating((reviews as any)?.rating);
+              const count = Math.max(0, Math.min(5, Math.floor(rating)));
+              return Array.from({ length: count }).map((_, i) => i);
+            })().map((i) => (
+              <svg
+                key={`review-dot-${i}`}
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="12" r="12" fill="#00AF87" />
               </svg>
             ))}
           </div>

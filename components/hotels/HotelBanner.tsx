@@ -19,6 +19,9 @@ interface HotelBannerProps {
   ctaText?: string;
   images: string[];
   badgeText?: string;
+  thumbnail_1?: string;
+  thumbnail_2?: string;
+  thumbnail_3?: string;
 }
 
 export default function HotelBanner({
@@ -29,6 +32,9 @@ export default function HotelBanner({
   price = "£199",
   ctaText = "View Options",
   images,
+  thumbnail_1,
+  thumbnail_2,
+  thumbnail_3,
   badgeText = "Prices include FREE Attraction Entry",
 }: HotelBannerProps) {
   const [open, setOpen] = useState(false);
@@ -115,8 +121,8 @@ export default function HotelBanner({
                   </div>
                 )}
 
-                {largeImage && (
-                  <img src={largeImage}
+                {thumbnail_1 && (
+                  <img src={thumbnail_1}
                     className="w-full h-[200px] sm:h-[300px] md:h-[360px] lg:h-[450px] object-cover rounded-[8px]"
                   />
                 )}
@@ -125,18 +131,18 @@ export default function HotelBanner({
               {/* Two images - side by side on mobile, stacked on md+ */}
               <div className="grid grid-cols-2 md:grid-rows-2 md:grid-cols-1 gap-2 md:gap-4">
                 {/* Top/Left image */}
-                {rightTopImage && (
+                {thumbnail_2 && (
                   <img
-                    src={rightTopImage}
+                    src={thumbnail_2}
                     className="w-full h-[120px] sm:h-[150px] md:h-[175px] lg:h-[216px] object-cover rounded-[8px]"
                   />
                 )}
 
                 {/* Bottom/Right image WITH MORE ICON */}
-                {rightBottomImage && (
+                {thumbnail_3 && (
                   <div className="relative">
                     <img
-                      src={rightBottomImage}
+                      src={thumbnail_3}
                       className="w-full h-[120px] sm:h-[150px] md:h-[175px] lg:h-[216px] object-cover rounded-[8px]"
                     />
 

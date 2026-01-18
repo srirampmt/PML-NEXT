@@ -666,8 +666,12 @@ export default function Home() {
   
 
   const reviewsData = {
-    rating: page.trip_advisor_reviews_rating,
-    total: page.trip_advisor_rating,
+    // Backend fields:
+    // - trip_advisor_rating: rating value (e.g. "4.5")
+    // - trip_advisor_reviews: number of reviews (e.g. "1,234")
+    // - trip_advisor_reviews_rating: sometimes also present depending on feed
+    rating: page.trip_advisor_rating || page.trip_advisor_reviews_rating,
+    total: page.trip_advisor_reviews,
     updatedAt: page.trip_advisor_reviews_last_updated_date,
   };
 
@@ -698,7 +702,10 @@ export default function Home() {
           priceLabel="Price starting from"
           price={selectedDeal ? Math.round(getEffectivePrice(selectedDeal)).toString() : page.starting_price}
           ctaText="View Options"
-          images={page.pictures.filter(img => img.trim()).slice(0, 3)}
+          thumbnail_1={page.thumbnail_1}
+          thumbnail_2={page.thumbnail_2}
+          thumbnail_3={page.thumbnail_3}
+          images={page.pictures}
           badgeText={page.offer_on_card || page.tag_list[0]}
         />
 
