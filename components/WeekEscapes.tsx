@@ -197,12 +197,14 @@ export default function WeekEscapes({
                   </span>
 
                   {/* Exclusive Tag SVG */}
-                  <div
-                    className="absolute top-0 right-[0px] pointer-events-none"
-                    dangerouslySetInnerHTML={{
-                      __html: featuredDeal?.offer_tag_type || "",
-                    }}
-                  />
+                  {featuredDeal?.offer_tag_type && (
+                    <img
+                      className="absolute top-5 right-2 pointer-events-none -rotate-[30deg]"
+                      src={featuredDeal.offer_tag_type}
+                      alt="tag"
+                    />
+                  )}
+
                 </div>
 
                 {/* RIGHT: DETAILS */}
@@ -310,11 +312,10 @@ export default function WeekEscapes({
 
                           {/* Exclusive Tag SVG from API */}
                           {deal?.offer_tag_type && (
-                            <div
-                              className="absolute top-0 right-[0px] pointer-events-none"
-                              dangerouslySetInnerHTML={{
-                                __html: deal.offer_tag_type,
-                              }}
+                            <img
+                              className="absolute top-5 right-2 pointer-events-none -rotate-[30deg]"
+                              src={deal.offer_tag_type}
+                              alt="tag"
                             />
                           )}
                         </div>

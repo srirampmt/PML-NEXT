@@ -186,11 +186,10 @@ export default function DestinationDealCarousel({
 
                               {/* SVG TAG FROM API */}
                               {deal?.offer_tag_type && (
-                                <div
-                                  className="absolute top-0 right-[0px] pointer-events-none"
-                                  dangerouslySetInnerHTML={{
-                                    __html: deal.offer_tag_type,
-                                  }}
+                                <img
+                                  className="absolute top-5 right-2 pointer-events-none -rotate-[30deg]"
+                                  src={deal.offer_tag_type}
+                                  alt="tag"
                                 />
                               )}
                             </div>

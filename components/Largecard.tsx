@@ -110,9 +110,14 @@ export default function Largecard({
               </span>
 
               {/* Exclusive Tag SVG */}
-              <div
+              {/* <div
                 className="absolute top-0 right-[0px] pointer-events-none"
                 dangerouslySetInnerHTML={{ __html: featuredDeal?.offer_tag_type || "" }}
+              /> */}
+              <img
+                className="absolute top-5 right-2 pointer-events-none -rotate-[30deg]"
+                src={featuredDeal.offer_tag_type}
+                alt="tag"
               />
             </div>
 
