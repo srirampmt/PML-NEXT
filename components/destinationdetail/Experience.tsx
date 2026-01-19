@@ -55,7 +55,7 @@ export default function Experience({
                   Summer 2026 Collection
                 </h4>
                 <a
-                  href="#"
+                  href="https://accelerate-digital.paperturn-view.com/0-pml-brochure?pid=ODg8871976&p=3&v=6.4&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1"
                   className="text-[#4c4c4c] text-[16px] font-normal underline hover:text-[#C8105B] transition-colors tracking-[0.01em]"
                 >
                   Download Now

@@ -6,6 +6,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 interface PerfectHolidayProps {
   perfect_holiday_title?: string;
@@ -22,24 +23,22 @@ interface PerfectHolidayProps {
 export function Perfectholiday({
   perfect_holiday_title,
   perfect_holiday_subtitle,
-  perfect_holiday_types = [],
+  perfect_holiday_types,
 }: PerfectHolidayProps) {
-  const fallbackTitle = "Unmissable stylish escapes this week";
-  const fallbackSubtitle =
-    "Step into this weeks collection of stylish escapes where beach bliss meets a sensible service and added luxuries come together to elevate your getaway to new heights.";
-
+  
+  // console.log("perfect_holiday_types:", perfect_holiday_types);
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
       <div className="w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px] py-8 md:py-20">
         <div className="w-full max-w-[1280px] mx-auto">
           {/* Header Section */}
           <h2 className="font-['Montserrat'] text-[24px] md:text-[48px] lg:text-[48px] font-semibold text-[#4c4c4c] leading-tight max-w-[626px]">
-            {perfect_holiday_title || fallbackTitle}
+            {perfect_holiday_title}
           </h2>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end">
             <p className="text-[#4c4c4c] font-['Montserrat'] mt-2 max-w-xl text-[14px] md:text-[16px] lg:text-[16px] font-normal line-clamp-2 md:line-clamp-none lg:line-clamp-none ">
-              {perfect_holiday_subtitle || fallbackSubtitle}
+              {perfect_holiday_subtitle}
             </p>
 
             <a
@@ -63,19 +62,18 @@ export function Perfectholiday({
                     className="block group transform hover:-translate-y-[2px] transition-transform duration-300"
                   >
                     <div className="relative overflow-hidden aspect-[3/4] mb-3">
-                      <img
-                        src={
-                          card.card_image ||
-                          "https://placehold.co/600x800/cccccc/666666?text=Image+Unavailable"
-                        }
+                      <Image
+                        src={card.card_image}
+                        alt={card.card_image}
+                        width={800}
+                        height={300}
+                        className="w-full h-[300px] object-cover"
+                      />
+                      {/* <img
+                        src={card.card_image}
                         alt={card.name}
                         className="w-full h-[300px] object-cover transition-transform duration-500 hover:scale-110 group-hover:scale-110 rounded-t-[8px]"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src =
-                            "https://placehold.co/600x800/cccccc/666666?text=Image+Unavailable";
-                        }}
-                      />
+                      /> */}
                     </div>
 
                     <div>

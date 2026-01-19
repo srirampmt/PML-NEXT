@@ -34,26 +34,26 @@ export default function Explore(props: ExploreProps) {
   // 🔥 Convert props into array safely
   const exploreItems = [
     {
-      tagline: props.explore_title_1,
-      title: props.explore_subtitle_1,
+      tagline: props.explore_subtitle_1,
+      title: props.explore_title_1,
       description: props.explore_description_1,
       image: props.explore_image_1,
     },
     {
-      tagline: props.explore_title_2,
-      title: props.explore_subtitle_2,
+      tagline: props.explore_subtitle_2,
+      title: props.explore_title_2,
       description: props.explore_description_2,
       image: props.explore_image_2,
     },
     {
-      tagline: props.explore_title_3,
-      title: props.explore_subtitle_3,
+      tagline: props.explore_subtitle_3,
+      title: props.explore_title_3,
       description: props.explore_description_3,
       image: props.explore_image_3,
     },
     {
-      tagline: props.explore_title_4,
-      title: props.explore_subtitle_4,
+      tagline: props.explore_subtitle_4,
+      title: props.explore_title_4,
       description: props.explore_description_4,
       image: props.explore_image_4,
     },

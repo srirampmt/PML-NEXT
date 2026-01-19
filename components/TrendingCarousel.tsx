@@ -72,8 +72,7 @@ export default function DealCollections({
     id: d?.id ?? d?.slug,
     image:
       d?.card_image ||
-      d?.image ||
-      "https://planmylux.s3.eu-west-2.amazonaws.com/placeholder.webp",
+      d?.image ,
     badge: d?.offer_on_card ?? d?.badge ?? "",
     location: d?.location ?? "",
     title: d?.name ?? d?.title ?? "",
@@ -254,11 +253,11 @@ export default function DealCollections({
                         <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px]">
                           {deal.title}
                         </h5>
-
-                        <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px] rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[18px] tracking-[0.02em] w-full text-center">
-                          {deal.extras}
-                        </div>
-
+                        {deal.extras && (
+                          <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px] rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] flex items-center justify-center leading-[18px] tracking-[0.02em] w-full text-center">
+                            {deal.extras}
+                          </div>
+                        )}
                         <a
                           href={deal.slug ? `/hotels/${deal.slug}` : "#"}
                           className="text-[#4c4c4c] border-none rounded-md text-[12px] md:text-[14px] font-normal text-right cursor-pointer transition-all duration-300 ease-in-out no-underline block w-full mx-auto pt-[5px] hover:text-[#a01a6e] leading-[22px] tracking-[0.01em] font-regular"

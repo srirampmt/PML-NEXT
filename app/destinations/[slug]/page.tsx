@@ -151,7 +151,6 @@ export default async function DestinationPage({ params }: PageProps) {
         <main className="mx-auto bg-white md:container lg:container xl:container bg-white">
           <Banner title={page.banner_title} description={page.banner_subtitle} image={page.banner_image} />
           <Features />
-
           <Experience
             best_experience_title={page.best_experience_title}
             best_experience_line_1={page.best_experience_line_1}
@@ -159,16 +158,13 @@ export default async function DestinationPage({ params }: PageProps) {
             best_experience_line_3={page.best_experience_line_3}
             best_experience_image_1={page.best_experience_image_1}
           />
-
           <GoodFor title_1={page?.title_1} title_2={page?.title_2}
             title_3={page?.title_3} title_4={page?.title_4}
             description_1={page?.description_1} description_2={page?.description_2}
             description_3={page?.description_3} description_4={page?.description_4}
             destinationName={slug}
           />
-
           <TrendingCarousel title={page.destination_deals_title_1} deal_collection={asArray(page.destination_deals_1)} />
-
           <Explore
             explore_title_1={page.explore_title_1}
             explore_subtitle_1={page.explore_subtitle_1}
@@ -187,49 +183,43 @@ export default async function DestinationPage({ params }: PageProps) {
             explore_description_4={page.explore_description_4}
             explore_image_4={page.explore_image_4}
           />
-
-          <FAQs
-            faqItems={asArray(page.faqs)
+          <FAQs faqItems={asArray(page.faqs)
               .map((f) => ({ question: f.question ?? "", answer: f.answer ?? "" }))
               .filter((f) => Boolean(f.question) && Boolean(f.answer))}
           />
-
           <Map iframeSrc={page.map_iframe || ""} />
-
           <Weather Weather_title={page?.Weather_title}
-          Weather_subtitle={page?.Weather_subtitle}
-          season_card_image_1={page?.season_card_image_1}
-          season_card_title_1={page?.season_card_title_1}
-          season_card_description_1={
-            page?.season_card_description_1
-          }
-          season_card_image_2={page?.season_card_image_2}
-          season_card_title_2={page?.season_card_title_2}
-          season_card_description_2={
-            page?.season_card_description_2
-          }
-          season_card_image_3={page?.season_card_image_3}
-          season_card_title_3={page?.season_card_title_3}
-          season_card_description_3={
-            page?.season_card_description_3
-          }
-          season_card_image_4={page?.season_card_image_4}
-          season_card_title_4={page?.season_card_title_4}
-          season_card_description_4={
-            page?.season_card_description_4
-          }/>
-
+            Weather_subtitle={page?.Weather_subtitle}
+            season_card_image_1={page?.season_card_image_1}
+            season_card_title_1={page?.season_card_title_1}
+            season_card_description_1={
+              page?.season_card_description_1
+            }
+            season_card_image_2={page?.season_card_image_2}
+            season_card_title_2={page?.season_card_title_2}
+            season_card_description_2={
+              page?.season_card_description_2
+            }
+            season_card_image_3={page?.season_card_image_3}
+            season_card_title_3={page?.season_card_title_3}
+            season_card_description_3={
+              page?.season_card_description_3
+            }
+            season_card_image_4={page?.season_card_image_4}
+            season_card_title_4={page?.season_card_title_4}
+            season_card_description_4={
+              page?.season_card_description_4
+            }
+          />
           <DestinationDealCarousel 
             trending_deals_title_1={page?.handpicked_deals_title}
             trending_deals_subtitle_1={page?.handpicked_deals_subtitle}
             trending_deals_1={asArray(page?.handpicked_deals)} 
           />
-
           <Perfectholiday
             perfect_holiday_title={page.similar_destinations_title}
             perfect_holiday_types={similarDestinations}
           />
-
           <Tailortripcard />
           <Signup />
           <Trustsection />
