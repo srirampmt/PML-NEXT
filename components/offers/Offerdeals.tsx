@@ -13,6 +13,7 @@ type OfferDealHotel = {
   card_image?: string;
   api_url?: string | null;
   offer_tag_type?: string; // Added property
+  offer_on_card?: string; // Added property to fix error
 };
 
 type OfferdealsProps = {
@@ -174,9 +175,9 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
               const image =
                 hotel.card_image ||
                 "https://planmylux.s3.eu-west-2.amazonaws.com/placeholder.webp";
-
+              console.log("Rendering hotel:", hotel.offer_tag_type);
               return (
-              <div key={hotel.id ?? hotel.slug ?? idx} className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
+              <div key={`${hotel.id ?? 'noid'}-${hotel.slug ?? 'noslug'}-${idx}`} className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* LEFT: IMAGE */}
                   <div className="relative h-[260px] md:h-[320px] overflow-hidden">
@@ -187,17 +188,19 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
                     />
 
                     <span className="absolute top-0 left-0 bg-white text-[#CB2187] pr-[32px] pl-[12px] pt-[4px] pb-[4px] text-[11px] md:text-[13px] font-semibold max-w-[70%] leading-[18px] tracking-[0.015em] rounded-br-[167px] pointer-events-none">
-                      Top Deal of the Day
+                      {hotel.offer_on_card}
                     </span>
 
-                    {/* Exclusive Tag SVG */}
                     <div className="absolute top-5 right-2 -rotate-[30deg] pointer-events-none">
                       {hotel.offer_tag_type ? (
-                        <img
-                          src={hotel.offer_tag_type}
-                          alt="Offer Tag"
-                          className="absolute top-5 right-2 -rotate-[30deg] pointer-events-none"
-                        />
+                        <>
+                          <img
+                            src={hotel?.offer_tag_type}
+                            alt="Offer Tag"
+                            // style={{ border: '2px solid red', background: '#fff' }}
+                            className=""
+                          />
+                        </>
                       ) : null}
                     </div>
                   </div>

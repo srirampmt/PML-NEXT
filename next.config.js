@@ -4,7 +4,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
 };
 
 module.exports = {
@@ -17,22 +16,20 @@ module.exports = {
           { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS" },
         ],
       },
-    ]
+    ];
   },
   images: {
-        remotePatterns: [
-          
-          {
-            protocol: "https",
-            hostname: "planmylux.s3.eu-west-2.amazonaws.com",
-            pathname: "/**",
-          },
-          {
-            protocol: "https",
-            hostname: "planmyluxe.s3.eu-west-2.amazonaws.com",
-            pathname: "/**",
-          },
-          
-        ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "planmylux.s3.eu-west-2.amazonaws.com",
+        pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "planmyluxe.s3.eu-west-2.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
