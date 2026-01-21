@@ -137,12 +137,13 @@ export default function WeeklyDeal({
                   </span>
 
                   {/* Exclusive Tag SVG */}
-                  <div
-                    className="absolute top-0 right-[0px] pointer-events-none"
-                    dangerouslySetInnerHTML={{
-                      __html: featuredDeal?.offer_tag_type || "",
-                    }}
-                  />
+                  {featuredDeal?.offer_tag_type ? (
+                    <img
+                      src={featuredDeal.offer_tag_type}
+                      alt="Offer Tag"
+                      className="absolute top-5 right-2 -rotate-[30deg] pointer-events-none"
+                    />
+                  ) : null}
                 </div>
 
                 {/* RIGHT: DETAILS */}
