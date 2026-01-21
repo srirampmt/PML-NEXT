@@ -11,7 +11,7 @@ export default function ContactAndTrending({
   return (
     <>
         <Link
-          href="#"
+          href="https://planmyluxe.co.uk/top-trending-20"
           className="bg-pml-primary relative overflow-hidden rounded-[16px] p-[24px] sm:p-[28px] md:p-[32px] lg:p-[36px] h-[164px] sm:h-[164px] md:h-[185px] flex flex-col justify-center items-center text-center"
         >
           <svg
