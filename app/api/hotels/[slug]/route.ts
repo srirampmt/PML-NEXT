@@ -29,7 +29,7 @@ export async function POST(
 
     // Send search update request to Django backend
     const url = `${BACKEND_URL}/client/update-hotel-search/`;
-    console.log(body);
+    // console.log(body);
     const response = await fetch(url, {
       method: "POST",
       headers: {

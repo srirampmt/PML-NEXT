@@ -63,8 +63,8 @@ export function Perfectholiday({
                   >
                     <div className="relative overflow-hidden aspect-[3/4] mb-3">
                       <Image
-                        src={card.card_image}
-                        alt={card.card_image}
+                        src={card.card_image || ""}
+                        alt={card.card_image || "Perfect Holiday Image"}
                         width={800}
                         height={300}
                         className="w-full h-[300px] object-cover"

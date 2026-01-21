@@ -5,6 +5,7 @@ import FlightSummary from "@/components/hotels/FlightSummary";
 import HolidayCalendar from "@/components/hotels/HolidayCalendar";
 import HolidayDealCard from "@/components/hotels/HolidayDealCard";
 import EnquiryModal from "@/components/hotels/EnquiryModal";
+import MobileDealSheet from "@/components/hotels/MobileDealSheet";
 import HotelBanner from "@/components/hotels/HotelBanner";
 import HotelDetailsTabs from "@/components/hotels/HotelDetailsTabs";
 import OfferHeader from "@/components/hotels/OfferHeader";
@@ -77,6 +78,7 @@ export default function Home() {
   const [isSearching, setIsSearching] = useState(false);
   const [noDealsMessage, setNoDealsMessage] = useState<string>("");
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [isMobileDealSheetOpen, setIsMobileDealSheetOpen] = useState(false);
   const [currentFilters, setCurrentFilters] = useState({
     departure: "",
     boardBasis: "",
@@ -142,8 +144,13 @@ export default function Home() {
         const data: HotelPageResponse = await response.json();
         // console.log("Hotel data received:", data);
 
-        const defaultDeal = (data as any)?.api_data?.default_deal as HotelDeal | null | undefined;
+        let defaultDeal = (data as any)?.api_data?.default_deal as HotelDeal | null | undefined;
         const results = (data as any)?.api_data?.api_deals?.Results as HotelDeal[] | null | undefined;
+
+        // Fallback: if defaultDeal is null but Results has deals, use the first deal in Results
+        if ((!defaultDeal || !defaultDeal.hotel?.checkInDate) && Array.isArray(results) && results.length > 0) {
+          defaultDeal = results[0];
+        }
 
         if (!defaultDeal?.hotel?.checkInDate) {
           // If we ended up here due to stale/invalid URL state (e.g. repeated "update" flows
@@ -163,7 +170,7 @@ export default function Home() {
           setLoading(false);
           return;
         }
-        
+
         // Process deals by date
         const processed = processDealsByDate(
           defaultDeal,
@@ -200,7 +207,7 @@ export default function Home() {
             noDealsMessage: "",
           };
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching hotel data:", error);
@@ -471,14 +478,30 @@ export default function Home() {
   }, [selectedDeal]);
   
   // Handle date selection from calendar
-  const handleDateSelection = useCallback((date: string) => {
-    const deal = dealsByDate[date];
-    if (deal) {
+  const handleDateSelection = useCallback(
+    (date: string) => {
+      const deal = dealsByDate[date];
+      if (!deal) return;
+
       setSelectedDate(date);
       setSelectedDeal(deal.deal);
       setNoDealsMessage("");
+
+      // Mobile-only: open the full-screen sheet when a date with a deal is tapped.
+      if (typeof window !== "undefined") {
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) setIsMobileDealSheetOpen(true);
+      }
+    },
+    [dealsByDate]
+  );
+
+  // If deals are cleared (e.g. search returns none), close the mobile sheet.
+  useEffect(() => {
+    if (noDealsMessage || !selectedDeal) {
+      setIsMobileDealSheetOpen(false);
     }
-  }, [dealsByDate]);
+  }, [noDealsMessage, selectedDeal]);
 
   // Keep dropdown filters in sync with the currently selected deal
   useEffect(() => {
@@ -626,13 +649,12 @@ export default function Home() {
     durations: [],
   };
 
-  
   // Prepare price data for calendar
   const priceData = Object.entries(dealsByDate).map(([date, processed]) => ({
     date,
     price: processed.price,
   }));
-  
+
   // Prepare flight details for FlightSummary
   let outboundFlightDetails = null;
   let inboundFlightDetails = null;
@@ -641,7 +663,7 @@ export default function Home() {
     const outboundArrival = formatDateTime(selectedDeal.flight.outboundArrivalDate);
     const inbound = formatDateTime(selectedDeal.flight.inboundDepartureDate);
     const inboundArrival = formatDateTime(selectedDeal.flight.inboundArrivalDate);
-    
+
     outboundFlightDetails = {
       flightNumber: `${formatAirline(selectedDeal.flight.outboundFlightSupplier)} - ${selectedDeal.flight.outboundFlightNumber}`,
       departureCode: `${formatAirport(selectedDeal.flight.departureAirportCode)} (${selectedDeal.flight.departureAirportCode})`,
@@ -651,7 +673,7 @@ export default function Home() {
       arrivalDate: outboundArrival.date,
       arrivalTime: outboundArrival.time,
     };
-    
+
     inboundFlightDetails = {
       flightNumber: `${formatAirline(selectedDeal.flight.inboundFlightSupplier)} - ${selectedDeal.flight.inboundFlightNumber}`,
       departureCode: `${formatAirport(selectedDeal.flight.arrivalAirportCode)} (${selectedDeal.flight.arrivalAirportCode})`,
@@ -662,6 +684,10 @@ export default function Home() {
       arrivalTime: inboundArrival.time,
     };
   }
+
+  // Defensive: avoid accessing .hotel on null default_deal in HotelCalendar and elsewhere
+  const safeDefaultDeal = hotelData?.api_data?.default_deal;
+  const safeDefaultDealHotel = safeDefaultDeal && safeDefaultDeal.hotel ? safeDefaultDeal.hotel : null;
 
   
 
@@ -683,6 +709,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <MobileDealSheet
+        open={isMobileDealSheetOpen}
+        onOpenChange={setIsMobileDealSheetOpen}
+        deal={selectedDeal}
+        enquiryInitialValues={{
+          destination: hotelData.page.location,
+          resort: selectedDeal?.hotel?.hotelName || hotelData.page.hotel_name,
+          quoteRef: selectedDeal?.quoteReference,
+          dealdata: selectedDeal,
+          source: `Deal Page - ${hotelData.page.hotel_name}`,
+        }}
+      />
       <EnquiryModal
         open={isEnquiryOpen}
         onClose={handleCloseEnquiry}
@@ -711,10 +749,7 @@ export default function Home() {
 
         {/* Badges + Header + Share (single row below banner) */}
         <div className="mx-auto max-w-[1280px] pt-[16px] pb-[8px]">
-          <ShareOffer
-            
-            variant="headerRow"
-          />
+          <ShareOffer variant="headerRow" />
         </div>
 
         <div className="mx-auto max-w-[1280px] py-[16px] ">
@@ -734,35 +769,37 @@ export default function Home() {
                 aboutTheHotel={page.about_the_hotel}
               />
               <div id="holiday-calendar" className="flex gap-2 lg:block justify-between scroll-mt-24">
-                <HolidayCalendar
-                  availableAirports={displayFilters.airports}
-                  availableBoardBases={displayFilters.boardBases}
-                  availableDurations={displayFilters.durations}
-                  selectedAirport={
-                    currentFiltersDisplay.departure || displayFilters.airports[0] || ""
-                  }
-                  selectedBoardBasis={
-                    currentFiltersDisplay.boardBasis || displayFilters.boardBases[0] || ""
-                  }
-                  selectedDuration={
-                    currentFiltersDisplay.duration || displayFilters.durations[0] || ""
-                  }
-                  initialPrices={priceData}
-                  initialDepartureDate={selectedDate}
-                  defaultDate={hotelData.api_data.default_deal.hotel.checkInDate}
-                  nights={selectedDeal?.hotel.duration || 7}
-                  onDateSelect={handleDateSelection}
-                  onFilterChange={handleFilterChange}
-                  onEnquire={handleEnquireNow}
-                  isSearching={isSearching}
-                  hideFilters={selectedDeal?.customPricing?.hasCustomPrice || false}
-                  noDealsMessage={noDealsMessage || undefined}
-                />
+                {safeDefaultDealHotel ? (
+                  <HolidayCalendar
+                    availableAirports={displayFilters.airports}
+                    availableBoardBases={displayFilters.boardBases}
+                    availableDurations={displayFilters.durations}
+                    selectedAirport={
+                      currentFiltersDisplay.departure || displayFilters.airports[0] || ""
+                    }
+                    selectedBoardBasis={
+                      currentFiltersDisplay.boardBasis || displayFilters.boardBases[0] || ""
+                    }
+                    selectedDuration={
+                      currentFiltersDisplay.duration || displayFilters.durations[0] || ""
+                    }
+                    initialPrices={priceData}
+                    initialDepartureDate={selectedDate}
+                    defaultDate={safeDefaultDealHotel.checkInDate}
+                    nights={selectedDeal?.hotel?.duration || 7}
+                    onDateSelect={handleDateSelection}
+                    onFilterChange={handleFilterChange}
+                    onEnquire={handleEnquireNow}
+                    isSearching={isSearching}
+                    hideFilters={selectedDeal?.customPricing?.hasCustomPrice || false}
+                    noDealsMessage={noDealsMessage || undefined}
+                  />
+                ) : null}
               </div>
             </div>
 
             {/* Right column */}
-              <aside className="w-full">
+            <aside className="w-full">
               <div
                 className="space-y-4 sticky self-start"
                 style={{ top: "calc(var(--main-nav-height, 0px) + 16px)" }}
@@ -811,7 +848,7 @@ export default function Home() {
               <div className="mb-1">Price Starting From</div>
               <div className="text-[#CB2187] text-[24px] md:text-[28px] font-bold">
                 <span className="text-[#4c4c4c] text-[12px]">£</span>{" "}
-                {selectedDeal ? Math.round(getEffectivePrice(selectedDeal) / 2) : page.starting_price}{" "}
+                {selectedDeal ? Math.round(getEffectivePrice(selectedDeal)) : page.starting_price}{" "}
                 <span className="text-[#4c4c4c] text-[12px]">pp</span>
               </div>
             </div>
