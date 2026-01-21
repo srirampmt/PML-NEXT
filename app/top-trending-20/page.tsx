@@ -126,28 +126,28 @@ export default async function TopTrending20() {
                 add_subtitle={page?.add_subtitle}
                 add_link={page?.add_link}
               />
-              {page?.trending_deals_hotels_1 && 
+              {Array.isArray(page?.trending_deals_hotels_1) && page.trending_deals_hotels_1.length > 0 && (
                 <Offerdeals 
                   title={page?.trending_deals_title ?? page?.trending_deals_title_1} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_1} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_1} 
                 />
-              }
+              )}
               <Coupons offercards={page?.offer_cards} />
-              {page?.trending_deals_hotels_2 && 
+              {Array.isArray(page?.trending_deals_hotels_2) && page.trending_deals_hotels_2.length > 0 && (
                 <Offerdeals 
                   title={page?.trending_deals_title ?? page?.trending_deals_title_2} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_2} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_2} 
                 />
-              }
-              {page?.trending_deals_hotels_3 && 
+              )}
+              {Array.isArray(page?.trending_deals_hotels_3) && page.trending_deals_hotels_3.length > 0 && (
                 <Offerdeals 
                   title={page?.trending_deals_title ?? page?.trending_deals_title_3} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_3} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_3} 
                 />
-              }
+              )}
               <FAQs faqItems={page?.faqs} />
               <AgentsProfile />
               <Signup />
