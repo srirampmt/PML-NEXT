@@ -111,7 +111,7 @@ export default function WeeklyDeal({
             </p>
 
             <a
-              href="#"
+              href="https://planmyluxe.co.uk/all-offers"
               className="font-['Montserrat'] text-xs text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
             >
               view all PlanMyLuxe exclusives
@@ -189,7 +189,7 @@ export default function WeeklyDeal({
 
                   {/* Price Button */}
                   <a
-                    href="#"
+                    href={`/hotels/${featuredDeal.slug || ''}`}
                     className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-[16px] md:px-[32px] py-[4px] md:py-[8px] rounded-[8px] flex items-center hover:bg-[#a01a6e] transition leading-[18px] tracking-[0.02em]"
                   >
                     {featuredNightsDisplay} nights from{" "}
