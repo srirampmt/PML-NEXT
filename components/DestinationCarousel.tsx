@@ -89,8 +89,8 @@ export default function DestinationCarousel(props: any) {
                   </p>
 
                   <a
-                    href="#"
-                    className="font-['Montserrat'] text-[12px] text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
+                    href="/destinations"
+                    className="font-['Montserrat'] text-[12px] md:text-[14px] text-right text-white  underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
                   >
                     view all PlanMyLuxe exclusives
                   </a>

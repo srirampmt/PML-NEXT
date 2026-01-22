@@ -262,12 +262,12 @@ export function MainNav() {
                         <div className="xl:flex-[0_0_32%] xl:border-r xl:border-pml-border xl:pr-6 text-center xl:text-left">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
-                            <Link href="/offers/find-you-perfect-holiday" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Find your perfect holiday style</Link>
-                            <Link href="/offers/mitsis-hotel-group" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mitsis Hotel Group Offers</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
                             <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
-                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Five-Star Luxury for Less</Link>
                             <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -341,13 +341,13 @@ export function MainNav() {
                         <div className="hidden xl:block xl:flex-[0_0_30%] xl:pl-6">
                           <p className="text-[0.95rem] font-bold mb-3 text-[#595858]">Latest Offers & Exclusive Deals</p>
                           <div className="flex flex-col gap-1 items-center xl:items-start">
-                            <Link href="/offers/find-you-perfect-holiday" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Find your perfect holiday style</Link>
-                            <Link href="/offers/mitsis-hotel-group" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Mitsis Hotel Group Offers</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Trending Top Deals</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas Markets Specials</Link>
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
-                            <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Christmas & New Year Offers</Link>
                             <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
-                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
-                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
+                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Five-Star Luxury for Less</Link>
+                            <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">All Our Deals & Offers →</Link>
                           </div>
                         </div>
 
