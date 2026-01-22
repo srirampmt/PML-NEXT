@@ -267,7 +267,7 @@ export function MainNav() {
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
                             <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
                             <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
-                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
                             <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>
@@ -346,7 +346,7 @@ export function MainNav() {
                             <Link href="/offers/last-minute" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Last‑Minute Bargains</Link>
                             <Link href="/offers/winter-special" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Winter Sun Specials</Link>
                             <Link href="/offers/summer-deals" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Summer 2026 - Early Deals</Link>
-                            <Link href="/offers/top-luxury" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
+                            <Link href="/top-trending-20" className="py-1 text-pml-primary text-sm hover:text-pml-primary/80">Our Luxury Top 20</Link>
                             <Link href="/all-offers" className="py-1 text-pml-primary text-sm font-semibold hover:text-pml-primary/80">Discover more →</Link>
                           </div>
                         </div>

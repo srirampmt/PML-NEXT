@@ -320,7 +320,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/sitemap" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link href="/" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
                       Sitemap
                     </Link>
                   </li>
