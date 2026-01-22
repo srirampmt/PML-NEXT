@@ -289,7 +289,7 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
               </p>
 
               <a
-                href="#"
+                href="/all-offers"
                 className="font-['Montserrat'] text-[12px] text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
               >
                 view all PlanMyLuxe exclusives
@@ -326,7 +326,7 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
                           <img
                             src={hotel?.offer_tag_type}
                             alt="Offer Tag"
-                            className="w-[96px] h-auto"
+                            className=""
                           />
                         </>
                       ) : null}

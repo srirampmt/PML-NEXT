@@ -182,7 +182,7 @@ export function Trustsection() {
             {/* Bottom Actions */}
             <div className="flex flex-row items-center justify-end gap-[20px] sm:gap-[30px]">
               <a
-                href="#"
+                href="/support/about-us"
                 className="font-['Montserrat'] text-[#666666] text-[14px] md:text-[15px] font-normal underline hover:text-[#C8105B] transition-colors duration-300"
               >
                 Learn more about us

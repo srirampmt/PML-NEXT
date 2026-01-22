@@ -276,7 +276,12 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/brochure" className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors">
+                    <Link
+                      href="https://paperturn-view.com/?pid=ODg8871976&v=2.3&bgcolor=%23DCCFC7&embed=script&shadow=1&flipSound=1&hardCover=1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[16px] tracking-[0.04em] font-light leading-6 text-white hover:text-[#df8abd] transition-colors"
+                    >
                       Download our brochure
                     </Link>
                   </li>

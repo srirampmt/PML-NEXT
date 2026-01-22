@@ -172,10 +172,10 @@ export default function AgentsProfile() {
               </h3>
               <div className="flex items-center gap-12">
                 <a
-                  href="tel:02031231234"
+                  href="tel:02037400744"
                   className="text-[#4c4c4c] text-[16px] md:text-[32px] lg:text-[36px] font-bold hover:text-pml-primary transition-colors"
                 >
-                  0203 123 1234
+                  020 3740 0744
                 </a>
                 <div className="flex items-center gap-2 text-green-600 text-[13px] md:text-[14px]">
                   <span className="w-2 h-2 bg-green-600 rounded-full"></span>

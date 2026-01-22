@@ -182,7 +182,7 @@ export function Features() {
           {/* CTA Section */}
           <div className="flex flex-row items-center justify-end gap-[16px] sm:gap-[16px] md:gap-[32px] lg:gap-[32px]">
             <Link
-              href="/about"
+              href="/support/about-us"
               className="font-['Montserrat'] text-[#666666] text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] font-normal underline hover:text-[#4c4c4c] transition-colors whitespace-nowrap"
             >
               Learn more about us
