@@ -7,15 +7,18 @@ import Features from "@/components/Features";
 import HomePageSkeleton from "@/components/HomePageSkeleton";
 import Signup from "@/components/Signup";
 import Trustsection from "@/components/Trustsection";
-import WeekEscapes from "@/components/WeekEscapes";
 import FAQs from "@/components/faqs";
 import AgentsProfile from "@/components/offers/agentsprofile";
 import Coupons from "@/components/offers/coupons";
-import Offerdeals from "@/components/offers/Offerdeals";
-import Trending20banner from "@/components/offers/trending20banner";
+import OfferdealsOne from "@/components/offers/OfferdealsOne";
+import OfferdealsTwo from "@/components/offers/OfferdealsTwo";
+import OfferdealsThree from "@/components/offers/OfferdealsThree";
 import type { TopTrending20Response } from "@/types/topTrending20";
 import WeeklyDeal from "@/components/offers/WeeklyDeal";
 import { getSiteUrl } from "@/lib/site-url";
+
+// ISR: cache this route for 10 minutes
+export const revalidate = 600;
 
 function joinUrl(base: string, path: string) {
   const normalizedBase = base.replace(/\/+$/, "");
@@ -44,7 +47,7 @@ const getTopTrending20Response = cache(async (): Promise<TopTrending20Response |
       headers: {
         "X-NEXT-SERVER-KEY": secret,
       },
-      cache: "no-store",
+      next: { revalidate: 600 },
     });
 
     if (!res.ok) return null;
@@ -96,11 +99,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TopTrending20() {
   const data = await getTopTrending20Response();
   const page = data?.page;
-  console.log("Top Trending 20 page data:", page);
   return (
     <>
       {page?.Head_Scripts && (
-        <Script id="top-trending-20-head-scripts" strategy="beforeInteractive">
+        <Script id="top-trending-20-head-scripts" strategy="afterInteractive">
           {page.Head_Scripts}
         </Script>
       )}
@@ -115,6 +117,7 @@ export default async function TopTrending20() {
                 title={page?.banner_title}
                 image={page?.banner_image}
                 description={page?.banner_subtitle}
+                priority
               />
               <Features />
               <WeeklyDeal
@@ -127,7 +130,7 @@ export default async function TopTrending20() {
                 add_link={page?.add_link}
               />
               {Array.isArray(page?.trending_deals_hotels_1) && page.trending_deals_hotels_1.length > 0 && (
-                <Offerdeals 
+                <OfferdealsOne 
                   title={page?.trending_deals_title ?? page?.trending_deals_title_1} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_1} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_1} 
@@ -135,14 +138,14 @@ export default async function TopTrending20() {
               )}
               <Coupons offercards={page?.offer_cards} />
               {Array.isArray(page?.trending_deals_hotels_2) && page.trending_deals_hotels_2.length > 0 && (
-                <Offerdeals 
+                <OfferdealsTwo
                   title={page?.trending_deals_title ?? page?.trending_deals_title_2} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_2} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_2} 
                 />
               )}
               {Array.isArray(page?.trending_deals_hotels_3) && page.trending_deals_hotels_3.length > 0 && (
-                <Offerdeals 
+                <OfferdealsThree
                   title={page?.trending_deals_title ?? page?.trending_deals_title_3} 
                   subtitle={page?.trending_deals_subtitle ?? page?.trending_deals_subtitle_3} 
                   hotels={page?.trending_deals_hotels ?? page?.trending_deals_hotels_3} 

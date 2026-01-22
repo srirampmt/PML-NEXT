@@ -17,13 +17,16 @@ function formatYyyyMmDdUtc(d: Date): string {
 
 function normalizeDpSearchQuery(input: string): string {
 	const now = new Date();
-	const dateMin = formatYyyyMmDdUtc(addDaysUtc(now, 3));
-	const dateMax = formatYyyyMmDdUtc(addDaysUtc(now, 90));
+	const minAllowedDateMin = formatYyyyMmDdUtc(addDaysUtc(now, 3));
+	const defaultDateMax = formatYyyyMmDdUtc(addDaysUtc(now, 365));
 
 	if (/^https?:\/\//i.test(input)) {
 		const u = new URL(input);
-		u.searchParams.set("dateMin", dateMin);
-		u.searchParams.set("dateMax", dateMax);
+		// Only adjust dates when missing or invalid.
+		const providedMin = u.searchParams.get("dateMin") || "";
+		const providedMax = u.searchParams.get("dateMax") || "";
+		u.searchParams.set("dateMin", providedMin && providedMin >= minAllowedDateMin ? providedMin : minAllowedDateMin);
+		u.searchParams.set("dateMax", providedMax || defaultDateMax);
 		if (u.searchParams.has("cheapestPerDay")) u.searchParams.delete("cheapestPerDay");
 		u.searchParams.set("cheapestPerDuration", "0");
 		return u.toString();
@@ -40,8 +43,10 @@ function normalizeDpSearchQuery(input: string): string {
 	}
 
 	const params = new URLSearchParams(queryString);
-	params.set("dateMin", dateMin);
-	params.set("dateMax", dateMax);
+	const providedMin = params.get("dateMin") || "";
+	const providedMax = params.get("dateMax") || "";
+	params.set("dateMin", providedMin && providedMin >= minAllowedDateMin ? providedMin : minAllowedDateMin);
+	params.set("dateMax", providedMax || defaultDateMax);
 	if (params.has("cheapestPerDay")) params.delete("cheapestPerDay");
 	params.set("cheapestPerDuration", "0");
 	return `${prefix}${params.toString()}`;
@@ -100,15 +105,35 @@ function extractCheapestTotalPrice(data: unknown): number | null {
 
 	const results = record["Results"];
 	if (Array.isArray(results) && results.length > 0) {
-		const first = results[0] as Record<string, unknown>;
-		const v = first?.["totalPrice"];
-		const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
-		return Number.isFinite(n) ? n : null;
+		let min: number | null = null;
+		for (const r of results) {
+			if (!r || typeof r !== "object") continue;
+			const v = (r as Record<string, unknown>)["totalPrice"];
+			const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
+			if (!Number.isFinite(n) || n <= 0) continue;
+			min = min == null ? n : Math.min(min, n);
+		}
+		return min;
 	}
 
 	const top = record["totalPrice"];
 	const n = typeof top === "number" ? top : typeof top === "string" ? Number(top) : NaN;
+	return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function extractUpstreamCount(data: unknown): number | null {
+	if (!data || typeof data !== "object") return null;
+	const record = data as Record<string, unknown>;
+	const v = record["Count"];
+	const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
 	return Number.isFinite(n) ? n : null;
+}
+
+function extractUpstreamStatus(data: unknown): string | null {
+	if (!data || typeof data !== "object") return null;
+	const record = data as Record<string, unknown>;
+	const v = record["Status"];
+	return typeof v === "string" ? v : v != null ? String(v) : null;
 }
 
 function extractDurationMax(data: unknown): number | null {
@@ -133,7 +158,9 @@ export async function GET(req: Request) {
 		const data = await fetchExternalJson(url);
 		const price = extractCheapestTotalPrice(data);
 		const durationMax = extractDurationMax(data);
-		return NextResponse.json({ price, durationMax });
+		const count = extractUpstreamCount(data);
+		const status = extractUpstreamStatus(data);
+		return NextResponse.json({ price, durationMax, count, status });
 	} catch (e) {
 		const message = e instanceof Error ? e.message : "Unknown error";
 		return NextResponse.json({ success: false, error: message }, { status: 400 });

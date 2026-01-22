@@ -903,7 +903,7 @@ export default function Home() {
                     <div className="text-white text-lg md:text-2xl font-bold mt-1">
                       TRENDING TOP 20
                     </div>
-                    <a href="#" className="mt-4 bg-[#CB2187] text-white hover:text-pml-primary border-2 border-[#CB2187] hover:border-2 hover:border-[#CB2187] px-2 md:px-6 py-2 rounded-[8px] text-[11px] sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
+                    <a href="https://planmyluxe.co.uk/top-trending-20" className="mt-4 bg-[#CB2187] text-white hover:text-pml-primary border-2 border-[#CB2187] hover:border-2 hover:border-[#CB2187] px-2 md:px-6 py-2 rounded-[8px] text-[11px] sm:text-sm font-medium hover:bg-[#f3f3f3] w-full sm:w-auto text-center">
                       Find Your Perfect Deal
                     </a>
                   </div>

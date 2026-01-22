@@ -2,6 +2,75 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CircleChevronRight } from "lucide-react";
 
+type CardMeta = {
+  priceText: string | null;
+  durationMax: number | null;
+};
+
+const cardMetaCache = new Map<string, CardMeta>();
+const cardMetaInFlight = new Map<string, Promise<CardMeta>>();
+
+function isAbortError(err: unknown): boolean {
+  return !!err && typeof err === "object" && (err as any).name === "AbortError";
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchWithRetry<T>(
+  fn: () => Promise<T>,
+  {
+    retries = 2,
+    baseDelayMs = 300,
+    signal,
+  }: { retries?: number; baseDelayMs?: number; signal?: AbortSignal } = {}
+): Promise<T> {
+  let attempt = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (signal?.aborted || isAbortError(err)) throw err;
+      if (attempt >= retries) throw err;
+      const delay = baseDelayMs * Math.pow(2, attempt);
+      attempt += 1;
+      await sleep(delay);
+    }
+  }
+}
+
+function createLimiter(concurrency: number) {
+  let active = 0;
+  const queue: Array<() => void> = [];
+
+  const next = () => {
+    if (active >= concurrency) return;
+    const job = queue.shift();
+    if (!job) return;
+    active += 1;
+    job();
+  };
+
+  return function limit<T>(fn: () => Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      queue.push(() => {
+        fn()
+          .then(resolve)
+          .catch(reject)
+          .finally(() => {
+            active -= 1;
+            next();
+          });
+      });
+      next();
+    });
+  };
+}
+
+const limitCardMetaFetch = createLimiter(4);
+
 type OfferDealHotel = {
   id?: number;
   slug?: string;
@@ -36,6 +105,10 @@ async function requestCardMeta(
     signal,
   });
 
+  if (!res.ok) {
+    throw new Error(`cardprice ${res.status}`);
+  }
+
   const json = await res.json().catch(() => null);
   const rawPrice = json?.price;
   const p = typeof rawPrice === "number" ? rawPrice : rawPrice != null ? Number(rawPrice) : NaN;
@@ -60,6 +133,33 @@ function normalizeApiUrl(raw: string): string {
   return qs.replace(/^\?/, "").replace(/cheapestPerDay=\d+/, "cheapestPerDuration=0");
 }
 
+function getOrFetchCardMeta(normalizedUrl: string, signal?: AbortSignal): Promise<CardMeta> {
+  const cached = cardMetaCache.get(normalizedUrl);
+  if (cached) return Promise.resolve(cached);
+
+  const inflight = cardMetaInFlight.get(normalizedUrl);
+  if (inflight) return inflight;
+
+  const p = limitCardMetaFetch(async () => {
+    const { price, durationMax } = await fetchWithRetry(
+      () => requestCardMeta(normalizedUrl, signal),
+      { retries: 2, baseDelayMs: 300, signal }
+    );
+
+    const meta: CardMeta = {
+      priceText: price != null ? formatGBP(price) : null,
+      durationMax,
+    };
+    cardMetaCache.set(normalizedUrl, meta);
+    return meta;
+  }).finally(() => {
+    cardMetaInFlight.delete(normalizedUrl);
+  });
+
+  cardMetaInFlight.set(normalizedUrl, p);
+  return p;
+}
+
 /* MAIN COMPONENT (ALL IN ONE FILE) */
 export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps) {
   const hotelsList: OfferDealHotel[] = useMemo(
@@ -70,6 +170,8 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
   const [priceByUrl, setPriceByUrl] = useState<Record<string, string | null>>({});
   const [durationByUrl, setDurationByUrl] = useState<Record<string, number | null>>({});
   const [loadingByUrl, setLoadingByUrl] = useState<Record<string, boolean>>({});
+  const [retryTick, setRetryTick] = useState(0);
+  const retryScheduledRef = useRef<Set<string>>(new Set());
   
   const priceByUrlRef = useRef(priceByUrl);
   const durationByUrlRef = useRef(durationByUrl);
@@ -105,36 +207,64 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
   useEffect(() => {
     const controller = new AbortController();
 
-    const urls = new Set<string>();
-    for (const deal of hotelsList) {
-      const maybeUrl = deal.api_url;
-      if (maybeUrl) urls.add(normalizeApiUrl(maybeUrl));
-    }
+    const normalizedUrls = Array.from(
+      new Set(
+        hotelsList
+          .map((deal) => (typeof deal.api_url === "string" ? normalizeApiUrl(deal.api_url) : ""))
+          .filter((u) => !!u)
+      )
+    );
 
-    const urlList = Array.from(urls).filter(Boolean);
-    for (const u of urlList) {
-      if (!u) continue;
-      if (priceByUrlRef.current[u] !== undefined) continue;
-      if (loadingByUrlRef.current[u]) continue;
+    let cancelled = false;
+    const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+      for (const u of normalizedUrls) {
+        if (cancelled) break;
+        if (!u) continue;
+        if (priceByUrlRef.current[u] !== undefined) continue;
+        if (loadingByUrlRef.current[u]) continue;
 
-      setLoadingByUrl((prev) => ({ ...prev, [u]: true }));
-      requestCardMeta(u, controller.signal)
-        .then(({ price, durationMax }) => {
-          const formatted = price != null ? formatGBP(price) : null;
-          setPriceByUrl((prev) => ({ ...prev, [u]: formatted }));
-          setDurationByUrl((prev) => ({ ...prev, [u]: durationMax }));
-        })
-        .catch(() => {
-          setPriceByUrl((prev) => ({ ...prev, [u]: null }));
-          setDurationByUrl((prev) => ({ ...prev, [u]: null }));
-        })
-        .finally(() => {
-          setLoadingByUrl((prev) => ({ ...prev, [u]: false }));
-        });
-    }
+        // Prime from global cache if already available
+        const cached = cardMetaCache.get(u);
+        if (cached) {
+          setPriceByUrl((prev) => ({ ...prev, [u]: cached.priceText }));
+          setDurationByUrl((prev) => ({ ...prev, [u]: cached.durationMax }));
+          continue;
+        }
 
-    return () => controller.abort();
-  }, [hotelsList]);
+        setLoadingByUrl((prev) => ({ ...prev, [u]: true }));
+        getOrFetchCardMeta(u, controller.signal)
+          .then((meta) => {
+            if (cancelled) return;
+            setPriceByUrl((prev) => ({ ...prev, [u]: meta.priceText }));
+            setDurationByUrl((prev) => ({ ...prev, [u]: meta.durationMax }));
+          })
+          .catch((err) => {
+            if (cancelled) return;
+            // Don't permanently lock the card into null on transient failures.
+            // Schedule a retry so cards can recover if the API was throttled.
+            if (!isAbortError(err) && !controller.signal.aborted) {
+              if (!retryScheduledRef.current.has(u)) {
+                retryScheduledRef.current.add(u);
+                setTimeout(() => {
+                  retryScheduledRef.current.delete(u);
+                  setRetryTick((t) => t + 1);
+                }, 1500);
+              }
+            }
+          })
+          .finally(() => {
+            if (cancelled) return;
+            setLoadingByUrl((prev) => ({ ...prev, [u]: false }));
+          });
+      }
+    }, 200);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [hotelsList, retryTick]);
 
   // Render directly from backend hotels shape.
   // Note: `api_url` is needed for price/duration fetch. If backend doesn't send it, price will show "—".
@@ -175,7 +305,6 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
               const image =
                 hotel.card_image ||
                 "https://planmylux.s3.eu-west-2.amazonaws.com/placeholder.webp";
-              console.log("Rendering hotel:", hotel.offer_tag_type);
               return (
               <div key={`${hotel.id ?? 'noid'}-${hotel.slug ?? 'noslug'}-${idx}`} className="bg-white rounded-[8px] overflow-hidden border border-[#ececec] my-5 md:my-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -197,8 +326,7 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
                           <img
                             src={hotel?.offer_tag_type}
                             alt="Offer Tag"
-                            // style={{ border: '2px solid red', background: '#fff' }}
-                            className=""
+                            className="w-[96px] h-auto"
                           />
                         </>
                       ) : null}

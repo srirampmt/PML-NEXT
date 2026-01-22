@@ -1,17 +1,31 @@
-"use client";
+import Image from "next/image";
 
-import Link from "next/link";
+type BannerProps = {
+  title?: string;
+  description?: string;
+  image?: string;
+  priority?: boolean;
+};
 
-export function Banner({title, description, image}: {title?: string; description?: string; image?: string}) {
+export function Banner({ title, description, image, priority = false }: BannerProps) {
   return (
     <section className="w-full font-['Montserrat']">
       {/* Hero Image Section - Full width */}
       <div className="relative w-screen left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] h-[300px] sm:h-[400px] md:h-[480px] lg:h-[480px]">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+        {image ? (
+          <Image
+            src={image}
+            alt={title || "Banner"}
+            fill
+            priority={priority}
+            fetchPriority={priority ? "high" : "auto"}
+            loading={priority ? "eager" : "lazy"}
+            sizes="100vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-neutral-200" />
+        )}
         {/* Overlay for text readability */}
         <div className="absolute inset-0 bg-black/20" />
         

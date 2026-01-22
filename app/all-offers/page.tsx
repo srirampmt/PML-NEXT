@@ -101,7 +101,7 @@ export default async function AllOffers() {
   return (
     <>
       {page?.Head_Scripts && (
-        <Script id="all-offers-head-scripts" strategy="beforeInteractive">
+        <Script id="all-offers-head-scripts" strategy="afterInteractive">
           {page.Head_Scripts}
         </Script>
       )}

@@ -102,7 +102,7 @@ export default async function Destinations() {
     <>
       
       {page?.Head_Scripts && (
-        <Script id="homepage-head-scripts" strategy="beforeInteractive">
+        <Script id="homepage-head-scripts" strategy="afterInteractive">
           {page.Head_Scripts}
         </Script>
       )}
