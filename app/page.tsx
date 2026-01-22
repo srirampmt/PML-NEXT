@@ -82,6 +82,9 @@ export async function generateMetadata(): Promise<Metadata> {
         ? [{ url: toAbsoluteUrl(page.OG_Image, siteUrl) }]
         : undefined,
     },
+    icons: {
+      icon: "/favicon.ico",
+    },
     twitter: {
       title: page?.Meta_Title,
       description: page?.Meta_Description,
