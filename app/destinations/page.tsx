@@ -113,76 +113,75 @@ export default async function Destinations() {
           <HomePageSkeleton /> : 
             <>
               <Banner
-          title={page?.banner_title}
-          description={page?.banner_subtitle}
-          image={page?.banner_image}
-        />
-        <Features />
-        <ChatSection chat_title={page?.chat_title} chat_subtitle={page?.chat_subtitle} />
-        
-        <Largecard
-          title={page?.Weekly_deals_title}
-          deal={page?.Weekly_hot_deal}
-        />
-
-        <DealCollections
-          deal_collection_title={page?.deal_collection_title}
-          deal_collection_tag_1={page?.deal_collection_tag_1}
-          tag_1_deals={page?.tag_1_deals}
-          deal_collection_tag_2={page?.deal_collection_tag_2}
-          tag_2_deals={page?.tag_2_deals}
-          deal_collection_tag_3={page?.deal_collection_tag_3}
-          tag_3_deals={page?.tag_3_deals}
-          deal_collection_tag_4={page?.deal_collection_tag_4}
-          tag_4_deals={page?.tag_4_deals}
-          deal_collection_tag_5={page?.deal_collection_tag_5}
-          tag_5_deals={page?.tag_5_deals}
-          deal_collection_tag_6={page?.deal_collection_tag_6}
-          tag_6_deals={page?.tag_6_deals}
-        />
-        <DestinationCarousel
-          Destination_collection_title={
-            page?.Desination_collection_title
-          }
-          description={
-            page?.Destination_collection_description
-          } // optional
-          Destination_collection_tag_1={
-            page?.Destination_collection_tag_1
-          }
-          tag_1_destination={page?.tag_1_destination}
-          Destination_collection_tag_2={
-            page?.Destination_collection_tag_2
-          }
-          tag_2_destination={page?.tag_2_destination}
-          Destination_collection_tag_3={
-            page?.Destination_collection_tag_3
-          }
-          tag_3_destination={page?.tag_3_destination}
-          Destination_collection_tag_4={
-            page?.Destination_collection_tag_4
-          }
-          tag_4_destination={page?.tag_4_destination}
-          Destination_collection_tag_5={
-            page?.Destination_collection_tag_5
-          }
-          tag_5_destination={page?.tag_5_destination}
-          Destination_collection_tag_6={
-            page?.Destination_collection_tag_6
-          }
-          tag_6_destination={page?.tag_6_destination}
-        />
-        <Worldofplanmyluxe />
-        <Tailortripcard />
-        <Perfectholiday
-          perfect_holiday_title={page?.perfect_holiday_title}
-          perfect_holiday_subtitle={page?.perfect_holiday_subtitle}
-          perfect_holiday_types={page?.perfect_holiday_types}
-        />
-        <Broucher />
-        <WhybookwithPml />
-        <Signup />
-        <Trustsection />
+                title={page?.banner_title}
+                description={page?.banner_subtitle}
+                image={page?.banner_image}
+              />
+              <Features />
+              <ChatSection chat_title={page?.chat_title} chat_subtitle={page?.chat_subtitle} />
+              
+              <Largecard
+                title={page?.Weekly_deals_title}
+                deal={page?.Weekly_hot_deal}
+              />
+              <DealCollections
+                deal_collection_title={page?.deal_collection_title}
+                deal_collection_tag_1={page?.deal_collection_tag_1}
+                tag_1_deals={page?.tag_1_deals}
+                deal_collection_tag_2={page?.deal_collection_tag_2}
+                tag_2_deals={page?.tag_2_deals}
+                deal_collection_tag_3={page?.deal_collection_tag_3}
+                tag_3_deals={page?.tag_3_deals}
+                deal_collection_tag_4={page?.deal_collection_tag_4}
+                tag_4_deals={page?.tag_4_deals}
+                deal_collection_tag_5={page?.deal_collection_tag_5}
+                tag_5_deals={page?.tag_5_deals}
+                deal_collection_tag_6={page?.deal_collection_tag_6}
+                tag_6_deals={page?.tag_6_deals}
+              />
+              <DestinationCarousel
+                Destination_collection_title={
+                  page?.Desination_collection_title
+                }
+                description={
+                  page?.Destination_collection_description
+                } // optional
+                Destination_collection_tag_1={
+                  page?.Destination_collection_tag_1
+                }
+                tag_1_destination={page?.tag_1_destination}
+                Destination_collection_tag_2={
+                  page?.Destination_collection_tag_2
+                }
+                tag_2_destination={page?.tag_2_destination}
+                Destination_collection_tag_3={
+                  page?.Destination_collection_tag_3
+                }
+                tag_3_destination={page?.tag_3_destination}
+                Destination_collection_tag_4={
+                  page?.Destination_collection_tag_4
+                }
+                tag_4_destination={page?.tag_4_destination}
+                Destination_collection_tag_5={
+                  page?.Destination_collection_tag_5
+                }
+                tag_5_destination={page?.tag_5_destination}
+                Destination_collection_tag_6={
+                  page?.Destination_collection_tag_6
+                }
+                tag_6_destination={page?.tag_6_destination}
+              />
+              <Worldofplanmyluxe />
+              <Tailortripcard />
+              <Perfectholiday
+                perfect_holiday_title={page?.perfect_holiday_title}
+                perfect_holiday_subtitle={page?.perfect_holiday_subtitle}
+                perfect_holiday_types={page?.perfect_holiday_types}
+              />
+              <Broucher />
+              <WhybookwithPml />
+              <Signup />
+              <Trustsection />
             </>
           }
         </main>
@@ -190,3 +189,5 @@ export default async function Destinations() {
     </>
   );
 }
+
+

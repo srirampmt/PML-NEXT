@@ -165,7 +165,7 @@ export default function Largecard({
 
               {/* Price Button */}
               <a
-                href="#"
+                href={`/hotels/${featuredDeal.slug || ""}`}
                 className="mt-auto self-end bg-pml-primary text-white text-[12px] font-normal px-[16px] md:px-[32px] py-[4px] md:py-[8px] rounded-[8px] flex items-center hover:bg-[#a01a6e] transition leading-[18px] tracking-[0.02em]"
               >
                 {displayDuration} nights from{" "}

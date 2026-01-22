@@ -124,7 +124,7 @@ export default function DestinationCarousel(props: any) {
                       <CarouselItem key={destination.id} className="basis-auto">
                         <div className="w-[210px] snap-start">
                           <a
-                            href="#"
+                            href={`/destinations/${destination.slug || ''}`}
                             className="block rounded-[8px] overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-[2px] group"
                           >
                             <div className="w-full h-80 overflow-hidden relative">
@@ -176,3 +176,5 @@ export default function DestinationCarousel(props: any) {
     </section>
   );
 }
+
+

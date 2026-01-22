@@ -316,9 +316,11 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105 group-hover:scale-105 will-change-transform"
                     />
 
-                    <span className="absolute top-0 left-0 bg-white text-[#CB2187] pr-[32px] pl-[12px] pt-[4px] pb-[4px] text-[11px] md:text-[13px] font-semibold max-w-[70%] leading-[18px] tracking-[0.015em] rounded-br-[167px] pointer-events-none">
-                      {hotel.offer_on_card}
-                    </span>
+                    {hotel?.offer_on_card && (
+                      <span className="absolute top-0 left-0 bg-white text-[#CB2187] pr-[32px] pl-[12px] pt-[4px] pb-[4px] text-[11px] md:text-[13px] font-semibold max-w-[70%] leading-[18px] tracking-[0.015em] rounded-br-[167px] pointer-events-none">
+                        {hotel.offer_on_card}
+                      </span>
+                    )}
 
                     <div className="absolute top-5 right-2 -rotate-[30deg] pointer-events-none">
                       {hotel.offer_tag_type ? (

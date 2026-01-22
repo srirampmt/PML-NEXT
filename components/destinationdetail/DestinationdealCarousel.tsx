@@ -172,13 +172,16 @@ export default function DestinationDealCarousel({
                             {/* IMAGE */}
                             <div className="relative w-full overflow-hidden bg-[#f5f5f5] h-[225px]">
                               <img
-                                src={deal?.card_image}
-                                alt={deal?.name}
+                                src={
+                                  deal?.card_image ||
+                                  "https://planmylux.s3.eu-west-2.amazonaws.com/placeholder.webp"
+                                }
+                                alt={deal?.name || "Hotel"}
                                 className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105 group-hover:scale-105 will-change-transform"
                               />
 
                               {/* BADGE */}
-                              {deal?.offer_on_card && (
+                              {Boolean((deal?.offer_on_card || "").trim()) && (
                                 <span className="absolute top-0 left-0 bg-white text-[#CB2187] pr-[32px] pl-[12px] pt-[4px] pb-[4px] text-[11px] md:text-[13px] font-semibold uppercase max-w-[70%] leading-[18px] tracking-[0.015em] rounded-br-[167px] pointer-events-none">
                                   {deal.offer_on_card}
                                 </span>
@@ -197,18 +200,14 @@ export default function DestinationDealCarousel({
                             {/* CONTENT */}
                             <div className="pt-[6px] pr-[8px] pb-[14px] pl-[8px] flex-grow flex flex-col justify-start items-start text-left bg-white">
                               {/* LOCATION */}
-                              <div className="text-[14px] font-semibold text-[#4c4c4c] leading-[1.4] p-[4px]">
-                                {deal?.location}
+                              <div className="text-[14px] font-semibold text-[#4c4c4c] leading-[1.4] p-[4px] w-full line-clamp-1 min-h-[28px]">
+                                {deal?.location || ""}
                               </div>
 
                               {/* ⭐️ RATING */}
-                              <div className="flex items-center justify-start p-[4px]">
+                              <div className="flex items-center justify-start p-[4px] min-h-[28px]">
                                 <span className="text-pml-primary text-[14px]">
-                                  {Array.from({
-                                    length: Math.round(
-                                      Number(deal?.property_rating) || 0
-                                    ),
-                                  }).map((_, i) => (
+                                  {Array.from({ length: 5 }).map((_, i) => (
                                     <svg
                                       key={i}
                                       width="14"
@@ -220,7 +219,14 @@ export default function DestinationDealCarousel({
                                     >
                                       <path
                                         d="M14.0001 5.4091L8.91313 5.07466L6.99734 0.261719L5.08156 5.07466L0.0001297 5.4091L3.89754 8.7184L2.61862 13.7384L6.99734 10.9707L11.3761 13.7384L10.0972 8.7184L14.0001 5.4091Z"
-                                        fill="#CB2187"
+                                        fill={
+                                          Math.round(
+                                            Number(deal?.property_rating) || 0
+                                          ) >=
+                                          i + 1
+                                            ? "#CB2187"
+                                            : "#E0E0E0"
+                                        }
                                       />
                                     </svg>
                                   ))}
@@ -228,16 +234,24 @@ export default function DestinationDealCarousel({
                               </div>
 
                               {/* TITLE */}
-                              <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px]">
-                                {deal?.name}
+                              <h5 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px] w-full line-clamp-1 min-h-[32px]">
+                                {deal?.name || deal?.title || ""}
                               </h5>
 
                               {/* OFFER BOX */}
-                              {deal?.info_paragraph && (
-                                <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px] rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] block truncate leading-[18px] tracking-[0.02em] w-full text-center">
-                                  {deal.info_paragraph }
-                                </div>
-                              )}
+                              <div
+                                className={`rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] w-full min-h-[48px] flex items-center justify-center text-center ${
+                                  Boolean((deal?.info_paragraph || deal?.extras || "").trim())
+                                    ? "bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px]"
+                                    : ""
+                                }`}
+                              >
+                                {Boolean((deal?.info_paragraph || deal?.extras || "").trim()) ? (
+                                  <span className="line-clamp-2 leading-[18px] tracking-[0.02em]">
+                                    {deal?.info_paragraph || deal?.extras}
+                                  </span>
+                                ) : null}
+                              </div>
 
                               {/* PRICE CTA */}
                               <a

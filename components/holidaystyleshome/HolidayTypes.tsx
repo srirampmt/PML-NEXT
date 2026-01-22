@@ -35,7 +35,7 @@ export default function HolidayTypes({
             {holidays.map((holiday) => (
               <Link
                 key={holiday.id}
-                href={`/holidays/${holiday.slug}`}
+                href={`/holiday-styles/${holiday.slug}`}
                 className="group block"
               >
                 <div className="space-y-2">

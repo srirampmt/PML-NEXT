@@ -25,7 +25,13 @@ export function Perfectholiday({
   perfect_holiday_subtitle,
   perfect_holiday_types,
 }: PerfectHolidayProps) {
-  
+  const isDestinations = (perfect_holiday_title || "")
+    .trim()
+    .toLowerCase()
+    .includes("destinations");
+  const viewAllHref = isDestinations ? "/destinations" : "/holiday-styles";
+  const cardBaseHref = isDestinations ? "/destinations" : "/holiday-styles";
+
   // console.log("perfect_holiday_types:", perfect_holiday_types);
   return (
     <section className="w-screen relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] bg-white font-['Montserrat']">
@@ -42,7 +48,7 @@ export function Perfectholiday({
             </p>
 
             <a
-              href="/holiday-styles"
+              href={viewAllHref}
               className="font-['Montserrat'] text-[12px] text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
             >
               view all PlanMyLuxe exclusives
@@ -58,7 +64,7 @@ export function Perfectholiday({
               {(perfect_holiday_types || []).map((card) => (
                 <CarouselItem key={String(card.id ?? card.slug ?? "")} className="pl-4 basis-[240px]">
                   <Link
-                    href={`/categories/${card.slug || ""}`}
+                    href={`${cardBaseHref}/${card.slug || ""}`}
                     className="block group transform hover:-translate-y-[2px] transition-transform duration-300"
                   >
                     <div className="relative overflow-hidden aspect-[3/4] mb-3">

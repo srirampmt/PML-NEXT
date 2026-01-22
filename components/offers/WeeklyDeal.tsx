@@ -111,7 +111,7 @@ export default function WeeklyDeal({
             </p>
 
             <a
-              href="https://planmyluxe.co.uk/all-offers"
+              href="/all-offers"
               className="font-['Montserrat'] text-xs text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
             >
               view all PlanMyLuxe exclusives
