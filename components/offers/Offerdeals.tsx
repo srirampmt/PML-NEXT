@@ -83,6 +83,7 @@ type OfferDealHotel = {
   api_url?: string | null;
   offer_tag_type?: string; // Added property
   offer_on_card?: string; // Added property to fix error
+  intro_text?: string; // Added property to fix error
 };
 
 type OfferdealsProps = {
@@ -370,9 +371,9 @@ export default function Offerdeals({ title, subtitle, hotels }: OfferdealsProps)
                       {hotel.name || ""}
                     </p>
 
-                    <p className="text-[#7C7C7C] text-[14px] md:text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] line-clamp-2 md:line-clamp-none lg:line-clamp-none mb-[10px]">
-                      {hotel.info_paragraph || ""}
-                    </p>
+                    <p className="text-[#7C7C7C] font-['Montserrat'] text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] line-clamp-2 md:line-clamp-none lg:line-clamp-none mb-[10px]">
+                    {hotel.intro_text}
+                  </p>
 
                     {/* Price Button */}
                     <a

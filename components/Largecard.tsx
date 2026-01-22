@@ -159,8 +159,8 @@ export default function Largecard({
                 {featuredDeal.name}
               </p>
 
-              <p className="text-[#7C7C7C] text-[14px] md:text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] line-clamp-2 md:line-clamp-none lg:line-clamp-none mb-[10px]">
-                {featuredDeal.info_paragraph}
+              <p className="text-[#7C7C7C] font-['Montserrat'] text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] line-clamp-2 md:line-clamp-none lg:line-clamp-none mb-[10px]">
+                {featuredDeal.intro_text}
               </p>
 
               {/* Price Button */}

@@ -104,6 +104,7 @@ export type Deal = {
   card_image: string;
   offer_tag_type: string;
   info_paragraph: string;
+  intro_text?: string;
   extras?: string;
   price?: string;
   hotel_status: boolean;

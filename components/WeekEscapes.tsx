@@ -247,13 +247,9 @@ export default function WeekEscapes({
                     {featuredDeal.name || ""}
                   </p>
 
-                  <div className="text-[#7C7C7C] text-[14px] md:text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] mb-[10px] w-full min-h-[48px] flex items-center justify-center text-center">
-                    {Boolean((featuredDeal.info_paragraph || "").trim()) ? (
-                      <span className="line-clamp-2 leading-[18px] tracking-[0.02em]">
-                        {featuredDeal.info_paragraph}
-                      </span>
-                    ) : null}
-                  </div>
+                  <p className="text-[#7C7C7C] font-['Montserrat'] text-[12px] font-normal p-[4px] leading-[18px] tracking-[0.02em] line-clamp-2 md:line-clamp-none lg:line-clamp-none mb-[10px]">
+                    {featuredDeal.intro_text}
+                  </p>
 
                   {/* Price Button */}
                   <a
