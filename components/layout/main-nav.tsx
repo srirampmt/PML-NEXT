@@ -289,9 +289,9 @@ export function MainNav() {
                         {/* Image Card - Desktop only */}
                         <div className="hidden xl:flex xl:flex-[0_0_38%] items-center justify-end">
                           <ImageCard
-                            href="/categories"
+                            href="/all-offers"
                             imageSrc="/assets/images/menu-image-1.jpg"
-                            text="Exclusive Including Free Added Extras"
+                            text="Exclusive Offers Free Added Extras"
                             alt="Exclusive offers destination"
                           />
                         </div>
@@ -354,7 +354,7 @@ export function MainNav() {
                         {/* Image Card - Desktop only */}
                         <div className="hidden xl:flex xl:flex-[0_0_38%] items-center justify-end">
                           <ImageCard
-                            href="/categories"
+                            href="/holiday-styles"
                             imageSrc="/assets/images/menu-image-2.jpg"
                             text="Exclusive Including Free Added Extras"
                             alt="Exclusive offers destination"

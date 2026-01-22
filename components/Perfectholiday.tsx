@@ -42,7 +42,7 @@ export function Perfectholiday({
             </p>
 
             <a
-              href="#"
+              href="/holiday-styles"
               className="font-['Montserrat'] text-[12px] text-right text-[#4c4c4c] underline hover:text-[#CB2187] whitespace-nowrap ml-0 md:ml-4 mt-2 md:mt-0"
             >
               view all PlanMyLuxe exclusives

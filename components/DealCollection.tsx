@@ -193,7 +193,7 @@ export default function DealCollections(props: any) {
             </h2>
 
             <a
-              href="#"
+              href="/holiday-styles"
               className="text-gray-500 text-xs underline hover:text-[#CB2187] self-start md:self-end mt-2 md:mt-0"
             >
               view all PlanMyLuxe exclusives
@@ -248,12 +248,12 @@ export default function DealCollections(props: any) {
 
                       {/* Content */}
                       <div className="pt-[6px] pr-[8px] pb-[14px] pl-[8px] flex-grow flex flex-col justify-start items-start text-left bg-white">
-                        <div className="text-[14px] font-semibold text-[#4c4c4c] leading-[1.4] p-[4px]">
-                          {deal.location}
+                        <div className="text-[14px] font-semibold text-[#4c4c4c] leading-[1.4] p-[4px] w-full line-clamp-1 min-h-[28px]">
+                          {deal.location || ""}
                         </div>
 
                         {/* ⭐ Rating Stars */}
-                        <div className="flex items-center justify-start p-[4px]">
+                        <div className="flex items-center justify-start p-[4px] min-h-[28px]">
                           {Array.from({ length: 5 }).map((_, i) => {
                             const rating = Number(deal.property_rating) || 0;
                             const filled = i < Math.round(rating);
@@ -276,13 +276,22 @@ export default function DealCollections(props: any) {
                           })}
                         </div>
 
-                        <h3 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px]">
-                          {deal.name}
+                        <h3 className="text-[14px] md:text-[16px] font-semibold text-pml-primary flex items-center justify-start leading-[24px] mb-[10px] p-[4px] w-full line-clamp-1 min-h-[32px]">
+                          {deal.name || deal.title || ""}
                         </h3>
 
-                        <div className="bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px] rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] block truncate leading-[18px] tracking-[0.02em] w-full text-center">
-                          {deal.info_paragraph ||
-                            "Explore this amazing destination!"}
+                        <div
+                          className={`rounded-[8px] text-[12px] text-[#4c4c4c] font-medium mb-[9px] w-full min-h-[48px] flex items-center justify-center text-center ${
+                            Boolean((deal.info_paragraph || deal.extras || "").trim())
+                              ? "bg-[#EDEDED] border border-[#DFDEDE] px-[6px] md:px-[12px] py-[6px]"
+                              : ""
+                          }`}
+                        >
+                          {Boolean((deal.info_paragraph || deal.extras || "").trim()) ? (
+                            <span className="line-clamp-2 leading-[18px] tracking-[0.02em]">
+                              {deal.info_paragraph || deal.extras}
+                            </span>
+                          ) : null}
                         </div>
 
                         <a

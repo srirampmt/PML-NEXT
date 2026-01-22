@@ -116,7 +116,7 @@ export default function Handpickedescapes(props: Props) {
 
             <div className="lg:pb-[8px]">
               <Link
-                href="/exclusives"
+                href="/all-offers"
                 className="font-['Montserrat'] text-[#666666] text-[12px] font-normal underline hover:text-[#4c4c4c] underline-offset-[3px]"
               >
                 view all PlanMyLuxe exclusives
